@@ -8,7 +8,7 @@ Report
 
 Instructions: LW, SW, J, JR, JAL, BNE, XORI, ADD, SUB, SLT
 
-Verilog modules - by Fri Nov 11
+Verilog modules - by Sat Nov 12
   reg file - already have this
   FSM - 3 hours
   instruction memory - 2 hours
@@ -16,7 +16,7 @@ Verilog modules - by Fri Nov 11
   DFF - 30 minutes
   Total: 5 hours
   
-Verilog test benches - by Fri Nov 11 (midpoint check-in)
+Verilog test benches - by Sat Nov 12 (midpoint check-in)
   testing all instructions (15 min each)
   Total: 2.5 hours
 
