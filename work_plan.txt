@@ -1,0 +1,21 @@
+------------------------
+CompArch Lab 3 Work Plan
+------------------------
+
+(12) Build a CPU
+   (2) Full diagram of CPU
+   (2) Build Verilog modules for CPU
+   (3) Write testbenches for Verilog modules
+   (5) Debug CPU
+
+----Midpoint Checkin----
+
+(4) Write a Test Program
+   (1) Fibonacci
+   (2) Orignal test assembly program
+   (1) Scripts to run test programs
+
+(4) Write Report
+   (1) Written description and block diagram of your processor architecture w/ selected RTL
+   (1) Description of test plan and results
+   (2) Performance/area analysis of your design
