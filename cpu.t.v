@@ -23,8 +23,9 @@ module testDavidsStuff ();
   // HELPERS ===================================================================
 
   // Commands.
-  reg [5:0] CMD_J  = 6'd1;
-  reg [6:0] CMD_JR = 6'd2;
+  reg [5:0] CMD_J   = 6'd1;
+  reg [5:0] CMD_JR  = 6'd2;
+  reg [5:0] CMD_JAL = 6'd3;
 
   // Registers.
   reg [4:0] rR;
@@ -88,7 +89,7 @@ module testDavidsStuff ();
     //   PC = (PC & 0xf0000000) | (target << 2);
 
     jumpTarget = 26'd214;
-    instruction = { CMD_J, jumpTarget };
+    instruction = { CMD_JAL, jumpTarget };
     completeInstructionCycle();
 
     if (pc !== {4'b0, 26'd214, 2'b0}) begin
