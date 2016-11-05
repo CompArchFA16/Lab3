@@ -4,7 +4,7 @@
 
 `include "cpu.v"
 
-module testDavidsStuff ();
+module testCPU ();
 
   // INIT ======================================================================
 
@@ -22,14 +22,9 @@ module testDavidsStuff ();
 
   // HELPERS ===================================================================
 
-  // Commands.
-  reg [5:0] CMD_J   = 6'd1;
-  reg [5:0] CMD_JR  = 6'd2;
-  reg [5:0] CMD_JAL = 6'd3;
-
   // Registers.
-  reg [4:0] rR;
   reg [4:0] rS;
+  reg [4:0] rT;
   reg [4:0] rD;
 
   reg        dutPassed;
@@ -62,7 +57,7 @@ module testDavidsStuff ();
     //   PC = (PC & 0xf0000000) | (target << 2);
 
     jumpTarget = 26'd203;
-    instruction = { CMD_J, jumpTarget };
+    instruction = { `CMD_j, jumpTarget };
     completeInstructionCycle();
 
     if (pc !== {4'b0, 26'd203, 2'b0}) begin
@@ -74,7 +69,7 @@ module testDavidsStuff ();
     // RTL:
     //   PC = $s;
 
-    instruction = { CMD_JR, rS, 21'b0 };
+    instruction = { `CMD_jr, rS, 21'b0 };
     completeInstructionCycle();
 
     // TODO: Match to the actual register value.
@@ -89,7 +84,7 @@ module testDavidsStuff ();
     //   PC = (PC & 0xf0000000) | (target << 2);
 
     jumpTarget = 26'd214;
-    instruction = { CMD_JAL, jumpTarget };
+    instruction = { `CMD_jal, jumpTarget };
     completeInstructionCycle();
 
     if (pc !== {4'b0, 26'd214, 2'b0}) begin
