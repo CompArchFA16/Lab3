@@ -1,5 +1,8 @@
-run-david-tests: build-david-tests
-	./david_tests.o
+run-cpu: build-cpu
+	./cpu.o
 
-build-david-tests:
-	iverilog -Wall -o david_tests.o david_tests.t.v
+build-cpu:
+	iverilog -Wall -o cpu.o cpu.t.v
+
+clean:
+	rm *.o *.vcd
