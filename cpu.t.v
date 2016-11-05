@@ -23,7 +23,14 @@ module testDavidsStuff ();
   // HELPERS ===================================================================
 
   // Commands.
-  reg [5:0] CMD_JUMP = 6'd1;
+  reg [5:0] CMD_J   = 6'd1;
+  reg [5:0] CMD_JR  = 6'd2;
+  reg [5:0] CMD_JAL = 6'd3;
+
+  // Registers.
+  reg [4:0] rR;
+  reg [4:0] rS;
+  reg [4:0] rD;
 
   reg        dutPassed;
   reg [25:0] jumpTarget;
@@ -55,7 +62,7 @@ module testDavidsStuff ();
     //   PC = (PC & 0xf0000000) | (target << 2);
 
     jumpTarget = 26'd203;
-    instruction = { CMD_JUMP, jumpTarget };
+    instruction = { CMD_J, jumpTarget };
     completeInstructionCycle();
 
     if (pc !== {4'b0, 26'd203, 2'b0}) begin
@@ -67,11 +74,29 @@ module testDavidsStuff ();
     // RTL:
     //   PC = $s;
 
+    instruction = { CMD_JR, rS, 21'b0 };
+    completeInstructionCycle();
+
+    // TODO: Match to the actual register value.
+    if (pc !== {4'b0, 28'b0}) begin
+      dutPassed = 0;
+    end
+
     // JAL =====================================================================
     // Jumps to the calculated address and stores the return address in $31.
     // RTL:
     //   $31 = PC + 4;
     //   PC = (PC & 0xf0000000) | (target << 2);
+
+    jumpTarget = 26'd214;
+    instruction = { CMD_JAL, jumpTarget };
+    completeInstructionCycle();
+
+    if (pc !== {4'b0, 26'd214, 2'b0}) begin
+      dutPassed = 0;
+    end
+
+    // TODO: Determine how to test the return address $31.
 
     // BNE =====================================================================
 
