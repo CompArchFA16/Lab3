@@ -1,6 +1,11 @@
 // TODO: Move these tests into the main file after we consolidate.
 
+`include "cpu.v"
+
 module testDavidsStuff ();
+
+  // DUT.
+  CPU dut ();
 
   initial begin
 
