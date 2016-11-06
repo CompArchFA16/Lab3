@@ -4,7 +4,7 @@
 
 `include "cpu.v"
 
-module testDavidsStuff ();
+module testCPU ();
 
   // INIT ======================================================================
 
@@ -31,9 +31,10 @@ module testDavidsStuff ();
   reg [5:0] CMD_SLT = 6'd6;
 
 
+
   // Registers.
-  reg [4:0] rR;
   reg [4:0] rS;
+  reg [4:0] rT;
   reg [4:0] rD;
   reg [4:0] ex_rD;
 
@@ -68,7 +69,7 @@ module testDavidsStuff ();
     //   PC = (PC & 0xf0000000) | (target << 2);
 
     jumpTarget = 26'd203;
-    instruction = { CMD_J, jumpTarget };
+    instruction = { `CMD_j, jumpTarget };
     completeInstructionCycle();
 
     if (pc !== {4'b0, 26'd203, 2'b0}) begin
@@ -80,7 +81,7 @@ module testDavidsStuff ();
     // RTL:
     //   PC = $s;
 
-    instruction = { CMD_JR, rS, 21'b0 };
+    instruction = { `CMD_jr, rS, 21'b0 };
     completeInstructionCycle();
 
     // TODO: Match to the actual register value.
@@ -95,7 +96,7 @@ module testDavidsStuff ();
     //   PC = (PC & 0xf0000000) | (target << 2);
 
     jumpTarget = 26'd214;
-    instruction = { CMD_JAL, jumpTarget };
+    instruction = { `CMD_jal, jumpTarget };
     completeInstructionCycle();
 
     if (pc !== {4'b0, 26'd214, 2'b0}) begin
@@ -106,7 +107,9 @@ module testDavidsStuff ();
 
     // BNE =====================================================================
     // Branches to PC + (imm << 2) when address in register $s != address in register $t.
-
+    // RTL:
+    //  if $s != $t; PC = PC + (imm << 2)); 
+    //  else PC = PC + 4; 
     imm = 16'b10;
 
     instruction = { CMD_BNE, rS, rT, imm };
@@ -126,6 +129,10 @@ module testDavidsStuff ();
     // XORI ====================================================================
 
     // ADD =====================================================================
+    // Adds the values of the two registers and stores the result in a register.
+    // RTL:
+    //  $d = $s + $t; 
+    //  PC = PC + 4; 
 
     rS = 5'b0;
     rT = 5'b1;
@@ -145,9 +152,11 @@ module testDavidsStuff ();
     //   nPC = nPC + 4;
 
     // SLT =====================================================================
-    //If the value at $s is less than the value at $t, then the value at $d should
-    //be 1. Otherwise, it is 0.
-
+    // If the value at $s is less than the value at $t, then the value at $d should
+    // be 1. Otherwise, it is 0.
+    // RTL:
+    //  if $s < $t $d = 1; PC = PC + 4; 
+    //  else $d = 0; PC = PC + 4; 
 
     rS = 5'b0;
     rT = 5'b1;
