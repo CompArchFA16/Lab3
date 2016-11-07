@@ -3,7 +3,6 @@
 // - MIPS instructions: http://www.mrc.uidaho.edu/mrc/people/jff/digital/MIPSir.html
 
 `include "cpu.v"
-`include "mockDataMemory.v"
 
 module testCPU ();
 
@@ -11,20 +10,20 @@ module testCPU ();
 
   wire [31:0] pc;
 
-  reg clk;
+  reg        clk;
   reg [31:0] instruction;
 
-  wire[31:0] dataMemOut;
-  reg[31:0] dataMemIn;
-  reg[31:0] dataMemAddr;
-  reg dataMemWR;
+  wire [31:0] dataMemOut;
+  reg  [31:0] dataMemIn;
+  reg  [31:0] dataMemAddr;
+  reg         dataMemWE;
 
   mockDataMemory datamem (
+    .out(dataMemOut),
     .clk(clk),
-    .dataOut(dataMemOut),
     .address(dataMemAddr),
-    .writeEnable(dataMemWR),
-    .dataIn(dataMemIn)
+    .in(dataMemIn),
+    .writeEnable(dataMemWE)
   );
 
   // DUT.
@@ -71,20 +70,22 @@ module testCPU ();
 
     rT = 5'b0; // register to load into <- value lives here
     rS = 5'b1; // datamem address to load from
-    instruction = { CMD_LW, rS, rT, 16'b0 };
+    instruction = { `CMD_lw, rS, rT, 16'b0 };
     completeInstructionCycle();
 
     dataMemAddr =  32'd7;
-    dataMemWR = 1'b1;
+    dataMemWE = 1'b1;
 
+    // TODO: Complete.
     // if dataMemAddr is wrong
       // fail
 
     // SW ======================================================================
     // RTL:
-    //  MEM [$s + i]:4 = $t    
+    //   PC = PC + 4
+    //   DataMem[Reg[rS] + imm] = Reg[rT]
 
-    instruction = {CMD_SW, rS, rT, 16'b0};
+    instruction = { `CMD_sw, rS, rT, 16'b0 };
     completeInstructionCycle();
 
     if (dataMemOut !== 32'd3) begin
@@ -136,20 +137,21 @@ module testCPU ();
     // BNE =====================================================================
     // Branches to PC + (imm << 2) when address in register $s != address in register $t.
     // RTL:
-    //    if $s != $t; PC = PC + (imm << 2));
-    //    else PC = PC + 4;
-    imm = 16'b10;
+    //   if ($s != $t)
+    //     PC = PC + (imm << 2));
+    //   else
+    //     PC = PC + 4;
 
-    instruction = { CMD_bne, rS, rT, imm };
+    imm = 16'b10;
+    instruction = { `CMD_bne, rS, rT, imm };
     completeInstructionCycle();
 
     //pc = 0 --> 4
     //pc = 0 --> 14
     if (pc !== 32'd14) begin
       dutPassed = 0;
-      $display("pc: %d", pc);
-      $display("imm: %d", imm);
-
+      // $display("pc: %d", pc);
+      // $display("imm: %d", imm);
     end
 
     // XORI ====================================================================
@@ -178,7 +180,7 @@ module testCPU ();
     rT = 5'b1;
     expected_rD = 5'b1;
 
-    instruction = { CMD_add, rS, rT, rD };
+    instruction = { `CMD_add, rS, rT, rD };
     completeInstructionCycle();
 
     if (rD !== expected_rD) begin
@@ -187,22 +189,23 @@ module testCPU ();
     // SUB =====================================================================
     // Subtracts two registers and stores the result in a register.
     // RTL:
+    //   PC = PC + 4;
     //   $d = $s - $t;
-    //   PC = nPC;
-    //   nPC = nPC + 4;
 
     // SLT =====================================================================
     // If the value at $s is less than the value at $t, then the value at $d should
     // be 1. Otherwise, it is 0.
     // RTL:
     //    PC = PC + 4;
-    //    if $s < $t $d = 1;
-    //    else $d = 0; PC = PC + 4;
+    //    if ($s < $t)
+    //      $d = 1;
+    //    else
+    //      $d = 0;
 
     rS = 5'b0;
     rT = 5'b1;
     expected_rD = 16'b1;
-    instruction = { CMD_slt, rS, rT, rD };
+    instruction = { `CMD_slt, rS, rT, rD };
     completeInstructionCycle();
 
     if (rD !== expected_rD) begin
@@ -211,4 +214,21 @@ module testCPU ();
 
     $finish;
   end
+endmodule
+
+// MOCKS =======================================================================
+
+module mockDataMemory (
+  output reg [31:0] out,
+
+  input        clk,
+ 	input [31:0] address,
+  input [31:0] in,
+ 	input        writeEnable
+);
+	initial begin
+		if (address === 32'd7) begin
+			out <= 32'd3;
+		end
+	end
 endmodule
