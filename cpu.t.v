@@ -33,13 +33,25 @@ module testCPU ();
 
   // HELPERS ===================================================================
 
+  // Commands.
+  reg [5:0] CMD_J   = 6'd1;
+  reg [5:0] CMD_JR  = 6'd2;
+  reg [5:0] CMD_JAL = 6'd3;
+  reg [5:0] CMD_BNE = 6'd4;
+  reg [5:0] CMD_ADD = 6'd5;
+  reg [5:0] CMD_SLT = 6'd6;
+
+
+
   // Registers.
   reg [4:0] rS;
   reg [4:0] rT;
   reg [4:0] rD;
+  reg [4:0] expected_rD;
 
   reg        dutPassed;
   reg [25:0] jumpTarget;
+  reg [15:0] imm;
 
   task completeInstructionCycle;
     begin
@@ -123,11 +135,45 @@ module testCPU ();
     // TODO: Determine how to test the return address $31.
 
     // BNE =====================================================================
+    // Branches to PC + (imm << 2) when address in register $s != address in register $t.
+    // RTL:
+    //    if $s != $t; PC = PC + (imm << 2)); 
+    //    else PC = PC + 4; 
+    imm = 16'b10;
+
+    instruction = { CMD_BNE, rS, rT, imm };
+    completeInstructionCycle();
+
+    //pc = 0 --> 4
+    //pc = 0 --> 14
+    if (pc !== 32'd14) begin
+      dutPassed = 0;
+      $display("pc: %d", pc);
+      $display("imm: %d", imm);
+
+    end
+
+    
 
     // XORI ====================================================================
 
     // ADD =====================================================================
+    // Adds the values of the two registers and stores the result in a register.
+    // RTL:
+    //    PC = PC + 4;
+    //    $d = $s + $t; 
+     
 
+    rS = 5'b0;
+    rT = 5'b1;
+    expected_rD = 5'b1;
+
+    instruction = { CMD_ADD, rS, rT, rD };
+    completeInstructionCycle();
+
+    if (rD !== expected_rD) begin
+      dutPassed = 0;
+    end
     // SUB =====================================================================
     // Subtracts two registers and stores the result in a register.
     // RTL:
@@ -136,6 +182,23 @@ module testCPU ();
     //   nPC = nPC + 4;
 
     // SLT =====================================================================
+    // If the value at $s is less than the value at $t, then the value at $d should
+    // be 1. Otherwise, it is 0.
+    // RTL:
+    //    PC = PC + 4; 
+    //    if $s < $t $d = 1; 
+    //    else $d = 0; PC = PC + 4; 
+
+    rS = 5'b0;
+    rT = 5'b1;
+    expected_rD = 16'b1;
+    instruction = { CMD_SLT, rS, rT, rD };
+    completeInstructionCycle();
+
+
+    if (rD !== expected_rD) begin
+      dutPassed = 0;
+    end
 
     $finish;
   end
