@@ -3,6 +3,7 @@
 // - MIPS instructions: http://www.mrc.uidaho.edu/mrc/people/jff/digital/MIPSir.html
 
 `include "cpu.v"
+`include "mockDataMemory.v"
 
 module testCPU ();
 
@@ -12,6 +13,16 @@ module testCPU ();
 
   reg clk;
   reg [31:0] instruction;
+
+  wire[31:0] dataMemOut;
+  reg[31:0] dataMemIn;
+  reg[31:0] dataMemAddr;
+  reg dataMemWR;
+  mockDataMemory datamem(.clk(clk), 
+                     .dataOut(dataMemOut),
+                     .address(dataMemAddr),
+                     .writeEnable(dataMemWR),
+                     .dataIn(dataMemIn));
 
   // DUT.
   CPU dut (
@@ -49,7 +60,25 @@ module testCPU ();
 
     // LW ======================================================================
 
+    rT = 5'b0; // register to load into <- value lives here
+    rS = 5'b1; // datamem address to load from
+    instruction = { CMD_LW, rS, rT, 16'b0};
+    completeInstructionCycle();
+
+    dataMemAddr =  32'd7;
+    dataMemWR = 1'b1;
+
+    // if dataMemAddr is wrong
+      // fail
+
     // SW ======================================================================
+
+    instruction = {CMD_SW, rS, rT, 16'b0};
+    completeInstructionCycle();
+
+    if (dataMemOut !== 32'd3) begin
+      dutPassed = 0;
+    end
 
     // J =======================================================================
     // Jumps to the calculated address.
