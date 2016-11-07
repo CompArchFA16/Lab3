@@ -36,7 +36,7 @@ module testCPU ();
   reg [4:0] rS;
   reg [4:0] rT;
   reg [4:0] rD;
-  reg [4:0] ex_rD;
+  reg [4:0] expected_rD;
 
   reg        dutPassed;
   reg [25:0] jumpTarget;
@@ -108,8 +108,8 @@ module testCPU ();
     // BNE =====================================================================
     // Branches to PC + (imm << 2) when address in register $s != address in register $t.
     // RTL:
-    //  if $s != $t; PC = PC + (imm << 2)); 
-    //  else PC = PC + 4; 
+    //    if $s != $t; PC = PC + (imm << 2)); 
+    //    else PC = PC + 4; 
     imm = 16'b10;
 
     instruction = { CMD_BNE, rS, rT, imm };
@@ -131,8 +131,9 @@ module testCPU ();
     // ADD =====================================================================
     // Adds the values of the two registers and stores the result in a register.
     // RTL:
-    //  $d = $s + $t; 
-    //  PC = PC + 4; 
+    //    PC = PC + 4;
+    //    $d = $s + $t; 
+     
 
     rS = 5'b0;
     rT = 5'b1;
@@ -155,8 +156,9 @@ module testCPU ();
     // If the value at $s is less than the value at $t, then the value at $d should
     // be 1. Otherwise, it is 0.
     // RTL:
-    //  if $s < $t $d = 1; PC = PC + 4; 
-    //  else $d = 0; PC = PC + 4; 
+    //    PC = PC + 4; 
+    //    if $s < $t $d = 1; 
+    //    else $d = 0; PC = PC + 4; 
 
     rS = 5'b0;
     rT = 5'b1;
