@@ -18,11 +18,14 @@ module testCPU ();
   reg[31:0] dataMemIn;
   reg[31:0] dataMemAddr;
   reg dataMemWR;
-  mockDataMemory datamem(.clk(clk), 
-                     .dataOut(dataMemOut),
-                     .address(dataMemAddr),
-                     .writeEnable(dataMemWR),
-                     .dataIn(dataMemIn));
+
+  mockDataMemory datamem (
+    .clk(clk),
+    .dataOut(dataMemOut),
+    .address(dataMemAddr),
+    .writeEnable(dataMemWR),
+    .dataIn(dataMemIn)
+  );
 
   // DUT.
   CPU dut (
@@ -32,16 +35,6 @@ module testCPU ();
   );
 
   // HELPERS ===================================================================
-
-  // Commands.
-  reg [5:0] CMD_J   = 6'd1;
-  reg [5:0] CMD_JR  = 6'd2;
-  reg [5:0] CMD_JAL = 6'd3;
-  reg [5:0] CMD_BNE = 6'd4;
-  reg [5:0] CMD_ADD = 6'd5;
-  reg [5:0] CMD_SLT = 6'd6;
-
-
 
   // Registers.
   reg [4:0] rS;
@@ -78,7 +71,7 @@ module testCPU ();
 
     rT = 5'b0; // register to load into <- value lives here
     rS = 5'b1; // datamem address to load from
-    instruction = { CMD_LW, rS, rT, 16'b0};
+    instruction = { CMD_LW, rS, rT, 16'b0 };
     completeInstructionCycle();
 
     dataMemAddr =  32'd7;
@@ -143,11 +136,11 @@ module testCPU ();
     // BNE =====================================================================
     // Branches to PC + (imm << 2) when address in register $s != address in register $t.
     // RTL:
-    //    if $s != $t; PC = PC + (imm << 2)); 
-    //    else PC = PC + 4; 
+    //    if $s != $t; PC = PC + (imm << 2));
+    //    else PC = PC + 4;
     imm = 16'b10;
 
-    instruction = { CMD_BNE, rS, rT, imm };
+    instruction = { CMD_bne, rS, rT, imm };
     completeInstructionCycle();
 
     //pc = 0 --> 4
@@ -158,8 +151,6 @@ module testCPU ();
       $display("imm: %d", imm);
 
     end
-
-    
 
     // XORI ====================================================================
     // RTL:
@@ -180,14 +171,14 @@ module testCPU ();
     // Adds the values of the two registers and stores the result in a register.
     // RTL:
     //    PC = PC + 4;
-    //    $d = $s + $t; 
-     
+    //    $d = $s + $t;
+
 
     rS = 5'b0;
     rT = 5'b1;
     expected_rD = 5'b1;
 
-    instruction = { CMD_ADD, rS, rT, rD };
+    instruction = { CMD_add, rS, rT, rD };
     completeInstructionCycle();
 
     if (rD !== expected_rD) begin
@@ -204,16 +195,15 @@ module testCPU ();
     // If the value at $s is less than the value at $t, then the value at $d should
     // be 1. Otherwise, it is 0.
     // RTL:
-    //    PC = PC + 4; 
-    //    if $s < $t $d = 1; 
-    //    else $d = 0; PC = PC + 4; 
+    //    PC = PC + 4;
+    //    if $s < $t $d = 1;
+    //    else $d = 0; PC = PC + 4;
 
     rS = 5'b0;
     rT = 5'b1;
     expected_rD = 16'b1;
-    instruction = { CMD_SLT, rS, rT, rD };
+    instruction = { CMD_slt, rS, rT, rD };
     completeInstructionCycle();
-
 
     if (rD !== expected_rD) begin
       dutPassed = 0;
