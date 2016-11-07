@@ -41,6 +41,8 @@ module testCPU ();
   reg        dutPassed;
   reg [25:0] jumpTarget;
 
+  reg [5:0] expected_rT;
+
   task completeInstructionCycle;
     begin
       // TODO: Update this time to the correct length of our instruction cycle.
@@ -61,7 +63,6 @@ module testCPU ();
     // LW ======================================================================
     // RTL:
     //   $t = MEM [$s + i]:4
-
 
     rT = 5'b0; // register to load into <- value lives here
     rS = 5'b1; // datamem address to load from
@@ -133,6 +134,16 @@ module testCPU ();
     // RTL:
     //  $d = $s ^ ZE(i)
 
+    imm =         16'b0000100000100001;
+    rS =          16'b1000000010000001;
+    expected_rT = 16'b1000100010100000;
+
+    instruction = {`CMD_xori, rS, rT, imm};
+    completeInstructionCycle();
+
+    if (rT !== expected_rT) begin
+      dutPassed = 0;
+    end
 
     // ADD =====================================================================
 
