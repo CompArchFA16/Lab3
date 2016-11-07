@@ -3,6 +3,7 @@
 // - MIPS instructions: http://www.mrc.uidaho.edu/mrc/people/jff/digital/MIPSir.html
 
 `include "cpu.v"
+`include "mockDataMemory.v"
 
 module testDavidsStuff ();
 
@@ -17,7 +18,7 @@ module testDavidsStuff ();
   reg[31:0] dataMemIn;
   reg[31:0] dataMemAddr;
   reg dataMemWR;
-  fakeDataMemory datamem(.clk(clk), 
+  mockDataMemory datamem(.clk(clk), 
                      .dataOut(dataMemOut),
                      .address(dataMemAddr),
                      .writeEnable(dataMemWR),

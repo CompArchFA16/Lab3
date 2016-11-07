@@ -1,4 +1,4 @@
-module fakeDataMemory (
+module mockDataMemory (
 	clk, 
 	dataMemOut,
  	dataMemAddr,
