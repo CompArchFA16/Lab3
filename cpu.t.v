@@ -137,12 +137,12 @@ module testCPU ();
 
     rS = 5'b0;
     rT = 5'b1;
-    ex_rD = 5'b1;
+    expected_rD = 5'b1;
 
     instruction = { CMD_ADD, rS, rT, rD };
     completeInstructionCycle();
 
-    if (rD !== ex_rD) begin
+    if (rD !== expected_rD) begin
       dutPassed = 0;
     end
     // SUB =====================================================================
@@ -162,12 +162,12 @@ module testCPU ();
 
     rS = 5'b0;
     rT = 5'b1;
-    ex_rD = 16'b1;
+    expected_rD = 16'b1;
     instruction = { CMD_SLT, rS, rT, rD };
     completeInstructionCycle();
 
 
-    if (rD !== ex_rD) begin
+    if (rD !== expected_rD) begin
       dutPassed = 0;
     end
 
