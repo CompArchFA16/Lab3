@@ -1,5 +1,6 @@
 `include "opcodes.v"
 `include "exmem_reg.v"
+`include "datamemory.v"
 `include "multiplexer_2_input.v"
 
 `define AND and #330
@@ -77,6 +78,14 @@ module CPU (
 		.aluOutM(aluOutM),
 		.readDataM(readDataM),
 		.writeRegM(writeRegM)
+	);
+
+	wire resultW;
+
+	Multiplexer2Input mux(
+		.out(resultW),
+		.address(memToRegW),
+		.inputs({aluOutW, readDataW})
 	);
 
 endmodule
