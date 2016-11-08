@@ -2,27 +2,33 @@ module cpu
 (
 
 );
-
 // TODO : add clock
 // TODO : change PC+4 to reasonable module output
 
+//// =============== WIRE DECLARATIONS ==================
 // CONTROLLER
 wire [2:0] sel_pc;
 wire sgn, sel_b;
 wire [1:0] sel_aluop;
-wire wd_en, rf_selradr, rf_wen, rf_seldin, sel_bne;
+wire wd_en, rf_selwadr, rf_wen, rf_seldin, sel_bne;
 
 // INSTRUCTION MEMORY
 wire [31:0] pc; //program counter
 wire [31:0] instr; //instruction
 
 // INSTRUCTION DECODER
-wire instr, opcode, rs, rt, rd, shamt, func, imm, jadr;
+// instr provided by instruction memory
+wire [5:0] opcode;
+wire [4:0] rs, rt, rd, shamt;
+wire [5:0] funct;
+wire [15:0] imm;
+wire [25:0] jadr;
 
 // REGISTER FILE
-wire [4:0] rs, rt, rd;
+// rs,rt,rd provided by instruction decoder
 wire [31:0] ds, dt;
 wire [31:0] rf_din; //data in for register
+// rf_selwadr, rf_seldin, rf_wen : control signal
 
 // ALU
 wire [31:0] operandA, operandB;
@@ -35,6 +41,7 @@ wire dm_wen;
 wire [31:0] dm_din;
 wire [31:0] dm_dout;
 
+///// ============== MODULE DECLARATIONS ==================
 
 // CONTROLLER
 controller ctrl(opcode, sel_pc, sgn, sel_b, sel_aluop, wd_en, rf_wen, rf_wadr, rf_selwadr, rf_seldin, sel_bne); // control signals based on operation
