@@ -19,14 +19,14 @@ module memwb_reg (
   input writeRegM
 );
 	
-	always @(posedge clk) begin
-		// control signals
-		regWriteW <= regWriteM;
+  always @(posedge clk) begin
+    // control signals
+    regWriteW <= regWriteM;
     memToRegW <= memToRegM;
 
-		// cpu wires
-		aluOutW <= aluOutM;
+    // cpu wires
+    aluOutW <= aluOutM;
     readDataW <= readDataM;
     writeRegW <= writeRegM;	
-	end
+  end
 endmodule
