@@ -1,5 +1,6 @@
 `include "opcodes.v"
 `include "gate_if_id.v"
+`include "regfile/regfile.v"
 
 module CPU (
   output [31:0] pc,
