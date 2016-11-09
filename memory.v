@@ -6,7 +6,7 @@ module Instr_memory
   output[31:0]  DataOut
 );
 
-  reg [31:0] mem[1023:0];
+  reg [31:0] mem[0:9];
 
   always @(posedge clk) begin
     if (regWE) begin
@@ -14,7 +14,7 @@ module Instr_memory
     end
   end
 
-  initial $readmemh(“Imem.dat”, mem);
+  initial $readmemh("Imem.dat", mem);
 
   assign DataOut = mem[Addr];
 endmodule
@@ -35,7 +35,7 @@ module Data_memory
     end
   end
 
-  initial $readmemh(“Dmem.dat”, mem);
+  initial $readmemh("Dmem.dat", mem);
 
   assign DataOut = mem[Addr];
 endmodule

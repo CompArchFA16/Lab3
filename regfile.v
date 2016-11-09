@@ -99,28 +99,6 @@ input		Clk		// Clock (Positive Edge Triggered)
   mux32to1by32 mux2(ReadData2, ReadRegister2, reg0, reg1, reg2, reg3, reg4, reg5, reg6, reg7, reg8, reg9, reg10, reg11, reg12, reg13, reg14, reg15, reg16, reg17, reg18, reg19, reg20, reg21, reg22, reg23, reg24, reg25, reg26, reg27, reg28, reg29, reg30, reg31); //pick which register to read
 endmodule
 
-// module quicktest2();
-//     wire [31:0] read1, read2;
-//     reg [31:0] d;
-//     reg [4:0] read1addr, read2addr, writeaddr;
-//     reg wrenable, clk;
-//
-//     regfile myfile(read1, read2, d, read1addr, read2addr, writeaddr, wrenable, clk);
-//
-//     initial begin
-//         $dumpfile("quicktest.vcd");
-//         $dumpvars();
-//         clk = 0; #10
-//
-//         wrenable = 1;
-//         writeaddr = 5'd10;
-//         d = 32'd88;
-//         read1addr = 5'd10; read2addr = 5'd9;
-//         clk = 1; #10
-//
-//         $display("Read1: %d, Read2: %d", read1, read2);
-//     end
-// endmodule
 
 module mux32to1by1
 (
@@ -284,23 +262,3 @@ input		clk
     end
 
 endmodule
-
-//Uncomment below to test the register32 or register32zero modules
-// module quicktest();
-//     reg[31:0] d;
-//     reg wrenable, clk;
-//     wire[31:0] q;
-//
-//     register32 registermine (q, d, wrenable, clk);
-// //     register32zero registermine (q, d, wrenable, clk); //Uncomment to test register32zero
-//
-//     initial begin
-//         clk = 0; #10
-//
-//         d = 32'd50;
-//         wrenable = 1;
-//         clk = 1; #10;
-//
-//         $display("Output: %d", q);
-//     end
-// endmodule
