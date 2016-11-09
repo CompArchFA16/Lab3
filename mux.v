@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+`timescale 1 ns / 1 ps
 
 
 module mux2to1
@@ -9,32 +9,32 @@ module mux2to1
     output reg out
 );
 
-initial begin
+always @(input1, input2, select) begin
 if (select) begin
-    out <= input1;
+    assign out = input1;
 end
 else begin
-    out <= input2;
+    assign out = input2;
 end
 end
 endmodule
 
 
 module quicktest();
-    reg input1 ;
+    reg input1;
     reg input2;
-    reg select ;
+    reg selector;
     wire out;
 
-    mux2to1 muxie (input1, input2, select, out);
+    mux2to1 muxie (input1, input2, selector, out);
 
     initial begin
 
         input1 = 1;
         input2 = 0;
-        select = 1;
+        selector = 1;
         #100
-        $display("Output: %d %d %d %d", out, select, input1, input2);
+        $display("Output: %b %b %b %b", out, selector, input1, input2);
 
     end
 endmodule
