@@ -27,6 +27,7 @@ module gate_ID_EX (
   input  [4:0]  instruction_Rd_ID,
   input  [31:0] signExtendOut_ID,
   input         pcPlus4_ID
+  
 );
   
 
@@ -45,6 +46,6 @@ module gate_ID_EX (
     instruction_Rd_EX <= instruction_Rd_ID;
     signExtendOut_EX  <= signExtendOut_ID;
     pcPlus4_EX     <= pcPlus4_ID;
-    
+
   end
 endmodule
