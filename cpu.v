@@ -29,24 +29,24 @@ module CPU (
     .pcPlus4_IF(pcPlus4_IF)
   );
 
-  wire RegWriteD;
-  wire MemToRegD;
-  wire MemWriteD;
-  wire BranchD;
-  wire ALUControlD;
-  wire ALUSrcD;
-  wire RegDstD;
+  wire regWrite_ID;
+  wire memToReg_ID;
+  wire memWrite_ID;
+  wire branch_ID;
+  wire aluControl_ID;
+  wire aluSrc_ID;
+  wire regDst_ID;
 
   controlUnit the_controlUnit (
-    .RegWriteD(RegWriteD),
-    .MemToRegD(MemToRegD),
-    .MemWriteD(MemWriteD),
-    .BranchD(BranchD),
-    .ALUControlD(ALUControlD),
-    .ALUSrcD(ALUSrcD),
-    .RegDstD(RegDstD),
-    .Op(instruction_ID[31:26]),
-    .Funct(instruction_ID[5:0])
+    .regWrite_ID(regWrite_ID),
+    .memToReg_ID(memToReg_ID),
+    .memWrite_ID(memWrite_ID),
+    .branch_ID(branch_ID),
+    .aluControl_ID(aluControl_ID),
+    .aluSrc_ID(aluSrc_ID),
+    .regDst_ID(regDst_ID),
+    .op(instruction_ID[31:26]),
+    .funct(instruction_ID[5:0])
   );
 
   wire [31:0] readData1Out;

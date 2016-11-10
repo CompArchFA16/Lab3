@@ -1,13 +1,13 @@
 module controlUnit (
-  output RegWriteD,
-  output MemToRegD,
-  output MemWriteD,
-  output BranchD,
-  output ALUControlD,
-  output ALUSrcD,
-  output RegDstD,
+  output regWrite_ID,
+  output memToReg_ID,
+  output memWrite_ID,
+  output branch_ID,
+  output aluControl_ID,
+  output aluSrc_ID,
+  output regDst_ID,
 
-  input [5:0] Op,
-  input [5:0] Funct
+  input [5:0] op,
+  input [5:0] funct
 );
 endmodule
