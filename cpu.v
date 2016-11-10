@@ -3,6 +3,7 @@
 `include "control_unit.v"
 `define _regfileAsLibrary
 `include "regfile/regfile.v"
+`include "sign_extend.v"
 
 module CPU (
   output [31:0] pc,
@@ -60,6 +61,13 @@ module CPU (
     .ReadRegister2(instruction_ID[20:16]),
     .WriteRegister(), // TODO: Complete.
     .RegWrite() // TODO: Complete.
+  );
+
+  wire [31:0] signExtendOut;
+
+  signExtend the_signExtend (
+    .out(signExtendOut),
+    .in(instruction_ID[15:0])
   );
 
   // EX - Execute ==============================================================
