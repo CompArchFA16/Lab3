@@ -1,3 +1,6 @@
 [submodule "Lab1"]
 	path = Lab1
 	url = https://github.com/CompArchBDZ/Lab1
+[submodule "alu"]
+	path = alu
+	url = git@github.com:CompArchBDZ/Lab1.git
