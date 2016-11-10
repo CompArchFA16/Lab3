@@ -27,6 +27,17 @@ module CPU (
     .pcPlus4_IF(pcPlus4_IF)
   );
 
+  regfile the_regfile (
+    .ReadData1(),	    // Contents of first register read
+    .ReadData2(),	    // Contents of second register read
+    .Clk(),		        // Clock (Positive Edge Triggered)
+    .WriteData(),	    // Contents to write to register
+    .ReadRegister1(), // Address of first register to read
+    .ReadRegister2(), // Address of second register to read
+    .WriteRegister(), // Address of register to write
+    .RegWrite()	      // Enable writing of register when High
+  );
+
   // EX - Execute ==============================================================
   // MEM - Data Memory =========================================================
   // WB - Writeback ============================================================
