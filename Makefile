@@ -4,11 +4,11 @@ run-cpu: build-cpu
 build-cpu:
 	iverilog -Wall -o cpu.o cpu.t.v
 
-build-exmem_reg: 
-	iverilog -Wall -o exmem_reg.o exmem_reg.v
+build-gate_ex_mem: 
+	iverilog -Wall -o gate_ex_mem.o gate_ex_mem.v
 
-build-memwb_reg: 
-	iverilog -Wall -o memwb_reg.o memwb_reg.v
+build-gate_mem_wb: 
+	iverilog -Wall -o gate_mem_wb.o gate_mem_wb.v
 
 clean:
 	rm *.o *.vcd
