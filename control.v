@@ -3,14 +3,14 @@ module control
 	input clk,
 	input [5:0] instruction, //instruction[31:26]
 
-	output reg RegDst,
-	output reg Branch,
-	output reg MemRead,
-	output reg MemtoReg,
-	output reg [2:0] ALUOp,
-	output reg MemWrite,
-	output reg ALUSrc,
-	output reg RegWrite
+	output reg RegDst, //Mux for Register_WriteRegister_in
+	output reg Branch, //AND with ALU_Zero_out to get PCSrc
+	output reg MemRead, //read data from data memory
+	output reg MemtoReg, //Mux for selecting between DataMemory_ReadData_out
+	output reg [2:0] ALUOp, //for ALU control
+	output reg MemWrite, //write data to data memory
+	output reg ALUSrc, //goes to ALU control
+	output reg RegWrite 
 );
 
 initial begin
