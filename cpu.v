@@ -1,5 +1,6 @@
 `include "opcodes.v"
 `include "gate_if_id.v"
+`include "control_unit.v"
 `define _regfileAsLibrary
 `include "regfile/regfile.v"
 
@@ -25,6 +26,26 @@ module CPU (
     .clk(clk),
     .instruction_IF(instruction_IF),
     .pcPlus4_IF(pcPlus4_IF)
+  );
+
+  wire RegWriteD;
+  wire MemToRegD;
+  wire MemWriteD;
+  wire BranchD;
+  wire ALUControlD;
+  wire ALUSrcD;
+  wire RegDstD;
+
+  controlUnit the_controlUnit (
+    .RegWriteD(RegWriteD),
+    .MemToRegD(MemToRegD),
+    .MemWriteD(MemWriteD),
+    .BranchD(BranchD),
+    .ALUControlD(ALUControlD),
+    .ALUSrcD(ALUSrcD),
+    .RegDstD(RegDstD),
+    .Op(instruction_ID[31:26]),
+    .Funct(instruction_ID[5:0])
   );
 
   wire [31:0] readData1Out;
