@@ -1,18 +1,16 @@
 module gate_MEM_WB (
 
-  input clk,
-
-  // control signals
   output reg regWrite_WB,
   output reg memToReg_WB,
 
-  input regWrite_MEM,
-  input memToReg_MEM,
-   
-  // cpu wires
   output reg [31:0] aluOut_WB,
   output reg [31:0] readData_WB,
   output reg writeReg_WB,
+
+  input clk, 
+
+  input regWrite_MEM,
+  input memToReg_MEM,
 
   input [31:0] aluOut_MEM,
   input [31:0] readData_MEM,
