@@ -9,7 +9,7 @@ module datamemory
   input [31:0]      dataIn
 );
 
-  reg [31:0] memory [2**31:0];
+  reg [31:0] memory [(2**31)-1:0];
 
   always @(posedge clk) begin
       if(writeEnable)
