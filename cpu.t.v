@@ -175,22 +175,23 @@ module testCPU ();
     //    PC = PC + 4;
     //    $d = $s + $t;
 
-
     rS = 5'b0;
     rT = 5'b1;
     expected_rD = 5'b1;
-
     instruction = { `CMD_add, rS, rT, rD };
     completeInstructionCycle();
 
     if (rD !== expected_rD) begin
       dutPassed = 0;
     end
+
     // SUB =====================================================================
     // Subtracts two registers and stores the result in a register.
     // RTL:
     //   PC = PC + 4;
     //   $d = $s - $t;
+
+    // TODO: Complete @hdavidzhu
 
     // SLT =====================================================================
     // If the value at $s is less than the value at $t, then the value at $d should
