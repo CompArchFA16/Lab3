@@ -27,15 +27,18 @@ module CPU (
     .pcPlus4_IF(pcPlus4_IF)
   );
 
+  wire [31:0] readData1Out;
+  wire [31:0] readData2Out;
+
   regfile the_regfile (
-    .ReadData1(),	    // Contents of first register read
-    .ReadData2(),	    // Contents of second register read
-    .Clk(),		        // Clock (Positive Edge Triggered)
-    .WriteData(),	    // Contents to write to register
-    .ReadRegister1(), // Address of first register to read
-    .ReadRegister2(), // Address of second register to read
-    .WriteRegister(), // Address of register to write
-    .RegWrite()	      // Enable writing of register when High
+    .ReadData1(readData1Out),
+    .ReadData2(readData2Out),
+    .Clk(clk),
+    .WriteData(), // TODO: Complete.
+    .ReadRegister1(instruction_ID[25:21]),
+    .ReadRegister2(instruction_ID[20:16]),
+    .WriteRegister(), // TODO: Complete.
+    .RegWrite() // TODO: Complete.
   );
 
   // EX - Execute ==============================================================
