@@ -11,10 +11,10 @@ module mux2to1
 
 always @(input1, input2, select) begin
 if (select) begin
-    assign out = input1;
+    assign out = input2;
 end
 else begin
-    assign out = input2;
+    assign out = input1;
 end
 end
 endmodule
