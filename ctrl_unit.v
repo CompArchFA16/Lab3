@@ -1,41 +1,44 @@
 //Control Unit
 
 module ctrl_unit(
-input wrenable,
-input clk,
 input [5:0] Op,
 input [5:0] Funct,
+input clk,
 output reg RegWriteD,
 output reg MemtoRegD,
 output reg MemWriteD,
 output reg BranchD,
-output reg [4:0] ALUCtrlD,
+output reg [2:0] ALUCtrlD,
 output reg ALUSrcD,
 output reg RegDstD,
-output RegWriteE,
-output MemtoRegE,
-output MemWriteE,
-output BranchE,
-output [4:0] ALUCtrlE,
-output ALUSrcE,
-output RegDstE,
-output RegWriteM,
-output MemtoRegM,
-output MemWriteM,
-output BranchM,
-output RegWriteW,
-output MemtoRegW
 );
 
+// Encodings for Operations
+localparam loadWord = 6'h23;
+localparam storeWord = 6'h2b;
+localparam jump = 6'h2;
+localparam jumpLink = 6'h3;
+localparam branchNotEq = 5'h5;
+localparam xOrI = 6'he;
+localparam functionalCode = 6'h0;
+
+// Encodings for Functions
+localparam jumpReg = 6'h8;
+localparam add = 6'h20;
+localparam sub = 6'h22;
+localparam slt = 6'h2a;
+
 always @(posedge clk) begin
-if (Op == 6'h23) begin //LOAD WORD
-RegWriteD <= 1;
-MemtoRegD <= 1; //we want to write memory to reg!
-MemWriteD <= 0;
-BranchD <=0;
-// assign ALUCtrl <=
-// ALUSrcD <=
-// RegDstD <=
+    case (Op)
+        loadWord: begin
+            RegWriteD <= 1;
+            MemtoRegD <= 1; //we want to write memory to reg!
+            MemWriteD <= 0;
+            BranchD <=0;
+     // assign ALUCtrl <=
+     // ALUSrcD <=
+     // RegDstD <=
+    endcase
 end
 
 // if (Op == 5'h2b) begin //STORE WORD
