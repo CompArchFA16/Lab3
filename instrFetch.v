@@ -1,8 +1,8 @@
 module InstrFetchUnit
 (
 input [31:0] instr,
-output [4:0] Op,
-output [4:0] Funct,
+output [5:0] Op,
+output [5:0] Funct,
 output [4:0] A1,
 output [4:0] A2,
 output [4:0] RtE,
