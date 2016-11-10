@@ -191,7 +191,15 @@ module testCPU ();
     //   PC = PC + 4;
     //   $d = $s - $t;
 
-    // TODO: Complete @hdavidzhu
+    // TODO: Load values first into Reg[rS] and Reg[rD].
+
+    rS = 5'd0;
+    rT = 5'd1;
+    rD = 5'd2;
+    instruction = { `CMD_sub, rD, rS, rT };
+    completeInstructionCycle();
+
+    // TODO: Read from rD and check value.
 
     // SLT =====================================================================
     // If the value at $s is less than the value at $t, then the value at $d should
