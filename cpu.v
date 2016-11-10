@@ -67,6 +67,7 @@ module CPU (
 
   signExtend the_signExtend (
     .out(signExtendOut),
+    .clk(clk),
     .in(instruction_ID[15:0])
   );
 
