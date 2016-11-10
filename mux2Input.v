@@ -1,7 +1,3 @@
-`define NOT not #10
-`define AND and #330
-`define OR or #330
-
 module mux2Input
 #(
   parameter out_width  = 32,

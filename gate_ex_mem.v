@@ -1,25 +1,23 @@
 module gate_EX_MEM (
 
-  input clk,
-
-  // control signals
   output reg regWrite_MEM,
   output reg memToReg_MEM,
   output reg memWrite_MEM,
   output reg branch_MEM,
 
-  input regWrite_EX,
-  input memToReg_EX,
-  input memWrite_EX,
-  input branch_EX,
-   
-  // cpu wires
   output reg zero_MEM,
   output reg [31:0] aluOut_MEM,
   output reg [31:0] writeData_MEM,
   output reg writeReg_MEM,
   output reg [31:0] pcBranch_MEM,
 
+  input clk,
+
+  input regWrite_EX,
+  input memToReg_EX,
+  input memWrite_EX,
+  input branch_EX,
+  
   input zero_EX,
   input [31:0] aluOut_EX,
   input writeReg_EX,

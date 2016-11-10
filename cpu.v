@@ -11,8 +11,7 @@
 `define _regfileAsLibrary
 `include "regfile/regfile.v"
 `include "sign_extend.v"
-
-`define AND and #330
+`include "gates.v"
 
 module CPU (
   output [31:0] pc,
@@ -97,25 +96,26 @@ module CPU (
 
 	wire pcSource;
 
+	// TODO: add EX wires as inputs
 	gate_EX_MEM gate_EX_MEM (
 		.clk(clk),
 		.regWrite_MEM(regWrite_MEM),
 		.memToReg_MEM(memToReg_MEM),
 		.memWrite_MEM(memWrite_MEM),
 		.branch_MEM(branch_MEM),
-		.regWrite_EX(), // need regWrite_EX
-		.memToReg_EX(), // need memToReg_EX
-		.branch_EX(), // need branch_EX
+		.regWrite_EX(),
+		.memToReg_EX(),
+		.branch_EX(),
 		.zero_MEM(zero_MEM),
 		.aluOut_MEM(aluOut_MEM),
 		.writeData_MEM(writeData_MEM),
 		.writeReg_MEM(writeReg_MEM),
 		.pcBranch_MEM(pcBranch_MEM),
-		.zero_EX(), // need zero_EX
-		.aluOut_EX(), // need aluOut_EX
-		.writeReg_EX(), // need writeReg_EX
-		.writeData_EX(), // need writeData_EX
-		.pcBranch_EX() // need pcBranch_EX
+		.zero_EX(),
+		.aluOut_EX(),
+		.writeReg_EX(),
+		.writeData_EX(),
+		.pcBranch_EX()
 	);
 
 	`AND (pcSource, branch_MEM, zero_MEM);
