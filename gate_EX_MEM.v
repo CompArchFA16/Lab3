@@ -18,13 +18,13 @@ module gate_EX_MEM (
   output reg [31:0] aluOut_MEM,
   output reg [31:0] writeData_MEM,
   output reg writeReg_MEM,
-  output reg pcBranch_MEM,
+  output reg [31:0] pcBranch_MEM,
 
   input zero_EX,
-  input aluOut_EX,
+  input [31:0] aluOut_EX,
   input writeReg_EX,
   input [31:0] writeData_EX,
-  input pcBranch_EX
+  input [31:0] pcBranch_EX
 );
 	
 	always @(posedge clk) begin

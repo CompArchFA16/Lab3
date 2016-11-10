@@ -2,7 +2,7 @@
 `include "gate_EX_MEM.v"
 `include "gate_MEM_WB.v"
 `include "datamemory.v"
-`include "multiplexer_2_input.v"
+`include "mux2Input.v"
 `include "instructionmemory.v"
 `include "pcReg.v"
 `include "addFour.v"
@@ -26,7 +26,7 @@ module CPU (
 	wire [31:0] aluOut_MEM;
 	wire [31:0] writeData_MEM;
 	wire writeReg_MEM;
-	wire pcBranch_MEM;
+	wire [31:0] pcBranch_MEM;
 
 	wire pcSource;
 
@@ -36,19 +36,19 @@ module CPU (
 		.memToReg_MEM(memToReg_MEM),
 		.memWrite_MEM(memWrite_MEM),
 		.branch_MEM(branch_MEM),
-		.regWrite_EX(regWrite_EX),
-		.memToReg_EX(memToReg_EX),
-		.branch_EX(branch_EX),
+		.regWrite_EX(), // need regWrite_EX
+		.memToReg_EX(), // need memToReg_EX
+		.branch_EX(), // need branch_EX
 		.zero_MEM(zero_MEM),
 		.aluOut_MEM(aluOut_MEM),
 		.writeData_MEM(writeData_MEM),
 		.writeReg_MEM(writeReg_MEM),
 		.pcBranch_MEM(pcBranch_MEM),
-		.zero_EX(zero_EX),
-		.aluOut_EX(aluOut_EX),
-		.writeReg_EX(writeReg_EX),
+		.zero_EX(), // need zero_EX
+		.aluOut_EX(), // need aluOut_EX
+		.writeReg_EX(), // need writeReg_EX
 		.writeData_EX(), // need writeData_EX
-		.pcBranch_EX(pcBranch_EX)
+		.pcBranch_EX() // need pcBranch_EX
 	);
 
 	`AND (pcSource, branch_MEM, zero_MEM);
@@ -68,8 +68,8 @@ module CPU (
 	wire regWrite_WB;
   	wire memToReg_WB;
 
-	wire aluOut_WB;
-  	wire readData_WB;
+	wire [31:0] aluOut_WB;
+  	wire [31:0] readData_WB;
   	wire writeReg_WB;
 
 	gate_MEM_WB gate_MEM_WB (
@@ -85,20 +85,23 @@ module CPU (
 		.writeReg_MEM(writeReg_MEM)
 	);
 
-	wire result_WB;
+	wire [31:0] result_WB;
 
-	Multiplexer2Input memToRegMux(
+	mux2Input memToRegMux(
 		.out(result_WB),
 		.address(memToReg_WB),
-		.inputs({aluOut_WB, readData_WB})
+		.input0(aluOut_WB),
+		.input1(readData_WB)
 	);
 
 	wire[31:0] prePC;
+	wire[31:0] pcPlus4F;
 
-	Multiplexer2Input regWriteMux(
+	mux2Input regWriteMux(
 		.out(prePC),
 		.address(pcSource),
-		.inputs({pcPlus4F, pcBranch_MEM})
+		.input0(pcPlus4F),
+		.input1(pcBranch_MEM)
 	);
 
 	pcReg pcReg(
@@ -106,8 +109,6 @@ module CPU (
 		.pc(pc),
 		.prePC(prePC)
 	);
-
-	wire[31:0] pcPlus4F;
 
 	addFour addFour (
 		.clk(clk),
@@ -118,7 +119,7 @@ module CPU (
 	wire[31:0] instructionMemOut;
 
 	instructionmemory instrmem(
-		.clk(clk), // Question: is instruction memory clocked?
+		.clk(clk),
 		.address(pc),
 		.dataOut(instructionMemOut)
 	);

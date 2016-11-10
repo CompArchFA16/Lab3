@@ -10,8 +10,8 @@ module gate_MEM_WB (
   input memToReg_MEM,
    
   // cpu wires
-  output reg aluOut_WB,
-  output reg readData_WB,
+  output reg [31:0] aluOut_WB,
+  output reg [31:0] readData_WB,
   output reg writeReg_WB,
 
   input [31:0] aluOut_MEM,
