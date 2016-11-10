@@ -34,6 +34,7 @@ module controlUnit (
         regDst_ID     <= 0;
       end
       `CMD_j: begin
+        // TODO: David
         regWrite_ID   <= 0;
         memToReg_ID   <= 0;
         memWrite_ID   <= 0;
@@ -43,6 +44,7 @@ module controlUnit (
         regDst_ID     <= 0;
       end
       `CMD_jr: begin
+        // TODO: David
         regWrite_ID   <= 0;
         memToReg_ID   <= 0;
         memWrite_ID   <= 0;
@@ -52,6 +54,7 @@ module controlUnit (
         regDst_ID     <= 0;
       end
       `CMD_jal: begin
+        // TODO: David
         regWrite_ID   <= 0;
         memToReg_ID   <= 0;
         memWrite_ID   <= 0;
@@ -88,6 +91,7 @@ module controlUnit (
         regDst_ID     <= 0;
       end
       `CMD_sub: begin
+        // TODO: David
         regWrite_ID   <= 0;
         memToReg_ID   <= 0;
         memWrite_ID   <= 0;
