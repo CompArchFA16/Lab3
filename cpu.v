@@ -1,5 +1,6 @@
 `include "opcodes.v"
 `include "gate_if_id.v"
+`define _regfileAsLibrary
 `include "regfile/regfile.v"
 
 module CPU (
