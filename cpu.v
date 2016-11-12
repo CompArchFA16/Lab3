@@ -1,3 +1,9 @@
+`ifndef __CPU_V__
+`define __CPU_V__
+
+`include "mux.v"
+`include "alu.v"
+
 module cpu
 (
 
@@ -66,6 +72,7 @@ mux m0(operandB, {opb_imm, opb_mem}, sel_b); // select immediate when sel_b is h
 mux m1(operandA, {pc+4, ds}, sel_bne); // when bne, take pc+4
 
 wire [31:0] alu_res;
+mux m4(alucontrol,{func, sel_aluop}, sel_aluop); // TODO : Fix this mux, this logically correct but won't work in impl.
 alu a(alu_res, operandA, operandB, alucontrol);
 
 // DATA MEMORY
@@ -73,3 +80,5 @@ assign dm_adr = alu_res; // alias
 datamemory dm(dm_adr, dm_wen, dm_din, dm_dout);
 
 endmodule
+
+`endif
