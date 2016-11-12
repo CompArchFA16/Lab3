@@ -14,7 +14,7 @@ module instructionmemory
         	memory[address] <= dIn;
     end
     
-    assign dOut = memory[address];
     initial $readmemb("instructions.txt", memory);
+    assign dOut = memory[address];
 
 endmodule
