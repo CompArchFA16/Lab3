@@ -13,6 +13,7 @@ module pipelineCPU
 );
 
 //instructions - stage 1
+mux2to1  pcmux(pcplus4d, pcbranch,,output reg out);
 pc programcounter(clk, enable, PCaddr);
 Instr_memory iMem(clk, regWE, IMaddr, DataIn, DataOut);
 //pipeline register
