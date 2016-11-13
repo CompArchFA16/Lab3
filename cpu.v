@@ -32,6 +32,7 @@ module CPU (
 
   wire [4:0]  writeReg_WB;
   wire [31:0] result_WB;
+  wire        regWrite_WB;
 
   // IF - Instruction Fetch ====================================================
 
@@ -78,11 +79,11 @@ module CPU (
     .ReadData1(readData1Out),
     .ReadData2(readData2Out),
     .Clk(clk),
-    .WriteData(),
+    .WriteData(result_WB),
     .ReadRegister1(instruction_ID[25:21]),
     .ReadRegister2(instruction_ID[20:16]),
     .WriteRegister(writeReg_WB),
-    .RegWrite(result_WB)
+    .RegWrite(regWrite_WB)
   );
 
   wire [31:0] signExtendOut;
@@ -95,16 +96,16 @@ module CPU (
 
   // EX - Execute ==============================================================
 
-  wire      pcPlus4_EX;
-  wire      regWrite_EX;
-  wire      memtoReg_EX;
-  wire      memWrite_EX;
-  wire      branch_EX;
-  wire[2:0] aLUControl_EX;
-  wire      aLUSrc_EX;
-  wire      regDst_EX;
-  wire[4:0] instruction_Rt_EX;
-  wire[4:0] instruction_Rd_EX;
+  wire [31:0] pcPlus4_EX;
+  wire        regWrite_EX;
+  wire        memtoReg_EX;
+  wire        memWrite_EX;
+  wire        branch_EX;
+  wire [2:0]  aLUControl_EX;
+  wire        aLUSrc_EX;
+  wire        regDst_EX;
+  wire[4:0]   instruction_Rt_EX;
+  wire[4:0]   instruction_Rd_EX;
 
   reg [4:0] instruction_Rt_ID;
   reg [4:0] instruction_Rd_ID;
@@ -143,13 +144,14 @@ module CPU (
 
   shiftTwo the_shifting_of_two (
     .out(shiftOut),
+    .clk(clk),
     .in(signExtendOut)
   );
 
-  wire writeReg_EX;
+  wire [4:0] writeReg_EX;
 
   //The leftmost mux in the EX phase.
-  mux2Input the_mux (
+  mux2Input #(5, 5) the_mux (
     .out(writeReg_EX),
     .address(regDst_EX),
     .input0(instruction_Rt_EX),
@@ -159,7 +161,7 @@ module CPU (
   wire [31:0] srcB_EX;
 
   // The right-er mux in the EX phase.
-  mux2Input the_other_mux (
+  mux2Input #(32, 32) alu_src_mux (
     .out(srcB_EX),
     .address(aLUSrc_EX),
     .input0(readData2Out),
@@ -167,7 +169,7 @@ module CPU (
   );
 
   wire [31:0] srcA_EX;
-  wire aluOut_EX;
+  wire [31:0] aluOut_EX;
 
   // The uppermost ALU (labeled ALU) in the EX phase.
   ALU the_alu (
@@ -177,9 +179,11 @@ module CPU (
     .command(aLUControl_EX)
   );
 
-wire pcBranch_EX;
-// The bottom-most ALU in the EX phase which does addition.
-  ALU the_other_alu (
+  wire [31:0] pcBranch_EX;
+
+  // The bottom-most ALU in the EX phase which does addition.
+  // TODO: Having an ALU over here is so overkill.
+  ALU full_adder (
     .result(pcBranch_EX),
     .operandA(shiftOut),
     .operandB(pcPlus4_EX),
@@ -237,7 +241,6 @@ wire pcBranch_EX;
 
 	// WB - Register Write Back ====================================================
 
-	wire regWrite_WB;
 	wire memToReg_WB;
 
 	wire [31:0] aluOut_WB;
