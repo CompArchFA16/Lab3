@@ -7,7 +7,7 @@
 `include "gate_MEM_WB.v"
 
 `include "datamemory.v"
-`include "instructionmemory.v"
+`include "instructionmemory.v" // TODO: Deprecate.
 
 `include "control_unit.v"
 
@@ -27,6 +27,11 @@ module CPU (
   input         clk,
   input  [31:0] instruction
 );
+
+  // PRECURSORS ================================================================
+
+  wire [4:0]  writeReg_WB;
+  wire [31:0] result_WB;
 
   // IF - Instruction Fetch ====================================================
 
@@ -73,11 +78,11 @@ module CPU (
     .ReadData1(readData1Out),
     .ReadData2(readData2Out),
     .Clk(clk),
-    .WriteData(), // TODO: Complete.
+    .WriteData(),
     .ReadRegister1(instruction_ID[25:21]),
     .ReadRegister2(instruction_ID[20:16]),
-    .WriteRegister(), // TODO: Complete.
-    .RegWrite() // TODO: Complete.
+    .WriteRegister(writeReg_WB),
+    .RegWrite(result_WB)
   );
 
   wire [31:0] signExtendOut;
@@ -237,7 +242,6 @@ wire pcBranch_EX;
 
 	wire [31:0] aluOut_WB;
 	wire [31:0] readData_WB;
-	wire writeReg_WB;
 
 	gate_MEM_WB gate_MEM_WB (
 		.regWrite_WB(regWrite_WB),
@@ -251,8 +255,6 @@ wire pcBranch_EX;
 		.readData_MEM(readData_MEM),
 		.writeReg_MEM(writeReg_MEM)
 	);
-
-	wire [31:0] result_WB;
 
 	mux32 memToRegMux (
 		.out(result_WB),
