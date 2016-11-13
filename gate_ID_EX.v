@@ -15,7 +15,7 @@ module gate_ID_EX (
   output reg        pcPlus4_EX,
   input         clk,
   input         regWrite_ID,
-  input         memtoReg_ID,
+  input         memToReg_ID,
   input         memWrite_ID,
   input         branch_ID,
   input         aLUControl_ID,
@@ -27,14 +27,14 @@ module gate_ID_EX (
   input  [4:0]  instruction_Rd_ID,
   input  [31:0] signExtendOut_ID,
   input         pcPlus4_ID
-  
+
 );
-  
+
 
   always @ ( posedge clk ) begin
 
     regWrite_EX      <= regWrite_ID;
-    memtoReg_EX      <= memtoReg_ID;
+    memtoReg_EX      <= memToReg_ID;
     memWrite_EX      <= memWrite_ID;
     branch_EX        <= branch_ID;
     aLUControl_EX    <= aLUControl_ID;

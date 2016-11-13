@@ -15,6 +15,7 @@
 `include "regfile/regfile.v"
 `include "sign_extend.v"
 `include "gates.v"
+`include "shift_two.v"
 
 module CPU (
   output [31:0] pc,
@@ -83,6 +84,7 @@ module CPU (
   );
 
   // EX - Execute ==============================================================
+
   wire      pcPlus4_EX;
   wire      regWrite_EX;
   wire      memtoReg_EX;
@@ -96,7 +98,6 @@ module CPU (
 
   reg [4:0] instruction_Rt_ID;
   reg [4:0] instruction_Rd_ID;
-
 
   gate_ID_EX the_gate_id_ex (
     .regWrite_EX(regWrite_EX),
@@ -128,8 +129,6 @@ module CPU (
     .pcPlus4_ID(pcPlus4_EX)
   );
 
-
-
   wire [31:0] shiftOut;
 
   shiftTwo the_shifting_of_two (
@@ -137,49 +136,45 @@ module CPU (
     .in(signExtendOut)
   );
 
-
-
   wire writeReg_EX;
 
   //The leftmost mux in the EX phase.
-  mux2Input the_mux(
+  mux2Input the_mux (
     .out(writeReg_EX),
     .address(regDst_EX),
     .input0(instruction_Rt_EX),
     .input1(instruction_Rd_EX)
   );
 
-  //The right-er mux in the EX phase.
   wire [31:0] srcB_EX;
-  mux2Input the_other_mux(
+
+  // The right-er mux in the EX phase.
+  mux2Input the_other_mux (
     .out(srcB_EX),
     .address(aLUSrc_EX),
     .input0(readData2Out),
     .input1(signExtendOut)
   );
 
-
-
-  //The uppermost ALU (labeled ALU) in the EX phase.
   wire [31:0] srcA_EX;
-  ALU the_alu(
+  wire aluOut_EX;
+
+  // The uppermost ALU (labeled ALU) in the EX phase.
+  ALU the_alu (
     .result(aluOut_EX), //Assuming Bonnie will declare aluOut_EX as a wire when she makes her EXMEM gate here.
     .operandA(srcA_EX), //LEFT OUT CARRYOUT, ZERO, and OVERFLOW.
     .operandB(srcB_EX),
     .command(aLUControl_EX)
   );
 
-
-//The bottom-most ALU in the EX phase which does addition.
-ALU the_other_alu(
-  .result(pcBranch_EX),
-  .operandA(shiftOut),
-  .operandB(pcPlus4_EX),
-  .command(6'b100000) //Is this the add command we want? ****
+wire pcBranch_EX;
+// The bottom-most ALU in the EX phase which does addition.
+  ALU the_other_alu (
+    .result(pcBranch_EX),
+    .operandA(shiftOut),
+    .operandB(pcPlus4_EX),
+    .command(6'b100000) // Is this the add command we want? ****
   );
-
-
-
 
 	// MEM - Memory Access ====================================================
 
@@ -222,7 +217,7 @@ ALU the_other_alu(
 
 	wire [31:0] readData_MEM;
 
-	datamemory datamemory(
+	datamemory datamemory (
 		.clk(clk),
 		.dataOut(readData_MEM),
 		.address(aluOut_MEM),
@@ -254,7 +249,7 @@ ALU the_other_alu(
 
 	wire [31:0] result_WB;
 
-	mux32 memToRegMux(
+	mux32 memToRegMux (
 		.out(result_WB),
 		.address(memToReg_WB),
 		.input0(aluOut_WB),
@@ -264,14 +259,14 @@ ALU the_other_alu(
 	wire[31:0] prePC;
 	wire[31:0] pcPlus4F;
 
-	mux32 regWriteMux(
+	mux32 regWriteMux (
 		.out(prePC),
 		.address(pcSource),
 		.input0(pcPlus4F),
 		.input1(pcBranch_MEM)
 	);
 
-	pcReg pcReg(
+	pcReg pcReg (
 		.clk(clk),
 		.pc(pc),
 		.prePC(prePC)
@@ -285,12 +280,11 @@ ALU the_other_alu(
 
 	wire[31:0] instructionMemOut;
 
-	instructionmemory instrmem(
+	instructionmemory instrmem (
 		.clk(clk),
 		.address(pc),
 		.dataOut(instructionMemOut)
 	);
-
 
   // MEM - Data Memory =========================================================
   // WB - Writeback ============================================================
