@@ -4,10 +4,7 @@ module mux32(
 	input [31:0] input0,
 	input [31:0] input1 
 	);
-	mux2Input #(32, 32) U0(.out(out), 
-						   .address(address), 
-						   .input0(input0), 
-						   .input1(input1));
+	mux2Input #(32, 32) U0(.out(out), .address(address), .input0(input0), .input1(input1));
 endmodule
 
 module mux2Input
