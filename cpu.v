@@ -98,7 +98,7 @@ module CPU (
 
   wire [31:0] pcPlus4_EX;
   wire        regWrite_EX;
-  wire        memtoReg_EX;
+  wire        memToReg_EX;
   wire        memWrite_EX;
   wire        branch_EX;
   wire [2:0]  aLUControl_EX;
@@ -112,13 +112,13 @@ module CPU (
 
   gate_ID_EX the_gate_id_ex (
     .regWrite_EX(regWrite_EX),
-    .memtoReg_EX(memtoReg_EX),
+    .memToReg_EX(memToReg_EX),
     .memWrite_EX(memWrite_EX),
     .branch_EX(branch_EX),
     .aLUControl_EX(aLUControl_EX),
     .aLUSrc_EX(aLUSrc_EX),
     .regDst_EX(regDst_EX),
-    .readData1Out_EX(readData1Out),
+    .readData1Out_EX(readData1Out), // TODO: I'm pretty sure this is wrong.
     .readData2Out_EX(readData2Out),
     .instruction_Rt_EX(instruction_Rt_EX),
     .instruction_Rd_EX(instruction_Rd_EX),
@@ -187,7 +187,7 @@ module CPU (
     .result(pcBranch_EX),
     .operandA(shiftOut),
     .operandB(pcPlus4_EX),
-    .command(6'b100000) // Is this the add command we want? ****
+    .command(3'b100) // Is this the add command we want? ****
   );
 
 	// MEM - Memory Access ====================================================
@@ -200,31 +200,31 @@ module CPU (
 	wire zero_MEM;
 	wire [31:0] aluOut_MEM;
 	wire [31:0] writeData_MEM;
-	wire writeReg_MEM;
+	wire [4:0]  writeReg_MEM;
 	wire [31:0] pcBranch_MEM;
 
 	wire pcSource;
 
 	// TODO: add EX wires as inputs
 	gate_EX_MEM gate_EX_MEM (
-		.clk(clk),
 		.regWrite_MEM(regWrite_MEM),
 		.memToReg_MEM(memToReg_MEM),
 		.memWrite_MEM(memWrite_MEM),
 		.branch_MEM(branch_MEM),
-		.regWrite_EX(),
-		.memToReg_EX(),
-		.branch_EX(),
-		.zero_MEM(zero_MEM),
-		.aluOut_MEM(aluOut_MEM),
-		.writeData_MEM(writeData_MEM),
-		.writeReg_MEM(writeReg_MEM),
-		.pcBranch_MEM(pcBranch_MEM),
-		.zero_EX(),
-		.aluOut_EX(),
-		.writeReg_EX(),
-		.writeData_EX(),
-		.pcBranch_EX()
+    .zero_MEM(zero_MEM),
+    .aluOut_MEM(aluOut_MEM),
+    .writeData_MEM(writeData_MEM),
+    .writeReg_MEM(writeReg_MEM),
+    .pcBranch_MEM(pcBranch_MEM),
+    .clk(clk),
+		.regWrite_EX(regWrite_EX),
+		.memToReg_EX(memToReg_EX),
+		.branch_EX(branch_EX),
+    .zero_EX(), // TODO: Complete.
+    .aluOut_EX(aluOut_EX),
+    .writeReg_EX(writeReg_EX),
+    .writeData_EX(), // TODO: Complete.
+    .pcBranch_EX(pcBranch_EX)
 	);
 
 	`AND (pcSource, branch_MEM, zero_MEM);
