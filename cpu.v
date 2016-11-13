@@ -133,11 +133,11 @@ module CPU (
 	// WB - Register Write Back ====================================================
 
 	wire regWrite_WB;
-		wire memToReg_WB;
+	wire memToReg_WB;
 
 	wire [31:0] aluOut_WB;
-		wire [31:0] readData_WB;
-		wire writeReg_WB;
+	wire [31:0] readData_WB;
+	wire writeReg_WB;
 
 	gate_MEM_WB gate_MEM_WB (
 		.regWrite_WB(regWrite_WB),

@@ -12,8 +12,9 @@ module datamemory
   reg [31:0] memory [(2**31)-1:0];
 
   always @(posedge clk) begin
-      if(writeEnable)
+      if(writeEnable) begin
           memory[address] <= dataIn;
+      end
       dataOut <= memory[address];
   end
 endmodule
