@@ -1,10 +1,10 @@
 `include "opcodes.v"
 `include "gates.v"
 
-`include "gate_if_id.v"
+`include "gate_IF_ID.v"
 `include "gate_ID_EX.v"
-`include "gate_ex_mem.v"
-`include "gate_mem_wb.v"
+`include "gate_EX_MEM.v"
+`include "gate_MEM_WB.v"
 
 `include "datamemory.v"
 `include "instructionmemory.v"
