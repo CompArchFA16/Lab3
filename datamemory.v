@@ -8,7 +8,8 @@
 module datamemory
 #(
     parameter addresswidth  = 32,
-    parameter depth         = 2**addresswidth,
+    //parameter depth         = 2**addresswidth,
+    parameter depth = 10,
     parameter width         = 32
 )
 (
@@ -16,6 +17,7 @@ module datamemory
     output reg [width-1:0]      readData,
     input [addresswidth-1:0]    address,
     input                       MemWrite,
+    input                       MemRead,
     input [width-1:0]           writeData
 );
 
@@ -25,23 +27,9 @@ module datamemory
     always @(posedge clk) begin
         if(MemWrite)
             memory[address] <= writeData;
-        readData <= memory[address];
+        if(MemRead)
+            readData <= memory[address];
     end
 
 endmodule
 
-
-// Instruction Memory
-
-module instructionMem
-(
-    input                   clk,
-    input [31: 0]           PC,
-    output reg [31:0]       instruction
-);
-    reg [31:0] instructionSet [31 :0];
-    always @(posedge clk) begin
-        instruction = instructionSet[PC];
-    end
-
-endmodule

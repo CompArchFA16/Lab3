@@ -7,7 +7,7 @@ module control
 	output reg Branch, //AND with ALU_Zero_out to get PCSrc
 	output reg MemRead, //read data from data memory
 	output reg MemtoReg, //Mux for selecting between DataMemory_ReadData_out
-	output reg [2:0] ALUOp, //for ALU control
+	output reg [1:0] ALUOp, //for ALU control
 	output reg MemWrite, //write data to data memory
 	output reg ALUSrc, //goes to ALU control
 	output reg RegWrite 

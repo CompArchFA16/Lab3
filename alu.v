@@ -2,35 +2,40 @@ module alu(
 
   output reg [31:0] aluRes,
   output reg zero,
-  input [5:0] opcode,
-	input [31:0] a, b
+  input [2:0] alucontrol,
+  input [31:0] a, b,
+  input clk
 
 );
 
   //I don't think we need to deal with cin/cout
 
-	always @(opcode) begin
+	always @(clk) begin
     //add
-		if (opcode == 6'b10_0000) begin
+		if (alucontrol == 3'b001) begin
 			aluRes <= a + b;
 		end
 
     //sub
-    else if (opcode == 6'b10_0010) begin
+    	else if (alucontrol == 3'b010) begin
 			aluRes <= a - b;
 		end
 
     //slt
-    else if (opcode == 6'b10_1010) begin
+    	else if (alucontrol == 3'b011) begin
 			aluRes <= (a < b) ? 1 : 0;
 		end
 
     //xori
-    else if (opcode == 6'b00_1110) begin
+    	else if (alucontrol == 3'b111) begin
 			aluRes <= a ^ b;
 		end
 
-		assign zero = (a == b);
+		else begin 
+			aluRes <= 32'b0;
+		end
+
+		assign zero = ~|aluRes;
 
 	end
 endmodule

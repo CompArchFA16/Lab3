@@ -30,7 +30,7 @@ always @(posedge clk) begin
     rb_reg <= rb_addr;
 end
 
-assign ra = register[ra_reg];
-assign rb = register[rb_reg];
+assign ra = registers[ra_reg];
+assign rb = registers[rb_reg];
 
 endmodule
