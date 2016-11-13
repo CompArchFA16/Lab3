@@ -154,7 +154,7 @@ module CPU (
 
 	wire [31:0] result_WB;
 
-	mux2Input memToRegMux(
+	mux32 memToRegMux(
 		.out(result_WB),
 		.address(memToReg_WB),
 		.input0(aluOut_WB),
@@ -164,7 +164,7 @@ module CPU (
 	wire[31:0] prePC;
 	wire[31:0] pcPlus4F;
 
-	mux2Input regWriteMux(
+	mux32 regWriteMux(
 		.out(prePC),
 		.address(pcSource),
 		.input0(pcPlus4F),
