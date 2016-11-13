@@ -72,12 +72,12 @@ module registerID
     output reg [2:0]  q5,
     output reg  q6,
     output reg   q7,
-    output reg  q8,
-    output reg  q9,
-    output reg q10,
-    output reg q11,
-    output reg q12,
-    output reg q13
+    output reg [31:0] q8,
+    output reg [31:0] q9,
+    output reg [4:0] q10,
+    output reg [4:0] q11,
+    output reg [31:0] q12,
+    output reg [31:0] q13
     );
 
     always @(posedge clk) begin
@@ -97,10 +97,58 @@ module registerID
     end
 endmodule
 
+module quicktest_RID();
+wire RegWriteE;
+wire MemtoRegE;
+wire BranchE;
+wire ALUCtrlE;
+wire ALUSrcE;
+wire RegDstE;
+wire rd1e;
+wire rd2e;
+wire rtEe;
+wire rdEe;
+wire seImmee;
+wire pcplus4e;
+reg RegWriteD;
+reg MemtoRegD;
+reg MemWriteD;
+reg BranchD;
+reg ALUCtrlD;
+reg ALUSrcD;
+reg RegDstD;
+reg rd1d;
+reg rd2d;
+reg rtEd;
+reg rdEd;
+reg seImmd;
+
+
+registerID rid(RegWriteD, MemtoRegD, MemWriteD, BranchD, ALUCtrlD, ALUSrcD, RegDstD, rd1d, rd2d, rtEd, rdE , seImmd, pcplus4d, RegWriteE, MemtoRegE, MemWriteE, BranchE, ALUCtrlE, ALUSrcE, RegDstE, rd1e, rd2e, rtEe, rdEe, seImme,pcplus4e );
+
+initial begin
+RegWriteD = 1;
+MemtoRegD = 1;
+MemWriteD = 1;
+BranchD = 1;
+ALUCtrlD = 1;
+ALUSrcD = 1;
+RegDstD = 1;
+rd1d = 1;
+rd2d = 1;
+rtEd = 1;
+rdEd = 1;
+seImmd = 1111000011110000;
+pcplus4d = 32d'20;
+// $display("In: Out: "); 
+end
+
+endmodule
+
 module registerEX
 (
     input       clk,
-    input       d1, 
+    input       d1,
     input       d2,
     input       d3,
     input       d4,
@@ -137,14 +185,14 @@ module registerMEM
     input       clk,
     input       d1,
     input       d2,
-    input       d3,
-    input       d4,
-    input       d5,
+    input [31:0] d3,
+    input [31:0] d4,
+    input [4:0] d5,
     output reg  q1,
     output reg  q2,
-    output reg  q3,
-    output reg  q4,
-    output reg  q5
+    output reg [31:0] q3,
+    output reg [31:0] q4,
+    output reg [4:0] q5
     );
     always @(posedge clk) begin
             q1 = d1;
