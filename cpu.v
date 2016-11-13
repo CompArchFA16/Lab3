@@ -123,9 +123,11 @@ module CPU (
 
 
 
+  wire [31:0] shiftOut;
+
   shiftTwo the_shifting_of_two (
-    .out(signExtendOut),
-    .in(aluOperand) //RETURN TO THIS. Need wire.******
+    .out(shiftOut),
+    .in(signExtendOut)
   );
 
 
@@ -161,10 +163,13 @@ module CPU (
   );
 
 
-
-//TODO: COMPLETE OTHER BOTTOMMOST ALU.
-
-
+//The bottom-most ALU in the EX phase which does addition.
+ALU the_other_alu(
+  .result(pcBranch_EX),
+  .operandA(shiftOut),
+  .operandB(pcPlus4_EX),
+  .command(ADD) //RETURN TO THIS TO INPUT REAL ADD COMMAND. ****
+  );
 
 
 
