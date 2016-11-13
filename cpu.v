@@ -110,6 +110,9 @@ module CPU (
   reg [4:0] instruction_Rt_ID;
   reg [4:0] instruction_Rd_ID;
 
+  wire [31:0] readData1_EX;
+  wire [31:0] readData2_EX;
+
   gate_ID_EX the_gate_id_ex (
     .regWrite_EX(regWrite_EX),
     .memToReg_EX(memToReg_EX),
@@ -118,8 +121,8 @@ module CPU (
     .aLUControl_EX(aLUControl_EX),
     .aLUSrc_EX(aLUSrc_EX),
     .regDst_EX(regDst_EX),
-    .readData1Out_EX(readData1Out), // TODO: I'm pretty sure this is wrong.
-    .readData2Out_EX(readData2Out),
+    .readData1Out_EX(readData1_EX),
+    .readData2Out_EX(readData2_EX),
     .instruction_Rt_EX(instruction_Rt_EX),
     .instruction_Rd_EX(instruction_Rd_EX),
     .signExtendOut_EX(signExtendOut),
@@ -164,17 +167,16 @@ module CPU (
   mux2Input #(32, 32) alu_src_mux (
     .out(srcB_EX),
     .address(aLUSrc_EX),
-    .input0(readData2Out),
+    .input0(readData2_EX),
     .input1(signExtendOut)
   );
 
-  wire [31:0] srcA_EX;
   wire [31:0] aluOut_EX;
 
   // The uppermost ALU (labeled ALU) in the EX phase.
   ALU the_alu (
     .result(aluOut_EX), //Assuming Bonnie will declare aluOut_EX as a wire when she makes her EXMEM gate here.
-    .operandA(srcA_EX), //LEFT OUT CARRYOUT, ZERO, and OVERFLOW.
+    .operandA(readData1_EX), //LEFT OUT CARRYOUT, ZERO, and OVERFLOW.
     .operandB(srcB_EX),
     .command(aLUControl_EX)
   );
@@ -224,7 +226,7 @@ module CPU (
     .zero_EX(), // TODO: Complete.
     .aluOut_EX(aluOut_EX),
     .writeReg_EX(writeReg_EX),
-    .writeData_EX(), // TODO: Complete.
+    .writeData_EX(readData2_EX), // TODO: Complete.
     .pcBranch_EX(pcBranch_EX)
 	);
 
