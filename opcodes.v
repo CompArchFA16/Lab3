@@ -1,5 +1,8 @@
 // From: http://alumni.cs.ucr.edu/~vladimir/cs161/mips.html
 
+`ifndef _opcodes
+`define _opcodes
+
 // Arithmetic and logical.
 `define CMD_add	  6'b100000
 `define CMD_addu	6'b100001
@@ -67,3 +70,5 @@
 
 // Trap.
 `define CMD_trap	6'b011010
+
+`endif
