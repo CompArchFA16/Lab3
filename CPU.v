@@ -41,12 +41,15 @@ output pcbranch */
 EXEC executestage();
 
 //insert pipeline register
-registerEX rex(clk, RegWriteE, MemtoRegE, MemWriteE, BranchE, zeroE, aluoute, writedatae, writeregE, pcbranche, RegWriteM, MemtoRegM, MemWriteM, BranchM, zerom, aluoutm, writedataM, pcbranchM);
+registerEX rex(clk, RegWriteE, MemtoRegE, MemWriteE, BranchE, zeroE, aluoute, writedatae, writeregE, pcbranche, RegWriteM, MemtoRegM, MemWriteM, BranchM, zerom, aluoutm, writedataM, writeregM, pcbranchM);
 
 //  input clk, regWE,input[31:0] Addr,input[31:0] DataIn,output[31:0]  DataOut
 Data_memory dMem(clk, MemWriteM, aluout, writedatam, readdatam);
 
-registerMEM(); 
+//pipeline register
+registerMEM(clk, RegWriteM, MemtoRegM, aluoutm, readdataM, writeregM, RegWriteW, MemtoRegW, aluoutw, readdataW, writeRegW);
+
+
 
 //    input input1, input input2,input select,output reg out
 mux2to1 writebackmux(aluout, readdataW, MemtoRegW,ResultW);
