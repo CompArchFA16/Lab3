@@ -1,3 +1,7 @@
+[submodule "alu"]
+	path = alu
+	url = git@github.com:CompArchBDZ/Lab1.git
+
 [submodule "regfile"]
 	path = regfile
 	url = git@github.com:hdavidzhu/HW4.git
