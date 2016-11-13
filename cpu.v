@@ -1,20 +1,25 @@
 `include "opcodes.v"
+`include "gates.v"
+
+`include "gate_if_id.v"
+`include "gate_ID_EX.v"
 `include "gate_ex_mem.v"
 `include "gate_mem_wb.v"
+
 `include "datamemory.v"
-`include "mux2Input.v"
 `include "instructionmemory.v"
-`include "pcReg.v"
-`include "addFour.v"
-`include "gate_ID_EX.v"
+
+`include "control_unit.v"
+
 `define _aluAsLibrary
 `include "alu/alu.v"
-`include "gate_if_id.v"
-`include "control_unit.v"
 `define _regfileAsLibrary
 `include "regfile/regfile.v"
+
+`include "mux2Input.v"
+`include "pcReg.v" // TODO: Deprecate this into a simple register.
+`include "addFour.v"
 `include "sign_extend.v"
-`include "gates.v"
 `include "shift_two.v"
 
 module CPU (

@@ -4,9 +4,9 @@ module datamemory
 (
   output reg [31:0] dataOut,
   input             clk,
-  input [31:0]      address,
+  input      [31:0] address,
   input             writeEnable,
-  input [31:0]      dataIn
+  input      [31:0] dataIn
 );
 
   // For testing purposes, we don't need all that memory.
