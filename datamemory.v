@@ -29,3 +29,19 @@ module datamemory
     end
 
 endmodule
+
+
+// Instruction Memory
+
+module instructionMem
+(
+    input                   clk,
+    input [31: 0]           PC,
+    output reg [31:0]       instruction
+);
+    reg [31:0] instructionSet [31 :0];
+    always @(posedge clk) begin
+        instruction = instructionSet[PC];
+    end
+
+endmodule
