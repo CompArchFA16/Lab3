@@ -1,70 +1,54 @@
 // Notation Simplification for Control unit LUT Commands
-// `define LW   4'd0
-// `define SW   4'd1
-// `define J    4'd2
-// `define JR   4'd3
-// `define JAL  4'd4
-// `define BNE  4'd5
-// `define XOR  4'd6
-// `define ADD  4'd7
-// `define SUB  4'd8
-// `define SLT  4'd9
 
-`define LW       6'd8
-`define SW       6'd9
-`define J        6'd10
-`define JAL      6'd11
-`define BNE      6'd12
-`define R_type   6'd13
+// I type ops
+`define BNE      6'd05
+`define LW       6'd35
+`define SW       6'd43
 
-// Notation Simplification for ALU Commands
-`define ADD  3'd0
-`define SUB  3'd1
-`define XOR  3'd2
-`define SLT  3'd3
-`define AND  3'd4
-`define NAND 3'd5
-`define NOR  3'd6
-`define OR   3'd7
+// J type ops
+`define J        6'd2
+`define JAL      6'd3
+
+// R Type ops
+`define R_type   6'd0
+// R type functs
+`define JR       6'd8
+`define XOR      6'd38
+`define ADD      6'd32
+`define SUB      6'd34
+`define SLT      6'd42
+// other R type functs we don't use
+`define AND      6'd36
+`define NOR      6'd39
+`define OR       6'd37
 
 module controlUnitLUT // Converts the commands to a more convenient format
 (
     output reg       WrEn_Reg,
     output reg       WrEn_DM,
-    output reg       WrAddr_Reg_Mux,
+    output reg[1:0]  WrAddr_Reg_Mux,
     output reg       ALU_input,
-    output reg       ALUcommand,
-    output reg       Reg_Data_Src_Mux,
+    output reg[5:0]  ALUcommand,
+    output reg[1:0]  Reg_Data_Src_Mux,
     output reg       Jump,
-    output reg       Jump_Target_Mux,
+    output reg[1:0]  Jump_Target_Mux,
     output reg       Branch,
     input[5:0]       controlUnitCommand,
-    input[2:0]       ALUcommand
+    input[5:0]       funct
 );
 
     always @(controlUnitCommand) begin
       case (controlUnitCommand)
-        `LW:       begin WrEn_Reg = 1; WrEn_DM = 0; WrAddr_Reg_Mux = 0; ALU_input = 1; ALUcommand = `ADD; Reg_Data_Src_Mux = 'Datamem'; Jump = 0; Jump_Target_Mux = 0; Branch = 0; end
-        `SW:       begin WrEn_Reg = 0; WrEn_DM = 1; WrAddr_Reg_Mux = 0; ALU_input = 'rt'; ALUcommand = `ADD; Reg_Data_Src_Mux = 'Datamem'; Jump = 0; Jump_Target_Mux = 0; Branch = 0; end
-        `J:        begin WrEn_Reg = 1; WrEn_DM = 0; WrAddr_Reg_Mux = x; ALU_input = 'rt'; ALUcommand = `ADD; Reg_Data_Src_Mux = 'Datamem'; Jump = 0; Jump_Target_Mux = 0; Branch = 0;  end
-        `JAL:      begin WrEn_Reg = 1; WrEn_DM = 0; WrAddr_Reg_Mux = x; ALU_input = 'rt'; ALUcommand = `ADD; Reg_Data_Src_Mux = 'Datamem'; Jump = 0; Jump_Target_Mux = 0; Branch = 0; end
-        `R_type:   begin WrEn_Reg = 1; WrEn_DM = 0; WrAddr_Reg_Mux = x; ALU_input = 'rt'; ALUcommand = ALUcommand; Reg_Data_Src_Mux = 'Datamem'; Jump = 0; Jump_Target_Mux = 0; Branch = 0; end
-    endcase
+        if((controlUnitCommand == `R_type)&&(funct == `JR)) begin
+            `R_type:   begin WrEn_Reg = 0; WrEn_DM = 0; WrAddr_Reg_Mux = 0; ALU_input = 0; ALUcommand = funct;   Reg_Data_Src_Mux = 0;      Jump = 1; Jump_Target_Mux = 1; Branch = 0; end
+        end
+        else begin
+            `LW:       begin WrEn_Reg = 1; WrEn_DM = 0; WrAddr_Reg_Mux = 0; ALU_input = 0; ALUcommand = `ADD;    Reg_Data_Src_Mux = 0;      Jump = 0; Jump_Target_Mux = 0; Branch = 0; end
+            `SW:       begin WrEn_Reg = 0; WrEn_DM = 1; WrAddr_Reg_Mux = 0; ALU_input = 0; ALUcommand = `ADD;    Reg_Data_Src_Mux = 0;      Jump = 0; Jump_Target_Mux = 0; Branch = 0; end
+            `J:        begin WrEn_Reg = 0; WrEn_DM = 0; WrAddr_Reg_Mux = 0; ALU_input = 0; ALUcommand = `ADD;    Reg_Data_Src_Mux = 0;      Jump = 1; Jump_Target_Mux = 1; Branch = 0; end
+            `JAL:      begin WrEn_Reg = 1; WrEn_DM = 0; WrAddr_Reg_Mux = 0; ALU_input = 0; ALUcommand = `ADD;    Reg_Data_Src_Mux = 2'd2;   Jump = 1; Jump_Target_Mux = 1; Branch = 0; end
+            `R_type:   begin WrEn_Reg = 1; WrEn_DM = 0; WrAddr_Reg_Mux = 1; ALU_input = 1; ALUcommand = funct;   Reg_Data_Src_Mux = 1;      Jump = 0; Jump_Target_Mux = 0; Branch = 0; end
+        end
+       endcase
     end
-
-
-    // always @(controlUnitCommand) begin
-    //   case (controlUnitCommand)
-    //     `LW:   begin WrEn_Reg = 1; WrEn_DM = 0; WrAddr_Reg_Mux = 0; ALU_input = 1; ALUcommand = ADD; Reg_Data_In_Mux = 'Datamem'; Jump = 0; Jump_Target_Mux = 0; Branch = 0; end
-    //     `SW:   begin WrEn_Reg = 0; WrEn_DM = 1; WrAddr_Reg_Mux = 0; ALU_input = 'rt'; ALUcommand = ADD; Reg_Data_In_Mux = 'Datamem'; Jump = 0; Jump_Target_Mux = 0; Branch = 0; end
-    //     `J:    begin WrEn_Reg = 1; WrEn_DM = 0; WrAddr_Reg_Mux = x; ALU_input = 'rt'; ALUcommand = ADD; Reg_Data_In_Mux = 'Datamem'; Jump = 0; Jump_Target_Mux = 0; Branch = 0; end
-    //     `JR:   begin WrEn_Reg = 1; WrEn_DM = 0; WrAddr_Reg_Mux = x; ALU_input = 'rt'; ALUcommand = ADD; Reg_Data_In_Mux = 'Datamem'; Jump = 0; Jump_Target_Mux = 0; Branch = 0; end
-    //     `JAL:  begin WrEn_Reg = 1; WrEn_DM = 0; WrAddr_Reg_Mux = x; ALU_input = 'rt'; ALUcommand = ADD; Reg_Data_In_Mux = 'Datamem'; Jump = 0; Jump_Target_Mux = 0; Branch = 0; end
-    //     `BNE:  begin WrEn_Reg = 1; WrEn_DM = 0; WrAddr_Reg_Mux = x; ALU_input = 'rt'; ALUcommand = ADD; Reg_Data_In_Mux = 'Datamem'; Jump = 0; Jump_Target_Mux = 0; Branch = 0; end
-    //     `XOR:  begin WrEn_Reg = 1; WrEn_DM = 0; WrAddr_Reg_Mux = x; ALU_input = 'rt'; ALUcommand = ADD; Reg_Data_In_Mux = 'Datamem'; Jump = 0; Jump_Target_Mux = 0; Branch = 0; end
-    //     `ADD:  begin WrEn_Reg = 1; WrEn_DM = 0; WrAddr_Reg_Mux = x; ALU_input = 'rt'; ALUcommand = ADD; Reg_Data_In_Mux = 'Datamem'; Jump = 0; Jump_Target_Mux = 0; Branch = 0; end
-    //     `SUB:  begin WrEn_Reg = 1; WrEn_DM = 0; WrAddr_Reg_Mux = x; ALU_input = 'rt'; ALUcommand = ADD; Reg_Data_In_Mux = 'Datamem'; Jump = 0; Jump_Target_Mux = 0; Branch = 0; end
-    //     `SLT:  begin WrEn_Reg = 1; WrEn_DM = 0; WrAddr_Reg_Mux = x; ALU_input = 'rt'; ALUcommand = ADD; Reg_Data_In_Mux = 'Datamem'; Jump = 0; Jump_Target_Mux = 0; Branch = 0; end
-    //   endcase
-    // end
 endmodule
