@@ -219,6 +219,7 @@ module CPU (
     .clk(clk),
 		.regWrite_EX(regWrite_EX),
 		.memToReg_EX(memToReg_EX),
+    .memWrite_EX(memWrite_EX),
 		.branch_EX(branch_EX),
     .zero_EX(), // TODO: Complete.
     .aluOut_EX(aluOut_EX),
@@ -249,11 +250,12 @@ module CPU (
 	gate_MEM_WB gate_MEM_WB (
 		.regWrite_WB(regWrite_WB),
 		.memToReg_WB(memToReg_WB),
-		.regWrite_MEM(regWrite_MEM),
-		.memToReg_MEM(memToReg_MEM),
-		.aluOut_WB(aluOut_WB),
+    .aluOut_WB(aluOut_WB),
 		.readData_WB(readData_WB),
 		.writeReg_WB(writeReg_WB),
+    .clk(clk),
+		.regWrite_MEM(regWrite_MEM),
+		.memToReg_MEM(memToReg_MEM),
 		.aluOut_MEM(aluOut_MEM),
 		.readData_MEM(readData_MEM),
 		.writeReg_MEM(writeReg_MEM)
