@@ -141,16 +141,36 @@ module CPU (
   );
 
   //The right-er mux in the EX phase.
-  wire srcB_EX;
+  wire [31:0] srcB_EX;
   mux2Input the_other_mux(
     .out(srcB_EX),
     .address(aLUSrc_EX),
     .input0(readData2Out),
     .input1(signExtendOut)
-    );
+  );
 
 
-//******TODO: ALU STUFF AHHHHH*********
+
+  //The uppermost ALU (labeled ALU) in the EX phase.
+  wire [31:0] srcA_EX;
+  ALU the_alu(
+    .result(aluOut_EX), //Assuming Bonnie will declare aluOut_EX as a wire when she makes her EXMEM gate here.
+    .operandA(srcA_EX), //LEFT OUT CARRYOUT, ZERO, and OVERFLOW.
+    .operandB(srcB_EX),
+    .command(aLUControl_EX)
+  );
+
+
+
+//TODO: COMPLETE OTHER BOTTOMMOST ALU.
+
+
+
+
+
+
+
+
 
 
 
