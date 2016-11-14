@@ -20,7 +20,7 @@ Instr_memory iMem(clk, regWE, IMaddr, DataIn, DataOut);
 registerIF rif(wrenable, clk, dataout, PCaddr);
 
 /*    input clk,input [31:0] instrd,input pcplus4d,input [31:0] ResultW,input [4:0] writeRegW,input RegWriteW,output pcplus4e,output seImm,output [4:0] rte,output [4:0] rde,output [31:0] rd1,output [31:0] rd2 */
-instrDecode iDstage(clk, );
+instrDecode iDstage(clk, instr, );
 //ctrl unit here
 
 registerID rid(regwriteD, memtoregD, MemWriteD, BranchD, ALUCtrlD, ALUSrcD, RegDstD, rd1, rd2, rtE, rdE , seImm, pcplus4d, RegWriteE, MemtoRegE, MemWriteE, BranchE, ALUCtrlE, ALUSrcE, RegDstE, rd1e, rd2e, rtEe, rdEe, seImme,pcplus4e );
@@ -48,8 +48,6 @@ Data_memory dMem(clk, MemWriteM, aluout, writedatam, readdatam);
 
 //pipeline register
 registerMEM(clk, RegWriteM, MemtoRegM, aluoutm, readdataM, writeregM, RegWriteW, MemtoRegW, aluoutw, readdataW, writeRegW);
-
-
 
 //    input input1, input input2,input select,output reg out
 mux2to1 writebackmux(aluout, readdataW, MemtoRegW,ResultW);
