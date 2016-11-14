@@ -6,9 +6,7 @@
 `include "gate_EX_MEM.v"
 `include "gate_MEM_WB.v"
 
-`include "datamemory.v"
-`include "instructionmemory.v" // TODO: Deprecate.
-
+`include "ram.v"
 `include "control_unit.v"
 
 `define _aluAsLibrary
@@ -28,21 +26,50 @@ module CPU (
   input  [31:0] instruction
 );
 
-  // PRECURSORS ================================================================
-
-  wire [4:0]  writeReg_WB;
-  wire [31:0] result_WB;
-  wire        regWrite_WB;
-
   // IF - Instruction Fetch ====================================================
 
+  wire [31:0] prePC;
+  wire [31:0] pc_IF;
+  wire [31:0] pcPlus4_IF;
   wire [31:0] instruction_IF;
-  wire        pcPlus4_IF;
+  wire [31:0] pcBranch_MEM;
+  wire        pcSource;
+
+	mux32 addressChoice (
+		.out(prePC),
+		.address(pcSource),
+		.input0(pcPlus4_IF),
+		.input1(pcBranch_MEM)
+	);
+
+	pcReg pcReg (
+		.clk(clk),
+		.pc(pc_IF),
+		.prePC(prePC)
+	);
+
+  // TODO: Deprecate into the same memory.
+  RAM instruction_memory (
+    .dataOut(instruction_IF),
+    .clk(clk),
+    .address(pc_IF),
+    .writeEnable(1'b0),
+    .dataIn(32'b0)
+  );
+
+	addFour addFour (
+		.clk(clk),
+		.pcPlus4F(pcPlus4_IF),
+		.pc(pc_IF)
+	);
 
   // ID - Instruction Decode ===================================================
 
   wire [31:0] instruction_ID;
   wire        pcPlus4_ID;
+  wire [4:0]  writeReg_WB;
+  wire [31:0] result_WB;
+  wire        regWrite_WB;
 
   gate_IF_ID the_gate_If_ID (
     .instruction_ID(instruction_ID),
@@ -192,7 +219,7 @@ module CPU (
     .command(3'b100) // Is this the add command we want? ****
   );
 
-	// MEM - Memory Access ====================================================
+	// MEM - Memory Access =======================================================
 
 	wire regWrite_MEM;
 	wire memToReg_MEM;
@@ -203,9 +230,6 @@ module CPU (
 	wire [31:0] aluOut_MEM;
 	wire [31:0] writeData_MEM;
 	wire [4:0]  writeReg_MEM;
-	wire [31:0] pcBranch_MEM;
-
-	wire pcSource;
 
 	// TODO: add EX wires as inputs
 	gate_EX_MEM gate_EX_MEM (
@@ -234,7 +258,7 @@ module CPU (
 
 	wire [31:0] readData_MEM;
 
-	datamemory datamemory (
+	RAM data_memory (
 		.clk(clk),
 		.dataOut(readData_MEM),
 		.address(aluOut_MEM),
@@ -242,7 +266,7 @@ module CPU (
 		.dataIn(writeData_MEM)
 	);
 
-	// WB - Register Write Back ====================================================
+	// WB - Register Write Back ==================================================
 
 	wire memToReg_WB;
 
@@ -270,36 +294,4 @@ module CPU (
 		.input1(readData_WB)
 	);
 
-	wire[31:0] prePC;
-	wire[31:0] pcPlus4F;
-
-	mux32 regWriteMux (
-		.out(prePC),
-		.address(pcSource),
-		.input0(pcPlus4F),
-		.input1(pcBranch_MEM)
-	);
-
-	pcReg pcReg (
-		.clk(clk),
-		.pc(pc),
-		.prePC(prePC)
-	);
-
-	addFour addFour (
-		.clk(clk),
-		.pcPlus4F(pcPlus4F),
-		.pc(pc)
-	);
-
-	wire[31:0] instructionMemOut;
-
-	instructionmemory instrmem (
-		.clk(clk),
-		.address(pc),
-		.dataOut(instructionMemOut)
-	);
-
-  // MEM - Data Memory =========================================================
-  // WB - Writeback ============================================================
 endmodule
