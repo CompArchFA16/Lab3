@@ -16,21 +16,21 @@ module controlUnit (
   always @(op) begin
     case (op)
       `CMD_lw: begin
-        regWrite_ID   <= 0;
-        memToReg_ID   <= 0;
-        memWrite_ID   <= 0;
-        branch_ID     <= 0;
-        aluControl_ID <= 0;
-        aluSrc_ID     <= 0;
-        regDst_ID     <= 0;
-      end
+          regWrite_ID   <= 1;
+          memToReg_ID   <= 1;
+          memWrite_ID   <= 0;
+          branch_ID     <= 0;
+          aluControl_ID <= 000;
+          aluSrc_ID     <= 1;
+          regDst_ID     <= 0;
+        end
       `CMD_sw: begin
         regWrite_ID   <= 0;
         memToReg_ID   <= 0;
-        memWrite_ID   <= 0;
+        memWrite_ID   <= 1;
         branch_ID     <= 0;
-        aluControl_ID <= 0;
-        aluSrc_ID     <= 0;
+        aluControl_ID <= 000;
+        aluSrc_ID     <= 1;
         regDst_ID     <= 0;
       end
       `CMD_j: begin
@@ -75,13 +75,13 @@ module controlUnit (
         regDst_ID     <= 0;
       end
       `CMD_xori: begin
-        regWrite_ID   <= 0;
+        regWrite_ID   <= 1;
         memToReg_ID   <= 0;
         memWrite_ID   <= 0;
         branch_ID     <= 0;
-        aluControl_ID <= 0;
-        aluSrc_ID     <= 0;
-        regDst_ID     <= 0;
+        aluControl_ID <= 010;
+        aluSrc_ID     <= 1;
+        regDst_ID     <= 1;
       end
       `CMD_add: begin
         regWrite_ID   <= 0;
