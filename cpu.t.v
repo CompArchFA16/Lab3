@@ -10,19 +10,42 @@ module testCPU ();
   // INIT ======================================================================
 
   reg clk;
+  reg resetPC;
+  reg isFeeding;
+
+  reg [31:0] testToMemAddress;
+  reg [31:0] testToMemData;
+  reg        testToMemWriteEnable;
 
   wire [31:0] cpuToMemAddress;
   wire [31:0] cpuToMemData;
   wire        cpuToMemWriteEnable;
+
+  wire [31:0] toggleToMemAddress;
+  wire [31:0] toggleToMemData;
+  wire        toggleToMemWriteEnable;
 
   wire [31:0] dataMemOut;
 
   mockDataMemory dataMem (
     .out(dataMemOut),
     .clk(clk),
-    .address(cpuToMemAddress),
-    .in(cpuToMemData),
-    .writeEnable(cpuToMemWriteEnable)
+    .address(toggleToMemAddress),
+    .in(toggleToMemData),
+    .writeEnable(toggleToMemWriteEnable)
+  );
+
+  dataMemInputToggle inputToggle (
+    .toMemAddress(toggleToMemAddress),
+    .toMemWriteData(toggleToMemData),
+    .toMemWriteEnable(toggleToMemWriteEnable),
+    .isFeeding(isFeeding),
+    .addressFromCPU(cpuToMemAddress),
+    .dataFromCPU(cpuToMemData),
+    .writeEnableFromCPU(cpuToMemWriteEnable),
+    .addressFromTest(testToMemAddress),
+    .dataFromTest(testToMemData),
+    .writeEnableFromTest(testToMemWriteEnable)
   );
 
   // DUT.
@@ -31,22 +54,24 @@ module testCPU ();
     .toMemData(cpuToMemData),
     .toMemWriteEnable(cpuToMemWriteEnable),
     .clk(clk),
-    .fromMemData(dataMemOut)
+    .fromMemData(dataMemOut),
+    .resetPC(resetPC)
   );
 
   // HELPERS ===================================================================
+
+  reg dutPassed;
 
   // Registers.
   reg [4:0] rS;
   reg [4:0] rT;
   reg [4:0] rD;
+  reg [4:0] expected_rT;
   reg [4:0] expected_rD;
 
-  reg        dutPassed;
   reg [25:0] jumpTarget;
   reg [15:0] imm;
-
-  reg [5:0] expected_rT;
+  reg [31:0] instruction;
 
   task completeInstructionCycle;
     begin
@@ -71,7 +96,20 @@ module testCPU ();
 
     rS = `R_S0; // datamem address to load from
     rT = `R_S1; // register to load into <- value lives here
-    // instruction = { `CMD_lw, rS, rT, 16'b0 };
+    instruction = { `CMD_lw, rS, rT, 16'b0 };
+
+    // Setup...
+    // build the instruction(s)...
+    // load the test data
+    // reset the CPU
+
+    // Test...
+    // run the CPU
+
+    // check result...
+    // request data from the data_memory
+    // check output, if correct, test passes.
+
     completeInstructionCycle();
 
     // dataMemAddr =  32'd7;
@@ -242,4 +280,29 @@ module mockDataMemory (
 			out <= 32'd3;
 		end
 	end
+endmodule
+
+module dataMemInputToggle (
+  output reg [31:0] toMemAddress,
+  output reg [31:0] toMemWriteData,
+  output reg        toMemWriteEnable,
+  input        isFeeding,
+  input [31:0] addressFromCPU,
+  input [31:0] dataFromCPU,
+  input        writeEnableFromCPU,
+  input [31:0] addressFromTest,
+  input [31:0] dataFromTest,
+  input        writeEnableFromTest
+);
+  always @ (isFeeding) begin
+    if (isFeeding) begin
+      toMemAddress     <= addressFromTest;
+      toMemWriteData   <= dataFromCPU;
+      toMemWriteEnable <= writeEnableFromTest;
+    end else begin
+      toMemAddress     <= addressFromCPU;
+      toMemWriteData   <= dataFromCPU;
+      toMemWriteEnable <= writeEnableFromCPU;
+    end
+  end
 endmodule

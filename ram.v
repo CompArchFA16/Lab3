@@ -7,7 +7,7 @@ module RAM (
 );
 
   // For testing purposes, we don't need all that memory.
-  reg [31:0] memory [(2**10)- 1:0];
+  reg [31:0] memory [(2**10)-1:0];
 
   assign dataOut = memory[address];
   always @(posedge clk) begin

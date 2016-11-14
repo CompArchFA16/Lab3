@@ -27,7 +27,8 @@ module CPU (
   output [31:0] toMemData,
   output        toMemWriteEnable,
   input         clk,
-  input  [31:0] fromMemData
+  input  [31:0] fromMemData,
+  input         resetPC
 );
 
   // IF - Instruction Fetch ====================================================
@@ -52,7 +53,8 @@ module CPU (
   dff #(32) pcDFF (
     .out(pc_IF),
     .clk(clk),
-    .in(prePC)
+    .in(prePC),
+    .reset(resetPC)
   );
 
   // TODO: Deprecate into the same memory.
