@@ -1,3 +1,5 @@
+`include "instrFetch.v"
+
 module quicktestIFU();
 reg [31:0] instr;
 wire [5:0] Op;
