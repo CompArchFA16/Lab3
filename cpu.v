@@ -1,24 +1,27 @@
-`include "opcodes.v"
+// Basics.
 `include "gates.v"
-
-`include "gate_IF_ID.v"
-`include "gate_ID_EX.v"
-`include "gate_EX_MEM.v"
-`include "gate_MEM_WB.v"
-
-`include "ram.v"
-`include "control_unit.v"
-
-`define _aluAsLibrary
-`include "alu/alu.v"
-`define _regfileAsLibrary
-`include "regfile/regfile.v"
-
 `include "dff.v"
 `include "mux_2.v"
 `include "addFour.v"
 `include "sign_extend.v"
 `include "shift_two.v"
+
+// Pipeline gates.
+`include "gate_IF_ID.v"
+`include "gate_ID_EX.v"
+`include "gate_EX_MEM.v"
+`include "gate_MEM_WB.v"
+
+// Controls.
+`include "opcodes.v"
+`include "control_unit.v"
+
+// Large components.
+`define _aluAsLibrary
+`include "alu/alu.v"
+`define _regfileAsLibrary
+`include "regfile/regfile.v"
+`include "ram.v"
 
 module CPU (
   output [31:0] pc,
