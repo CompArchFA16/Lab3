@@ -20,7 +20,7 @@ Memory layout requirements:
 
 Instructions used outside basic required subset? 
 
-None. The instructions used are only lw, sw, add, addi, bne, and la.
+We used addi and la, which are add immediate and load address, respectively. The instructions used overall were lw, sw, add, addi, bne, and la.
 
 Submit the test program and README by submitting a pull request to the main course repository. Code should be in `/asmtest/<your-team-name>/` (you may use subfolders if you submit multiple tests).
 
