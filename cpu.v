@@ -82,7 +82,9 @@ module CPU (
   gate_IF_ID the_gate_IF_ID (
     .instruction_ID(instruction_ID),
     .pcPlus4_ID(pcPlus4_ID),
+
     .clk(clk),
+
     .instruction_IF(instruction_IF),
     .pcPlus4_IF(pcPlus4_IF)
   );
@@ -149,7 +151,7 @@ module CPU (
   wire [31:0] signImm_EX;
   wire [31:0] pcPlus4_EX;
 
-  gate_ID_EX the_gate_id_ex (
+  gate_ID_EX the_gate_ID_EX (
     .regWrite_EX(regWrite_EX),
     .memToReg_EX(memToReg_EX),
     .memWrite_EX(memWrite_EX),
@@ -219,8 +221,8 @@ module CPU (
 
   // The uppermost ALU (labeled ALU) in the EX phase.
   ALU the_alu (
-    .result(aluOut_EX), //Assuming Bonnie will declare aluOut_EX as a wire when she makes her EXMEM gate here.
-    .operandA(readData1_EX), //LEFT OUT CARRYOUT, ZERO, and OVERFLOW.
+    .result(aluOut_EX),
+    .operandA(readData1_EX),
     .operandB(srcB_EX),
     .command(aluControl_EX)
   );
@@ -238,36 +240,41 @@ module CPU (
 
 	// MEM - Memory Access =======================================================
 
+  // Controls.
 	wire regWrite_MEM;
 	wire memToReg_MEM;
 	wire memWrite_MEM;
 	wire branch_MEM;
 
-	wire zero_MEM;
+  // Data.
+	wire        zero_MEM;
 	wire [31:0] aluOut_MEM;
 	wire [31:0] writeData_MEM;
 	wire [4:0]  writeReg_MEM;
 
-	// TODO: add EX wires as inputs
 	gate_EX_MEM gate_EX_MEM (
 		.regWrite_MEM(regWrite_MEM),
 		.memToReg_MEM(memToReg_MEM),
 		.memWrite_MEM(memWrite_MEM),
 		.branch_MEM(branch_MEM),
+
     .zero_MEM(zero_MEM),
     .aluOut_MEM(aluOut_MEM),
     .writeData_MEM(writeData_MEM),
     .writeReg_MEM(writeReg_MEM),
     .pcBranch_MEM(pcBranch_MEM),
+
     .clk(clk),
+
 		.regWrite_EX(regWrite_EX),
 		.memToReg_EX(memToReg_EX),
     .memWrite_EX(memWrite_EX),
 		.branch_EX(branch_EX),
+
     .zero_EX(), // TODO: Complete.
     .aluOut_EX(aluOut_EX),
     .writeReg_EX(writeReg_EX),
-    .writeData_EX(readData2_EX), // TODO: Complete.
+    .writeData_EX(readData2_EX),
     .pcBranch_EX(pcBranch_EX)
 	);
 
@@ -276,8 +283,8 @@ module CPU (
 	wire [31:0] readData_MEM;
 
 	RAM data_memory (
-		.clk(clk),
 		.dataOut(readData_MEM),
+    .clk(clk),
 		.address(aluOut_MEM),
 		.writeEnable(memWrite_MEM),
 		.dataIn(writeData_MEM)
@@ -285,18 +292,23 @@ module CPU (
 
 	// WB - Register Write Back ==================================================
 
+  // Controls.
 	wire memToReg_WB;
 
+  // Data.
 	wire [31:0] aluOut_WB;
 	wire [31:0] readData_WB;
 
-	gate_MEM_WB gate_MEM_WB (
+	gate_MEM_WB my_gate_MEM_WB (
 		.regWrite_WB(regWrite_WB),
 		.memToReg_WB(memToReg_WB),
+
     .aluOut_WB(aluOut_WB),
 		.readData_WB(readData_WB),
-		.writeReg_WB(writeReg_WB),
+    .writeReg_WB(writeReg_WB),
+
     .clk(clk),
+    
 		.regWrite_MEM(regWrite_MEM),
 		.memToReg_MEM(memToReg_MEM),
 		.aluOut_MEM(aluOut_MEM),
