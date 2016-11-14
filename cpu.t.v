@@ -221,6 +221,7 @@ module testCPU ();
       dutPassed = 0;
     end
 
+    $display("Has CPU tests passed? %b", dutPassed);
     $finish;
   end
 endmodule
