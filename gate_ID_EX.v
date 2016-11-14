@@ -4,8 +4,8 @@ module gate_ID_EX (
   output reg        memToReg_EX,
   output reg        memWrite_EX,
   output reg        branch_EX,
-  output reg [2:0]  aLUControl_EX,
-  output reg        aLUSrc_EX,
+  output reg [2:0]  aluControl_EX,
+  output reg        aluSrc_EX,
   output reg        regDst_EX,
   output reg [31:0] readData1Out_EX,
   output reg [31:0] readData2Out_EX,
@@ -18,8 +18,8 @@ module gate_ID_EX (
   input             memToReg_ID,
   input             memWrite_ID,
   input             branch_ID,
-  input             aLUControl_ID,
-  input             aLUSrc_ID,
+  input             aluControl_ID,
+  input             aluSrc_ID,
   input             regDst_ID,
   input      [31:0] readData1Out_ID,
   input      [31:0] readData2Out_ID,
@@ -33,8 +33,8 @@ module gate_ID_EX (
     memToReg_EX      <= memToReg_ID;
     memWrite_EX      <= memWrite_ID;
     branch_EX        <= branch_ID;
-    aLUControl_EX    <= aLUControl_ID;
-    aLUSrc_EX        <= aLUSrc_ID;
+    aluControl_EX    <= aluControl_ID;
+    aluSrc_EX        <= aluSrc_ID;
     regDst_EX        <= regDst_ID;
     readData1Out_EX  <= readData1Out_ID;
     readData2Out_EX  <= readData2Out_ID;
