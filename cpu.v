@@ -48,6 +48,15 @@ module CPU (
 		.prePC(prePC)
 	);
 
+  // TODO: Deprecate into the same memory.
+  RAM instruction_memory (
+    .dataOut(instruction_IF),
+    .clk(clk),
+    .address(pc_IF),
+    .writeEnable(1'b0),
+    .dataIn(32'b0)
+  );
+
 	addFour addFour (
 		.clk(clk),
 		.pcPlus4F(pcPlus4_IF),
@@ -249,7 +258,7 @@ module CPU (
 
 	wire [31:0] readData_MEM;
 
-	RAM my_ram (
+	RAM data_memory (
 		.clk(clk),
 		.dataOut(readData_MEM),
 		.address(aluOut_MEM),
@@ -257,7 +266,7 @@ module CPU (
 		.dataIn(writeData_MEM)
 	);
 
-	// WB - Register Write Back ====================================================
+	// WB - Register Write Back ==================================================
 
 	wire memToReg_WB;
 
