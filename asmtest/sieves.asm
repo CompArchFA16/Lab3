@@ -1,4 +1,5 @@
 # Sieves Algorithm
+## Prime Number Generator
 
 # Main start
 xori $a0, $zero, 30 # $a0 is the top prime to go to
@@ -70,11 +71,8 @@ markMemory:
 jumpBack:
 jr $ra
 
-
-
 # Done with the program
 end:
-
 
 .data
 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
