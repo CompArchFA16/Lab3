@@ -15,7 +15,7 @@
 `include "regfile/regfile.v"
 
 `include "dff.v"
-`include "mux2Input.v"
+`include "mux_2.v"
 `include "addFour.v"
 `include "sign_extend.v"
 `include "shift_two.v"
@@ -35,7 +35,7 @@ module CPU (
   wire [31:0] pcBranch_MEM;
   wire        pcSource;
 
-	mux32 addressChoice (
+	mux_2 #(32) addressChoice (
 		.out(prePC),
 		.address(pcSource),
 		.input0(pcPlus4_IF),
@@ -181,7 +181,7 @@ module CPU (
   wire [4:0] writeReg_EX;
 
   //The leftmost mux in the EX phase.
-  mux2Input #(5, 5) the_mux (
+  mux_2 #(5) the_mux (
     .out(writeReg_EX),
     .address(regDst_EX),
     .input0(instruction_Rt_EX),
@@ -191,7 +191,7 @@ module CPU (
   wire [31:0] srcB_EX;
 
   // The right-er mux in the EX phase.
-  mux2Input #(32, 32) alu_src_mux (
+  mux_2 #(32) alu_src_mux (
     .out(srcB_EX),
     .address(aLUSrc_EX),
     .input0(readData2_EX),
@@ -287,7 +287,7 @@ module CPU (
 		.writeReg_MEM(writeReg_MEM)
 	);
 
-	mux32 memToRegMux (
+	mux_2 #(32) memToRegMux (
 		.out(result_WB),
 		.address(memToReg_WB),
 		.input0(aluOut_WB),
