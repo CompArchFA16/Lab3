@@ -41,18 +41,18 @@ module CPU (
   wire [31:0] pcPlus4_IF;
   wire [31:0] instruction_IF;
 
-	mux_2 #(32) pcChoice (
-		.out(prePC),
-		.address(pcSource),
-		.input0(pcPlus4_IF),
-		.input1(pcBranch_MEM)
-	);
+  mux_2 #(32) pcChoice (
+    .out(prePC),
+    .address(pcSource),
+    .input0(pcPlus4_IF),
+    .input1(pcBranch_MEM)
+  );
 
-	dff #(32) pcDFF (
-		.out(pc_IF),
+  dff #(32) pcDFF (
+    .out(pc_IF),
     .clk(clk),
-		.in(prePC)
-	);
+    .in(prePC)
+  );
 
   // TODO: Deprecate into the same memory.
   RAM instruction_memory (
@@ -63,11 +63,11 @@ module CPU (
     .dataIn(32'b0)
   );
 
-	addFour addFour (
-		.pcPlus4F(pcPlus4_IF),
+  addFour addFour (
+    .pcPlus4F(pcPlus4_IF),
     .clk(clk),
-		.pc(pc_IF)
-	);
+    .pc(pc_IF)
+  );
 
   // ID - Instruction Decode ===================================================
 
@@ -238,13 +238,13 @@ module CPU (
     .command(3'b100) // TODO: Use the correct command.
   );
 
-	// MEM - Memory Access =======================================================
+  // MEM - Memory Access =======================================================
 
   // Controls.
-	wire regWrite_MEM;
-	wire memToReg_MEM;
-	wire memWrite_MEM;
-	wire branch_MEM;
+  wire regWrite_MEM;
+  wire memToReg_MEM;
+  wire memWrite_MEM;
+  wire branch_MEM;
 
   // Data.
 	wire        zero_MEM;
@@ -276,50 +276,48 @@ module CPU (
     .writeReg_EX(writeReg_EX),
     .writeData_EX(readData2_EX),
     .pcBranch_EX(pcBranch_EX)
-	);
+  );
 
-	`AND (pcSource, branch_MEM, zero_MEM);
+  `AND (pcSource, branch_MEM, zero_MEM);
 
-	wire [31:0] readData_MEM;
+  wire [31:0] readData_MEM;
 
-	RAM data_memory (
-		.dataOut(readData_MEM),
+  RAM data_memory (
+    .dataOut(readData_MEM),
     .clk(clk),
-		.address(aluOut_MEM),
-		.writeEnable(memWrite_MEM),
-		.dataIn(writeData_MEM)
-	);
+    .address(aluOut_MEM),
+    .writeEnable(memWrite_MEM),
+    .dataIn(writeData_MEM)
+  );
 
-	// WB - Register Write Back ==================================================
+  // WB - Register Write Back ==================================================
 
   // Controls.
-	wire memToReg_WB;
+  wire memToReg_WB;
 
   // Data.
-	wire [31:0] aluOut_WB;
-	wire [31:0] readData_WB;
+  wire [31:0] aluOut_WB;
+  wire [31:0] readData_WB;
 
-	gate_MEM_WB my_gate_MEM_WB (
-		.regWrite_WB(regWrite_WB),
-		.memToReg_WB(memToReg_WB),
-
+  gate_MEM_WB my_gate_MEM_WB (
+    .regWrite_WB(regWrite_WB),
+    .memToReg_WB(memToReg_WB),
     .aluOut_WB(aluOut_WB),
-		.readData_WB(readData_WB),
+    .readData_WB(readData_WB),
     .writeReg_WB(writeReg_WB),
-
     .clk(clk),
     
-		.regWrite_MEM(regWrite_MEM),
-		.memToReg_MEM(memToReg_MEM),
-		.aluOut_MEM(aluOut_MEM),
-		.readData_MEM(readData_MEM),
-		.writeReg_MEM(writeReg_MEM)
-	);
+    .regWrite_MEM(regWrite_MEM),
+    .memToReg_MEM(memToReg_MEM),
+    .aluOut_MEM(aluOut_MEM),
+    .readData_MEM(readData_MEM),
+    .writeReg_MEM(writeReg_MEM)
+  );
 
-	mux_2 #(32) memToRegMux (
-		.out(result_WB),
-		.address(memToReg_WB),
-		.input0(aluOut_WB),
-		.input1(readData_WB)
-	);
+  mux_2 #(32) memToRegMux (
+    .out(result_WB),
+    .address(memToReg_WB),
+    .input0(aluOut_WB),
+    .input1(readData_WB)
+  );
 endmodule
