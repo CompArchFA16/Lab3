@@ -2,6 +2,7 @@
 // Resources:
 // - MIPS instructions: http://www.mrc.uidaho.edu/mrc/people/jff/digital/MIPSir.html
 
+`include "reg_addr.v"
 `include "cpu.v"
 
 module testCPU ();
@@ -68,8 +69,8 @@ module testCPU ();
     // RTL:
     //   $t = MEM [$s + i]:4
 
-    rT = 5'b0; // register to load into <- value lives here
-    rS = 5'b1; // datamem address to load from
+    rS = `R_S0; // datamem address to load from
+    rT = `R_S1; // register to load into <- value lives here
     // instruction = { `CMD_lw, rS, rT, 16'b0 };
     completeInstructionCycle();
 
