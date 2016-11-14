@@ -14,8 +14,8 @@
 `define _regfileAsLibrary
 `include "regfile/regfile.v"
 
+`include "dff.v"
 `include "mux2Input.v"
-`include "pcReg.v" // TODO: Deprecate this into a simple register.
 `include "addFour.v"
 `include "sign_extend.v"
 `include "shift_two.v"
@@ -42,10 +42,10 @@ module CPU (
 		.input1(pcBranch_MEM)
 	);
 
-	pcReg pcReg (
-		.clk(clk),
-		.pc(pc_IF),
-		.prePC(prePC)
+	dff #(32) pcDFF (
+		.out(pc_IF),
+    .clk(clk),
+		.in(prePC)
 	);
 
   // TODO: Deprecate into the same memory.
@@ -293,5 +293,4 @@ module CPU (
 		.input0(aluOut_WB),
 		.input1(readData_WB)
 	);
-
 endmodule
