@@ -1,7 +1,6 @@
 // Source: Lab 2 datamemory.v
 
-module datamemory
-(
+module RAM (
   output reg [31:0] dataOut,
   input             clk,
   input      [31:0] address,
@@ -10,7 +9,7 @@ module datamemory
 );
 
   // For testing purposes, we don't need all that memory.
-  reg [31:0] memory [(2**25)-1:0];
+  reg [31:0] memory [2**25 - 1:0];
 
   always @(posedge clk) begin
       if(writeEnable) begin
