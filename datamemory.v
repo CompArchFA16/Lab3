@@ -4,12 +4,13 @@ module datamemory
 (
   output reg [31:0] dataOut,
   input             clk,
-  input [31:0]      address,
+  input      [31:0] address,
   input             writeEnable,
-  input [31:0]      dataIn
+  input      [31:0] dataIn
 );
 
-  reg [31:0] memory [(2**31)-1:0];
+  // For testing purposes, we don't need all that memory.
+  reg [31:0] memory [(2**25)-1:0];
 
   always @(posedge clk) begin
       if(writeEnable) begin

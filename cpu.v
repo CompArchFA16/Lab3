@@ -1,26 +1,38 @@
 `include "opcodes.v"
-`include "gate_ex_mem.v"
-`include "gate_mem_wb.v"
-`include "datamemory.v"
-`include "mux2Input.v"
-`include "instructionmemory.v"
-`include "pcReg.v"
-`include "addFour.v"
+`include "gates.v"
+
+`include "gate_IF_ID.v"
 `include "gate_ID_EX.v"
+`include "gate_EX_MEM.v"
+`include "gate_MEM_WB.v"
+
+`include "datamemory.v"
+`include "instructionmemory.v" // TODO: Deprecate.
+
+`include "control_unit.v"
+
 `define _aluAsLibrary
 `include "alu/alu.v"
-`include "gate_if_id.v"
-`include "control_unit.v"
 `define _regfileAsLibrary
 `include "regfile/regfile.v"
+
+`include "mux2Input.v"
+`include "pcReg.v" // TODO: Deprecate this into a simple register.
+`include "addFour.v"
 `include "sign_extend.v"
-`include "gates.v"
+`include "shift_two.v"
 
 module CPU (
   output [31:0] pc,
   input         clk,
   input  [31:0] instruction
 );
+
+  // PRECURSORS ================================================================
+
+  wire [4:0]  writeReg_WB;
+  wire [31:0] result_WB;
+  wire        regWrite_WB;
 
   // IF - Instruction Fetch ====================================================
 
@@ -67,11 +79,11 @@ module CPU (
     .ReadData1(readData1Out),
     .ReadData2(readData2Out),
     .Clk(clk),
-    .WriteData(), // TODO: Complete.
+    .WriteData(result_WB),
     .ReadRegister1(instruction_ID[25:21]),
     .ReadRegister2(instruction_ID[20:16]),
-    .WriteRegister(), // TODO: Complete.
-    .RegWrite() // TODO: Complete.
+    .WriteRegister(writeReg_WB),
+    .RegWrite(regWrite_WB)
   );
 
   wire [31:0] signExtendOut;
@@ -83,31 +95,34 @@ module CPU (
   );
 
   // EX - Execute ==============================================================
-  wire      pcPlus4_EX;
-  wire      regWrite_EX;
-  wire      memtoReg_EX;
-  wire      memWrite_EX;
-  wire      branch_EX;
-  wire[2:0] aLUControl_EX;
-  wire      aLUSrc_EX;
-  wire      regDst_EX;
-  wire[4:0] instruction_Rt_EX;
-  wire[4:0] instruction_Rd_EX;
+
+  wire [31:0] pcPlus4_EX;
+  wire        regWrite_EX;
+  wire        memToReg_EX;
+  wire        memWrite_EX;
+  wire        branch_EX;
+  wire [2:0]  aLUControl_EX;
+  wire        aLUSrc_EX;
+  wire        regDst_EX;
+  wire[4:0]   instruction_Rt_EX;
+  wire[4:0]   instruction_Rd_EX;
 
   reg [4:0] instruction_Rt_ID;
   reg [4:0] instruction_Rd_ID;
 
+  wire [31:0] readData1_EX;
+  wire [31:0] readData2_EX;
 
   gate_ID_EX the_gate_id_ex (
     .regWrite_EX(regWrite_EX),
-    .memtoReg_EX(memtoReg_EX),
+    .memToReg_EX(memToReg_EX),
     .memWrite_EX(memWrite_EX),
     .branch_EX(branch_EX),
     .aLUControl_EX(aLUControl_EX),
     .aLUSrc_EX(aLUSrc_EX),
     .regDst_EX(regDst_EX),
-    .readData1Out_EX(readData1Out),
-    .readData2Out_EX(readData2Out),
+    .readData1Out_EX(readData1_EX),
+    .readData2Out_EX(readData2_EX),
     .instruction_Rt_EX(instruction_Rt_EX),
     .instruction_Rd_EX(instruction_Rd_EX),
     .signExtendOut_EX(signExtendOut),
@@ -128,58 +143,54 @@ module CPU (
     .pcPlus4_ID(pcPlus4_EX)
   );
 
-
-
   wire [31:0] shiftOut;
 
   shiftTwo the_shifting_of_two (
     .out(shiftOut),
+    .clk(clk),
     .in(signExtendOut)
   );
 
-
-
-  wire writeReg_EX;
+  wire [4:0] writeReg_EX;
 
   //The leftmost mux in the EX phase.
-  mux2Input the_mux(
+  mux2Input #(5, 5) the_mux (
     .out(writeReg_EX),
     .address(regDst_EX),
     .input0(instruction_Rt_EX),
     .input1(instruction_Rd_EX)
   );
 
-  //The right-er mux in the EX phase.
   wire [31:0] srcB_EX;
-  mux2Input the_other_mux(
+
+  // The right-er mux in the EX phase.
+  mux2Input #(32, 32) alu_src_mux (
     .out(srcB_EX),
     .address(aLUSrc_EX),
-    .input0(readData2Out),
+    .input0(readData2_EX),
     .input1(signExtendOut)
   );
 
+  wire [31:0] aluOut_EX;
 
-
-  //The uppermost ALU (labeled ALU) in the EX phase.
-  wire [31:0] srcA_EX;
-  ALU the_alu(
+  // The uppermost ALU (labeled ALU) in the EX phase.
+  ALU the_alu (
     .result(aluOut_EX), //Assuming Bonnie will declare aluOut_EX as a wire when she makes her EXMEM gate here.
-    .operandA(srcA_EX), //LEFT OUT CARRYOUT, ZERO, and OVERFLOW.
+    .operandA(readData1_EX), //LEFT OUT CARRYOUT, ZERO, and OVERFLOW.
     .operandB(srcB_EX),
     .command(aLUControl_EX)
   );
 
+  wire [31:0] pcBranch_EX;
 
-//The bottom-most ALU in the EX phase which does addition.
-ALU the_other_alu(
-  .result(pcBranch_EX),
-  .operandA(shiftOut),
-  .operandB(pcPlus4_EX),
-  .command(6'b100000) //Is this the add command we want? ****
+  // The bottom-most ALU in the EX phase which does addition.
+  // TODO: Having an ALU over here is so overkill.
+  ALU full_adder (
+    .result(pcBranch_EX),
+    .operandA(shiftOut),
+    .operandB(pcPlus4_EX),
+    .command(3'b100) // Is this the add command we want? ****
   );
-
-
-
 
 	// MEM - Memory Access ====================================================
 
@@ -191,38 +202,39 @@ ALU the_other_alu(
 	wire zero_MEM;
 	wire [31:0] aluOut_MEM;
 	wire [31:0] writeData_MEM;
-	wire writeReg_MEM;
+	wire [4:0]  writeReg_MEM;
 	wire [31:0] pcBranch_MEM;
 
 	wire pcSource;
 
 	// TODO: add EX wires as inputs
 	gate_EX_MEM gate_EX_MEM (
-		.clk(clk),
 		.regWrite_MEM(regWrite_MEM),
 		.memToReg_MEM(memToReg_MEM),
 		.memWrite_MEM(memWrite_MEM),
 		.branch_MEM(branch_MEM),
-		.regWrite_EX(),
-		.memToReg_EX(),
-		.branch_EX(),
-		.zero_MEM(zero_MEM),
-		.aluOut_MEM(aluOut_MEM),
-		.writeData_MEM(writeData_MEM),
-		.writeReg_MEM(writeReg_MEM),
-		.pcBranch_MEM(pcBranch_MEM),
-		.zero_EX(),
-		.aluOut_EX(),
-		.writeReg_EX(),
-		.writeData_EX(),
-		.pcBranch_EX()
+    .zero_MEM(zero_MEM),
+    .aluOut_MEM(aluOut_MEM),
+    .writeData_MEM(writeData_MEM),
+    .writeReg_MEM(writeReg_MEM),
+    .pcBranch_MEM(pcBranch_MEM),
+    .clk(clk),
+		.regWrite_EX(regWrite_EX),
+		.memToReg_EX(memToReg_EX),
+    .memWrite_EX(memWrite_EX),
+		.branch_EX(branch_EX),
+    .zero_EX(), // TODO: Complete.
+    .aluOut_EX(aluOut_EX),
+    .writeReg_EX(writeReg_EX),
+    .writeData_EX(readData2_EX), // TODO: Complete.
+    .pcBranch_EX(pcBranch_EX)
 	);
 
 	`AND (pcSource, branch_MEM, zero_MEM);
 
 	wire [31:0] readData_MEM;
 
-	datamemory datamemory(
+	datamemory datamemory (
 		.clk(clk),
 		.dataOut(readData_MEM),
 		.address(aluOut_MEM),
@@ -232,29 +244,26 @@ ALU the_other_alu(
 
 	// WB - Register Write Back ====================================================
 
-	wire regWrite_WB;
 	wire memToReg_WB;
 
 	wire [31:0] aluOut_WB;
 	wire [31:0] readData_WB;
-	wire writeReg_WB;
 
 	gate_MEM_WB gate_MEM_WB (
 		.regWrite_WB(regWrite_WB),
 		.memToReg_WB(memToReg_WB),
-		.regWrite_MEM(regWrite_MEM),
-		.memToReg_MEM(memToReg_MEM),
-		.aluOut_WB(aluOut_WB),
+    .aluOut_WB(aluOut_WB),
 		.readData_WB(readData_WB),
 		.writeReg_WB(writeReg_WB),
+    .clk(clk),
+		.regWrite_MEM(regWrite_MEM),
+		.memToReg_MEM(memToReg_MEM),
 		.aluOut_MEM(aluOut_MEM),
 		.readData_MEM(readData_MEM),
 		.writeReg_MEM(writeReg_MEM)
 	);
 
-	wire [31:0] result_WB;
-
-	mux32 memToRegMux(
+	mux32 memToRegMux (
 		.out(result_WB),
 		.address(memToReg_WB),
 		.input0(aluOut_WB),
@@ -264,14 +273,14 @@ ALU the_other_alu(
 	wire[31:0] prePC;
 	wire[31:0] pcPlus4F;
 
-	mux32 regWriteMux(
+	mux32 regWriteMux (
 		.out(prePC),
 		.address(pcSource),
 		.input0(pcPlus4F),
 		.input1(pcBranch_MEM)
 	);
 
-	pcReg pcReg(
+	pcReg pcReg (
 		.clk(clk),
 		.pc(pc),
 		.prePC(prePC)
@@ -285,12 +294,11 @@ ALU the_other_alu(
 
 	wire[31:0] instructionMemOut;
 
-	instructionmemory instrmem(
+	instructionmemory instrmem (
 		.clk(clk),
 		.address(pc),
 		.dataOut(instructionMemOut)
 	);
-
 
   // MEM - Data Memory =========================================================
   // WB - Writeback ============================================================
