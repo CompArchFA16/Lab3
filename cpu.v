@@ -31,14 +31,17 @@ module CPU (
 
   // IF - Instruction Fetch ====================================================
 
+  // Controls.
+  wire pcSource;
+
+  // Data.
+  wire [31:0] pcBranch_MEM;
   wire [31:0] prePC;
   wire [31:0] pc_IF;
   wire [31:0] pcPlus4_IF;
   wire [31:0] instruction_IF;
-  wire [31:0] pcBranch_MEM;
-  wire        pcSource;
 
-	mux_2 #(32) addressChoice (
+	mux_2 #(32) pcChoice (
 		.out(prePC),
 		.address(pcSource),
 		.input0(pcPlus4_IF),
@@ -61,8 +64,8 @@ module CPU (
   );
 
 	addFour addFour (
-		.clk(clk),
 		.pcPlus4F(pcPlus4_IF),
+    .clk(clk),
 		.pc(pc_IF)
 	);
 
