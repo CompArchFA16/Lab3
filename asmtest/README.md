@@ -5,7 +5,7 @@ In addition to your actual test assembly code, write a short README with:
 Expected results of the test
 The result of the test should be 1!, 2!, 3!, 4!, 5!....9!, 10!, or 1 2 6 24 120 720 5040 40320 362880 3628800.
 
-Memory layout requirements
+Memory layout requirements: Please see factorialInst.dat in this folder!
 
 
 Instructions used outside basic required subset? 
