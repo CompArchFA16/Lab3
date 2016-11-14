@@ -8,29 +8,29 @@ module testCPU ();
 
   // INIT ======================================================================
 
-  wire [31:0] pc;
+  reg clk;
 
-  reg        clk;
-  reg [31:0] instruction;
+  wire [31:0] cpuToMemAddress;
+  wire [31:0] cpuToMemData;
+  wire        cpuToMemWriteEnable;
 
   wire [31:0] dataMemOut;
-  reg  [31:0] dataMemIn;
-  reg  [31:0] dataMemAddr;
-  reg         dataMemWE;
 
-  mockDataMemory datamem (
+  mockDataMemory dataMem (
     .out(dataMemOut),
     .clk(clk),
-    .address(dataMemAddr),
-    .in(dataMemIn),
-    .writeEnable(dataMemWE)
+    .address(cpuToMemAddress),
+    .in(cpuToMemData),
+    .writeEnable(cpuToMemWriteEnable)
   );
 
   // DUT.
   CPU dut (
-    .pc(pc),
+    .toMemAddress(cpuToMemAddress),
+    .toMemData(cpuToMemData),
+    .toMemWriteEnable(cpuToMemWriteEnable),
     .clk(clk),
-    .instruction(instruction)
+    .fromMemData(dataMemOut)
   );
 
   // HELPERS ===================================================================
@@ -70,11 +70,11 @@ module testCPU ();
 
     rT = 5'b0; // register to load into <- value lives here
     rS = 5'b1; // datamem address to load from
-    instruction = { `CMD_lw, rS, rT, 16'b0 };
+    // instruction = { `CMD_lw, rS, rT, 16'b0 };
     completeInstructionCycle();
 
-    dataMemAddr =  32'd7;
-    dataMemWE = 1'b1;
+    // dataMemAddr =  32'd7;
+    // dataMemWE = 1'b1;
 
     // TODO: Complete.
     // if dataMemAddr is wrong
@@ -85,7 +85,7 @@ module testCPU ();
     //   PC = PC + 4
     //   DataMem[Reg[rS] + imm] = Reg[rT]
 
-    instruction = { `CMD_sw, rS, rT, 16'b0 };
+    // instruction = { `CMD_sw, rS, rT, 16'b0 };
     completeInstructionCycle();
 
     if (dataMemOut !== 32'd3) begin
@@ -98,25 +98,25 @@ module testCPU ();
     //   PC = (PC & 0xf0000000) | (target << 2);
 
     jumpTarget = 26'd203;
-    instruction = { `CMD_j, jumpTarget };
+    // instruction = { `CMD_j, jumpTarget };
     completeInstructionCycle();
 
-    if (pc !== {4'b0, 26'd203, 2'b0}) begin
-      dutPassed = 0;
-    end
+    // if (pc !== {4'b0, 26'd203, 2'b0}) begin
+    //   dutPassed = 0;
+    // end
 
     // JR ======================================================================
     // Jump to the address contained in register $s.
     // RTL:
     //   PC = $s;
 
-    instruction = { `CMD_jr, rS, 21'b0 };
+    // instruction = { `CMD_jr, rS, 21'b0 };
     completeInstructionCycle();
 
     // TODO: Match to the actual register value.
-    if (pc !== {4'b0, 28'b0}) begin
-      dutPassed = 0;
-    end
+    // if (pc !== {4'b0, 28'b0}) begin
+    //   dutPassed = 0;
+    // end
 
     // JAL =====================================================================
     // Jumps to the calculated address and stores the return address in $31.
@@ -125,12 +125,12 @@ module testCPU ();
     //   PC = (PC & 0xf0000000) | (target << 2);
 
     jumpTarget = 26'd214;
-    instruction = { `CMD_jal, jumpTarget };
+    // instruction = { `CMD_jal, jumpTarget };
     completeInstructionCycle();
 
-    if (pc !== {4'b0, 26'd214, 2'b0}) begin
-      dutPassed = 0;
-    end
+    // if (pc !== {4'b0, 26'd214, 2'b0}) begin
+    //   dutPassed = 0;
+    // end
 
     // TODO: Determine how to test the return address $31.
 
@@ -143,16 +143,16 @@ module testCPU ();
     //     PC = PC + 4;
 
     imm = 16'b10;
-    instruction = { `CMD_bne, rS, rT, imm };
+    // instruction = { `CMD_bne, rS, rT, imm };
     completeInstructionCycle();
 
     //pc = 0 --> 4
     //pc = 0 --> 14
-    if (pc !== 32'd14) begin
-      dutPassed = 0;
-      // $display("pc: %d", pc);
-      // $display("imm: %d", imm);
-    end
+    // if (pc !== 32'd14) begin
+    //   dutPassed = 0;
+    //   // $display("pc: %d", pc);
+    //   // $display("imm: %d", imm);
+    // end
 
     // XORI ====================================================================
     // RTL:
@@ -162,7 +162,7 @@ module testCPU ();
     rS =          16'b1000000010000001;
     expected_rT = 16'b1000100010100000;
 
-    instruction = {`CMD_xori, rS, rT, imm};
+    // instruction = {`CMD_xori, rS, rT, imm};
     completeInstructionCycle();
 
     if (rT !== expected_rT) begin
@@ -178,7 +178,7 @@ module testCPU ();
     rS = 5'b0;
     rT = 5'b1;
     expected_rD = 5'b1;
-    instruction = { `CMD_add, rS, rT, rD };
+    // instruction = { `CMD_add, rS, rT, rD };
     completeInstructionCycle();
 
     if (rD !== expected_rD) begin
@@ -196,7 +196,7 @@ module testCPU ();
     rS = 5'd0;
     rT = 5'd1;
     rD = 5'd2;
-    instruction = { `CMD_sub, rD, rS, rT };
+    // instruction = { `CMD_sub, rD, rS, rT };
     completeInstructionCycle();
 
     // TODO: Read from rD and check value.
@@ -214,7 +214,7 @@ module testCPU ();
     rS = 5'b0;
     rT = 5'b1;
     expected_rD = 16'b1;
-    instruction = { `CMD_slt, rS, rT, rD };
+    // instruction = { `CMD_slt, rS, rT, rD };
     completeInstructionCycle();
 
     if (rD !== expected_rD) begin

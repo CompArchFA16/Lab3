@@ -21,12 +21,13 @@
 `include "alu/alu.v"
 `define _regfileAsLibrary
 `include "regfile/regfile.v"
-`include "ram.v"
 
 module CPU (
-  output [31:0] pc,
+  output [31:0] toMemAddress,
+  output [31:0] toMemData,
+  output        toMemWriteEnable,
   input         clk,
-  input  [31:0] instruction
+  input  [31:0] fromMemData
 );
 
   // IF - Instruction Fetch ====================================================
@@ -55,13 +56,13 @@ module CPU (
 	);
 
   // TODO: Deprecate into the same memory.
-  RAM instruction_memory (
-    .dataOut(instruction_IF),
-    .clk(clk),
-    .address(pc_IF),
-    .writeEnable(1'b0),
-    .dataIn(32'b0)
-  );
+  // RAM instruction_memory (
+  //   .dataOut(instruction_IF),
+  //   .clk(clk),
+  //   .address(pc_IF),
+  //   .writeEnable(1'b0),
+  //   .dataIn(32'b0)
+  // );
 
 	addFour addFour (
 		.pcPlus4F(pcPlus4_IF),
@@ -282,13 +283,13 @@ module CPU (
 
 	wire [31:0] readData_MEM;
 
-	RAM data_memory (
-		.dataOut(readData_MEM),
-    .clk(clk),
-		.address(aluOut_MEM),
-		.writeEnable(memWrite_MEM),
-		.dataIn(writeData_MEM)
-	);
+	// RAM data_memory (
+	// 	.dataOut(readData_MEM),
+  //   .clk(clk),
+	// 	.address(aluOut_MEM),
+	// 	.writeEnable(memWrite_MEM),
+	// 	.dataIn(writeData_MEM)
+	// );
 
 	// WB - Register Write Back ==================================================
 
@@ -308,7 +309,7 @@ module CPU (
     .writeReg_WB(writeReg_WB),
 
     .clk(clk),
-    
+
 		.regWrite_MEM(regWrite_MEM),
 		.memToReg_MEM(memToReg_MEM),
 		.aluOut_MEM(aluOut_MEM),
