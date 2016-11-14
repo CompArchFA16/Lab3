@@ -34,15 +34,19 @@ module controlUnit (
         regDst_ID     <= 0;
       end
       `CMD_j: begin
+        // TODO: David
+        // NOTE: Not even sure if these apply to J.
         regWrite_ID   <= 0;
         memToReg_ID   <= 0;
         memWrite_ID   <= 0;
-        branch_ID     <= 0;
+        branch_ID     <= 1;
         aluControl_ID <= 0;
         aluSrc_ID     <= 0;
         regDst_ID     <= 0;
       end
       `CMD_jr: begin
+        // TODO: David
+        // NOTE: Again, I don't think these apply.
         regWrite_ID   <= 0;
         memToReg_ID   <= 0;
         memWrite_ID   <= 0;
@@ -52,7 +56,8 @@ module controlUnit (
         regDst_ID     <= 0;
       end
       `CMD_jal: begin
-        regWrite_ID   <= 0;
+        // TODO: David
+        regWrite_ID   <= 1;
         memToReg_ID   <= 0;
         memWrite_ID   <= 0;
         branch_ID     <= 0;
@@ -88,11 +93,12 @@ module controlUnit (
         regDst_ID     <= 0;
       end
       `CMD_sub: begin
-        regWrite_ID   <= 0;
+        // TODO: David
+        regWrite_ID   <= 1;
         memToReg_ID   <= 0;
         memWrite_ID   <= 0;
         branch_ID     <= 0;
-        aluControl_ID <= 0;
+        aluControl_ID <= 0; // TODO: Reference ALU commands.
         aluSrc_ID     <= 0;
         regDst_ID     <= 0;
       end
