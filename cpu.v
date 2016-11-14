@@ -41,18 +41,18 @@ module CPU (
   wire [31:0] pcPlus4_IF;
   wire [31:0] instruction_IF;
 
-	mux_2 #(32) pcChoice (
-		.out(prePC),
-		.address(pcSource),
-		.input0(pcPlus4_IF),
-		.input1(pcBranch_MEM)
-	);
+  mux_2 #(32) pcChoice (
+    .out(prePC),
+    .address(pcSource),
+    .input0(pcPlus4_IF),
+    .input1(pcBranch_MEM)
+  );
 
-	dff #(32) pcDFF (
-		.out(pc_IF),
+  dff #(32) pcDFF (
+    .out(pc_IF),
     .clk(clk),
-		.in(prePC)
-	);
+    .in(prePC)
+  );
 
   // TODO: Deprecate into the same memory.
   RAM instruction_memory (
@@ -63,11 +63,11 @@ module CPU (
     .dataIn(32'b0)
   );
 
-	addFour addFour (
-		.pcPlus4F(pcPlus4_IF),
+  addFour addFour (
+    .pcPlus4F(pcPlus4_IF),
     .clk(clk),
-		.pc(pc_IF)
-	);
+    .pc(pc_IF)
+  );
 
   // ID - Instruction Decode ===================================================
 
@@ -225,78 +225,78 @@ module CPU (
     .command(3'b100) // Is this the add command we want? ****
   );
 
-	// MEM - Memory Access =======================================================
+  // MEM - Memory Access =======================================================
 
-	wire regWrite_MEM;
-	wire memToReg_MEM;
-	wire memWrite_MEM;
-	wire branch_MEM;
+  wire regWrite_MEM;
+  wire memToReg_MEM;
+  wire memWrite_MEM;
+  wire branch_MEM;
 
-	wire zero_MEM;
-	wire [31:0] aluOut_MEM;
-	wire [31:0] writeData_MEM;
-	wire [4:0]  writeReg_MEM;
+  wire zero_MEM;
+  wire [31:0] aluOut_MEM;
+  wire [31:0] writeData_MEM;
+  wire [4:0]  writeReg_MEM;
 
-	// TODO: add EX wires as inputs
-	gate_EX_MEM gate_EX_MEM (
-		.regWrite_MEM(regWrite_MEM),
-		.memToReg_MEM(memToReg_MEM),
-		.memWrite_MEM(memWrite_MEM),
-		.branch_MEM(branch_MEM),
+  // TODO: add EX wires as inputs
+  gate_EX_MEM gate_EX_MEM (
+    .regWrite_MEM(regWrite_MEM),
+    .memToReg_MEM(memToReg_MEM),
+    .memWrite_MEM(memWrite_MEM),
+    .branch_MEM(branch_MEM),
     .zero_MEM(zero_MEM),
     .aluOut_MEM(aluOut_MEM),
     .writeData_MEM(writeData_MEM),
     .writeReg_MEM(writeReg_MEM),
     .pcBranch_MEM(pcBranch_MEM),
     .clk(clk),
-		.regWrite_EX(regWrite_EX),
-		.memToReg_EX(memToReg_EX),
+    .regWrite_EX(regWrite_EX),
+    .memToReg_EX(memToReg_EX),
     .memWrite_EX(memWrite_EX),
-		.branch_EX(branch_EX),
+    .branch_EX(branch_EX),
     .zero_EX(), // TODO: Complete.
     .aluOut_EX(aluOut_EX),
     .writeReg_EX(writeReg_EX),
     .writeData_EX(readData2_EX), // TODO: Complete.
     .pcBranch_EX(pcBranch_EX)
-	);
+  );
 
-	`AND (pcSource, branch_MEM, zero_MEM);
+  `AND (pcSource, branch_MEM, zero_MEM);
 
-	wire [31:0] readData_MEM;
+  wire [31:0] readData_MEM;
 
-	RAM data_memory (
-		.clk(clk),
-		.dataOut(readData_MEM),
-		.address(aluOut_MEM),
-		.writeEnable(memWrite_MEM),
-		.dataIn(writeData_MEM)
-	);
-
-	// WB - Register Write Back ==================================================
-
-	wire memToReg_WB;
-
-	wire [31:0] aluOut_WB;
-	wire [31:0] readData_WB;
-
-	gate_MEM_WB gate_MEM_WB (
-		.regWrite_WB(regWrite_WB),
-		.memToReg_WB(memToReg_WB),
-    .aluOut_WB(aluOut_WB),
-		.readData_WB(readData_WB),
-		.writeReg_WB(writeReg_WB),
+  RAM data_memory (
     .clk(clk),
-		.regWrite_MEM(regWrite_MEM),
-		.memToReg_MEM(memToReg_MEM),
-		.aluOut_MEM(aluOut_MEM),
-		.readData_MEM(readData_MEM),
-		.writeReg_MEM(writeReg_MEM)
-	);
+    .dataOut(readData_MEM),
+    .address(aluOut_MEM),
+    .writeEnable(memWrite_MEM),
+    .dataIn(writeData_MEM)
+  );
 
-	mux_2 #(32) memToRegMux (
-		.out(result_WB),
-		.address(memToReg_WB),
-		.input0(aluOut_WB),
-		.input1(readData_WB)
-	);
+  // WB - Register Write Back ==================================================
+
+  wire memToReg_WB;
+
+  wire [31:0] aluOut_WB;
+  wire [31:0] readData_WB;
+
+  gate_MEM_WB gate_MEM_WB (
+    .regWrite_WB(regWrite_WB),
+    .memToReg_WB(memToReg_WB),
+    .aluOut_WB(aluOut_WB),
+    .readData_WB(readData_WB),
+    .writeReg_WB(writeReg_WB),
+    .clk(clk),
+    .regWrite_MEM(regWrite_MEM),
+    .memToReg_MEM(memToReg_MEM),
+    .aluOut_MEM(aluOut_MEM),
+    .readData_MEM(readData_MEM),
+    .writeReg_MEM(writeReg_MEM)
+  );
+
+  mux_2 #(32) memToRegMux (
+    .out(result_WB),
+    .address(memToReg_WB),
+    .input0(aluOut_WB),
+    .input1(readData_WB)
+  );
 endmodule
