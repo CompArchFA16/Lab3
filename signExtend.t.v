@@ -6,8 +6,10 @@ module testSignExtend();
 	signExtend se0 (IMM, signExtendIMM);
 
 	initial begin
-		$display("IMM|SE");
+		$display("Imm             |SE");
 		IMM = 16'b1010101010101010; #10000
+		$display("%b|%b", IMM, signExtendIMM);
+		IMM = 16'b0101010101010101; #10000
 		$display("%b|%b", IMM, signExtendIMM);
 	end
 
