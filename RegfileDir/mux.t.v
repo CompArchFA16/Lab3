@@ -1,4 +1,4 @@
-`include "mux.v"
+`include "RegfileDir/mux.v"
 
 module muxTest();
     reg[31:0] inputs;
@@ -9,7 +9,7 @@ module muxTest();
 
     initial begin
         inputs=1;
-        address=1;
+        address=0;
         $display("%b", out);
     end
 endmodule
