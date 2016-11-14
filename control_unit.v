@@ -15,43 +15,43 @@ module controlUnit (
 
   always @(op) begin
     case (op)
-      `CMD_lw: begin 
-// IF: From memory at address PC, write to IR. Update PC.
-// ID: From rs in Regfile, load to register A
-// EX: A + sign extended imm is written to Result register
-// MEM: Result (address) in Mem is written to DataReg
-// WB: Write DataReg to rt address in RegFile.
 
-        regWrite_ID   <= 0;
-        memToReg_ID   <= 0;
-        memWrite_ID   <= 0;
-        branch_ID     <= 0;
-        aluControl_ID <= 0;
-        aluSrc_ID     <= 0;
-        regDst_ID     <= 0;
-      end
+      `CMD_lw: begin
+      // IF: From memory at address PC, write to IR. Update PC.
+      // ID: From rs in Regfile, load to register A
+      // EX: A + sign extended imm is written to Result register
+      // MEM: Result (address) in Mem is written to DataReg
+      // WB: Write DataReg to rt address in RegFile.
+          regWrite_ID   <= 1;
+          memToReg_ID   <= 1;
+          memWrite_ID   <= 0;
+          branch_ID     <= 0;
+          aluControl_ID <= 000;
+          aluSrc_ID     <= 1;
+          regDst_ID     <= 0;
+        end
       `CMD_sw: begin
-// IF: From memory at address PC, write to IR. Update PC.
-// ID: From rs in Regfile, load to register A. from rt in RegFile write to reg B
-// EX: A + sign extended imm is written to Result register
-// MEM: Write B to the Result address in Mem
-// WB: 
+      // IF: From memory at address PC, write to IR. Update PC.
+      // ID: From rs in Regfile, load to register A. from rt in RegFile write to reg B
+      // EX: A + sign extended imm is written to Result register
+      // MEM: Write B to the Result address in Mem
+      // WB: 
         regWrite_ID   <= 0;
         memToReg_ID   <= 0;
-        memWrite_ID   <= 0;
+        memWrite_ID   <= 1;
         branch_ID     <= 0;
-        aluControl_ID <= 0;
-        aluSrc_ID     <= 0;
+        aluControl_ID <= 000;
+        aluSrc_ID     <= 1;
         regDst_ID     <= 0;
       end
       `CMD_j: begin
         // TODO: David
         // NOTE: Not even sure if these apply to J.
-// IF: From memory at address PC, write to IR. Update PC.
-// ID: PC = PC[31:28], IR[25:0], b00
-// EX: 
-// MEM: 
-// WB: 
+        // IF: From memory at address PC, write to IR. Update PC.
+        // ID: PC = PC[31:28], IR[25:0], b00
+        // EX: 
+        // MEM: 
+        // WB: 
         regWrite_ID   <= 0;
         memToReg_ID   <= 0;
         memWrite_ID   <= 0;
@@ -82,12 +82,12 @@ module controlUnit (
         regDst_ID     <= 0;
       end
       `CMD_bne: begin
-// IF: From memory at address PC, write to IR. Update PC.
-// ID: From rs in Regfile, load to register A, from rt in RegFile, write to reg B 
-//     Also, PC +sign extended imm is written to Res register
-// EX: If (A!==B) PC = Res
-// MEM: 
-// WB:     
+      // IF: From memory at address PC, write to IR. Update PC.
+      // ID: From rs in Regfile, load to register A, from rt in RegFile, write to reg B 
+      //     Also, PC +sign extended imm is written to Res register
+      // EX: If (A!==B) PC = Res
+      // MEM: 
+      // WB:     
         regWrite_ID   <= 0;
         memToReg_ID   <= 0; 
         memWrite_ID   <= 0;
@@ -97,20 +97,20 @@ module controlUnit (
         regDst_ID     <= 0;
       end
       `CMD_xori: begin
-        regWrite_ID   <= 0;
+        regWrite_ID   <= 1;
         memToReg_ID   <= 0;
         memWrite_ID   <= 0;
         branch_ID     <= 0;
-        aluControl_ID <= 0;
-        aluSrc_ID     <= 0;
-        regDst_ID     <= 0;
+        aluControl_ID <= 010;
+        aluSrc_ID     <= 1;
+        regDst_ID     <= 1;
       end
       `CMD_add: begin
-// IF: From memory at address PC, write to IR. Update PC.
-// ID: From rs in Regfile, load to register A; from rt in RegFile, load to reg B.
-// EX: A+B is written to Result register
-// MEM: 
-// WB: Result is written to rd in RegFile
+      // IF: From memory at address PC, write to IR. Update PC.
+      // ID: From rs in Regfile, load to register A; from rt in RegFile, load to reg B.
+      // EX: A+B is written to Result register
+      // MEM: 
+      // WB: Result is written to rd in RegFile
         regWrite_ID   <= 0;
         memToReg_ID   <= 1; //To write result to RegFile[rd]
         memWrite_ID   <= 0;
@@ -130,11 +130,11 @@ module controlUnit (
         regDst_ID     <= 0;
       end
       `CMD_slt: begin
-// IF: From memory at address PC, write to IR. Update PC.
-// ID: From rs in Regfile, load to register A, from rt in RegFile, write to reg B 
-// EX: If (A<B) Set result set to 1. If not, set to 0.
-// MEM: 
-// WB: Result is written to rd in RegFile     
+      // IF: From memory at address PC, write to IR. Update PC.
+      // ID: From rs in Regfile, load to register A, from rt in RegFile, write to reg B 
+      // EX: If (A<B) Set result set to 1. If not, set to 0.
+      // MEM: 
+      // WB: Result is written to rd in RegFile     
         regWrite_ID   <= 0;
         memToReg_ID   <= 1; //To write the result (either 0 or 1) to RegFile[rd]
         memWrite_ID   <= 0;

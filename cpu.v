@@ -247,16 +247,16 @@ module CPU (
   wire branch_MEM;
 
   // Data.
-  wire        zero_MEM;
-  wire [31:0] aluOut_MEM;
-  wire [31:0] writeData_MEM;
-  wire [4:0]  writeReg_MEM;
+	wire        zero_MEM;
+	wire [31:0] aluOut_MEM;
+	wire [31:0] writeData_MEM;
+	wire [4:0]  writeReg_MEM;
 
-  gate_EX_MEM gate_EX_MEM (
-    .regWrite_MEM(regWrite_MEM),
-    .memToReg_MEM(memToReg_MEM),
-    .memWrite_MEM(memWrite_MEM),
-    .branch_MEM(branch_MEM),
+	gate_EX_MEM gate_EX_MEM (
+		.regWrite_MEM(regWrite_MEM),
+		.memToReg_MEM(memToReg_MEM),
+		.memWrite_MEM(memWrite_MEM),
+		.branch_MEM(branch_MEM),
 
     .zero_MEM(zero_MEM),
     .aluOut_MEM(aluOut_MEM),
@@ -266,10 +266,10 @@ module CPU (
 
     .clk(clk),
 
-    .regWrite_EX(regWrite_EX),
-    .memToReg_EX(memToReg_EX),
+		.regWrite_EX(regWrite_EX),
+		.memToReg_EX(memToReg_EX),
     .memWrite_EX(memWrite_EX),
-    .branch_EX(branch_EX),
+		.branch_EX(branch_EX),
 
     .zero_EX(), // TODO: Complete.
     .aluOut_EX(aluOut_EX),
@@ -302,11 +302,9 @@ module CPU (
   gate_MEM_WB my_gate_MEM_WB (
     .regWrite_WB(regWrite_WB),
     .memToReg_WB(memToReg_WB),
-
     .aluOut_WB(aluOut_WB),
     .readData_WB(readData_WB),
     .writeReg_WB(writeReg_WB),
-
     .clk(clk),
     
     .regWrite_MEM(regWrite_MEM),
