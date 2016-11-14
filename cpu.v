@@ -218,12 +218,14 @@ module CPU (
   );
 
   wire [31:0] aluOut_EX;
+  wire zero_EX;
 
   // The uppermost ALU (labeled ALU) in the EX phase.
   ALU the_alu (
     .result(aluOut_EX),
     .operandA(readData1_EX),
     .operandB(srcB_EX),
+    .zero(zero_EX),
     .command(aluControl_EX)
   );
 
@@ -271,7 +273,7 @@ module CPU (
     .memWrite_EX(memWrite_EX),
 		.branch_EX(branch_EX),
 
-    .zero_EX(), // TODO: Complete.
+    .zero_EX(zero_EX),
     .aluOut_EX(aluOut_EX),
     .writeReg_EX(writeReg_EX),
     .writeData_EX(readData2_EX),
