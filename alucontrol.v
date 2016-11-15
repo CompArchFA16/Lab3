@@ -15,18 +15,24 @@ always @(posedge clk) begin
 		ALUcontrol <= 3'b100;
 	end
 
-	if (ALUop == 2'b00) begin //add, sub, slt
+	else if (ALUop == 2'b00) begin //add, sub, slt
 		if (instruction == 6'b10_0000) begin//add
 			ALUcontrol <= 3'b001;
 		end
 
-		if (instruction == 6'b10_0010) begin//sub
+		else if (instruction == 6'b10_0010) begin//sub
 			ALUcontrol <= 3'b010;
 		end
 
-		if (instruction == 6'b10_1010) begin//slt
+		else if (instruction == 6'b10_1010) begin//slt
 			ALUcontrol <= 3'b011;
 		end
+		else begin
+			ALUcontrol <= 3'b0;
+		end
+	end
+	else begin
+		ALUcontrol <= 3'b0;
 	end
 end
 

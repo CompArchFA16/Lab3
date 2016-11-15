@@ -27,7 +27,7 @@ module alu(
 		end
 
     //xori
-    	else if (alucontrol == 3'b111) begin
+    	else if (alucontrol == 3'b100) begin
 			aluRes <= a ^ b;
 		end
 
