@@ -31,14 +31,36 @@ localparam slt = 6'h2a;
 always @(posedge clk) begin
     case (Op)
         loadWord: begin
-            RegWriteD <= 1;
-            MemtoRegD <= 1; //we want to write memory to reg!
-            MemWriteD <= 0;
-            BranchD <=0;
-            end
-        // assign ALUCtrl <=
-     // ALUSrcD <=
-     // RegDstD <=
+            RegWriteD <= 1; // Enables writing to register after instruction
+            MemtoRegD <= 1; // Selects output to be from Memory so we can write it to reg
+            MemWriteD <= 0; // Disables writing to Memory
+            BranchD <=0; // No branching
+            ALUControlD <= // 
+            ALUSrcD <= 
+            RegDstD <= 
+        end
+        storeword: begin
+        end
+        jump: begin
+        end
+        jumplink: begin
+        end
+        branchNotEq: begin
+        end
+        xOrI: begin
+        end
+        functionalCode: begin
+            case (Funct)
+                jumpReg: begin
+                end
+                add:begin
+                end
+                sub: begin
+                end
+                slt: begin
+                end
+            endcase
+        end
     endcase
 end
 
