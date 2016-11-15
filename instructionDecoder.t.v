@@ -10,9 +10,9 @@ module testInstructionDecoder();
 	instructionDecoder id0 (instruction, Opp, Rs, Rt, Rd, Shamt, Funct, Imm, Jadd);
 
 	initial begin
-		$display("instruction| Opp| Rs| Rt| Rd| Shamt| Funct| Imm| Jadd");
 		instruction = 32'b00000011111010101010111100000111; #1000;
-		$display("%b|%b|%b|%b|%b|%b|%b|%b|%b",instruction,Opp, Rs, Rt, Rd,Shamt, Funct, Imm, Jadd);
-
+		$display("Instruction: %b", instruction);
+		$display("Opp   |Rs   |Rt   |Rd   |Shamt|Funct |Imm             |Jadd");
+		$display("%b|%b|%b|%b|%b|%b|%b|%b", Opp, Rs, Rt, Rd, Shamt, Funct, Imm, Jadd);
 	end
 	endmodule
