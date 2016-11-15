@@ -7,8 +7,8 @@
 
 module signextend
 (
-    input  [15:0]                 immediate,
     output [31:0]                 extended_imm
+    input  [15:0]                 immediate,
 );
 
    assign extended_imm = { {16{immediate[15]}}, immediate };

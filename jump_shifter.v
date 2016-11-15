@@ -8,9 +8,9 @@
 
 module jump_shifter
 (
+    output [31:0]                 extended_imm
     input  [25:0]                 immediate,
     input  [3:0]				  pc_bits,
-    output [31:0]                 extended_imm
 );
 
    assign extended_imm = { pc_bits, immediate, {2'b00}};

@@ -18,6 +18,19 @@ module mux_1bit
     not  #10 not_4(result, nor_wire);
 endmodule
 
+module mux_3bit
+(
+  output[31:0] result,
+  input[1:0] sel,
+  input[31:0] in1, in2, in3
+)
+  wire[31:0] muxtomux; // from the first mux to the second
+  wire[31:0] out; // output form the second mux
+
+  mux_1bit mux1(muxtomux, sel[1], in1, in2);
+  mux_1bit mux2(out, sel[0], muxtomux, in3);
+
+endmodule
 // 5:1 Multiplexer
 module mux_alu
 (
