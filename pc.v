@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------
 //`include "adder.v"
 
-`timescale 1 ns / 1 ps
+//`timescale 1 ns / 1 ps
 module pc
 (
 input               clk,
@@ -16,7 +16,7 @@ output reg [31:0]   addr = 32'b00000000000000000000000000000000
 	        if (addr == 32'b11111111111111111111111111111100) begin
 	        end
 	        else begin
-	        addr <= addr + 4;
+	        addr <= addr + 1;
 	        end
 	    end
     end
