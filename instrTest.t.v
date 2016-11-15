@@ -7,7 +7,7 @@ module memory_test();
     reg [31:0] dataIn;
     wire [31:0] dataOut;
 
-    Instr_memory tester (clk, enable, addr, dataIn, dataOut);
+    Data_memory tester (clk, enable, addr, dataIn, dataOut);
 
     initial begin
         $dumpfile("refer.vcd");
