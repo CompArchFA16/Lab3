@@ -1,4 +1,5 @@
 `include "opcodes.v"
+`include "alu/alu_commands.v"
 
 module controlUnit (
   output reg regWrite_ID,
@@ -26,7 +27,7 @@ module controlUnit (
           memToReg_ID   <= 1;
           memWrite_ID   <= 0;
           branch_ID     <= 0;
-          aluControl_ID <= 000;
+          aluControl_ID <= `ALU_CMD_ADD;
           aluSrc_ID     <= 1;
           regDst_ID     <= 0;
         end
@@ -35,12 +36,12 @@ module controlUnit (
       // ID: From rs in Regfile, load to register A. from rt in RegFile write to reg B
       // EX: A + sign extended imm is written to Result register
       // MEM: Write B to the Result address in Mem
-      // WB: 
+      // WB:
         regWrite_ID   <= 0;
         memToReg_ID   <= 0;
         memWrite_ID   <= 1;
         branch_ID     <= 0;
-        aluControl_ID <= 000;
+        aluControl_ID <= `ALU_CMD_ADD;
         aluSrc_ID     <= 1;
         regDst_ID     <= 0;
       end
@@ -49,9 +50,9 @@ module controlUnit (
         // NOTE: Not even sure if these apply to J.
         // IF: From memory at address PC, write to IR. Update PC.
         // ID: PC = PC[31:28], IR[25:0], b00
-        // EX: 
-        // MEM: 
-        // WB: 
+        // EX:
+        // MEM:
+        // WB:
         regWrite_ID   <= 0;
         memToReg_ID   <= 0;
         memWrite_ID   <= 0;
@@ -83,15 +84,15 @@ module controlUnit (
       end
       `CMD_bne: begin
       // IF: From memory at address PC, write to IR. Update PC.
-      // ID: From rs in Regfile, load to register A, from rt in RegFile, write to reg B 
+      // ID: From rs in Regfile, load to register A, from rt in RegFile, write to reg B
       //     Also, PC +sign extended imm is written to Res register
       // EX: If (A!==B) PC = Res
-      // MEM: 
-      // WB:     
+      // MEM:
+      // WB:
         regWrite_ID   <= 0;
-        memToReg_ID   <= 0; 
+        memToReg_ID   <= 0;
         memWrite_ID   <= 0;
-        branch_ID     <= 1; //And ZeroM wire must be set to 1 (A-B should not output 0 - meaning they are not equal). 
+        branch_ID     <= 1; //And ZeroM wire must be set to 1 (A-B should not output 0 - meaning they are not equal).
         aluControl_ID <= 0;
         aluSrc_ID     <= 0;
         regDst_ID     <= 0;
@@ -101,7 +102,7 @@ module controlUnit (
         memToReg_ID   <= 0;
         memWrite_ID   <= 0;
         branch_ID     <= 0;
-        aluControl_ID <= 010;
+        aluControl_ID <= `ALU_CMD_XOR;
         aluSrc_ID     <= 1;
         regDst_ID     <= 1;
       end
@@ -109,13 +110,13 @@ module controlUnit (
       // IF: From memory at address PC, write to IR. Update PC.
       // ID: From rs in Regfile, load to register A; from rt in RegFile, load to reg B.
       // EX: A+B is written to Result register
-      // MEM: 
+      // MEM:
       // WB: Result is written to rd in RegFile
         regWrite_ID   <= 0;
         memToReg_ID   <= 1; //To write result to RegFile[rd]
         memWrite_ID   <= 0;
         branch_ID     <= 0;
-        aluControl_ID <= 0;
+        aluControl_ID <= `ALU_CMD_ADD;
         aluSrc_ID     <= 0;
         regDst_ID     <= 0;
       end
@@ -125,21 +126,21 @@ module controlUnit (
         memToReg_ID   <= 0;
         memWrite_ID   <= 0;
         branch_ID     <= 0;
-        aluControl_ID <= 0; // TODO: Reference ALU commands.
+        aluControl_ID <= `ALU_CMD_SUB;
         aluSrc_ID     <= 0;
         regDst_ID     <= 0;
       end
       `CMD_slt: begin
       // IF: From memory at address PC, write to IR. Update PC.
-      // ID: From rs in Regfile, load to register A, from rt in RegFile, write to reg B 
+      // ID: From rs in Regfile, load to register A, from rt in RegFile, write to reg B
       // EX: If (A<B) Set result set to 1. If not, set to 0.
-      // MEM: 
-      // WB: Result is written to rd in RegFile     
+      // MEM:
+      // WB: Result is written to rd in RegFile
         regWrite_ID   <= 0;
         memToReg_ID   <= 1; //To write the result (either 0 or 1) to RegFile[rd]
         memWrite_ID   <= 0;
         branch_ID     <= 0;
-        aluControl_ID <= 3'd3; //From ALU opcodes
+        aluControl_ID <= `ALU_CMD_SLT;
         aluSrc_ID     <= 0;
         regDst_ID     <= 0;
       end

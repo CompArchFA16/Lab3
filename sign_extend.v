@@ -2,12 +2,9 @@
 
 module signExtend (
   output reg [31:0] out,
-
-  input        clk,
   input [15:0] in
 );
-
-  always @ ( clk ) begin
+  always @ (in[15]) begin
     if (in[15] === 1'b0) begin
       out <= { 16'b0, in };
     end

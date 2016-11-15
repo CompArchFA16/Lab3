@@ -77,22 +77,21 @@ module testCPU ();
   task completeInstructionCycle;
     begin
       // TODO: Update this time to the correct length of our instruction cycle.
-      #10;
+      #50;
     end
   endtask
 
-  task inputInstruction;
-    input [31:0] instruction;
+  task insertToMemory;
+    input [31:0] address;
+    input [31:0] data;
     begin
-      testToMemData <= instruction;
-      testToMemAddress <= 32'b0;
       isTesting <= 1'b1;
+      testToMemData <= data;
+      testToMemAddress <= address;
       testToMemWriteEnable <= 1'b1;
-      resetPC <= 1'b1;
       #2; // Wait for a clock cycle.
       isTesting <= 1'b0; // This means that the CPU is back in control.
       testToMemWriteEnable <= 1'b0;
-      resetPC <= 1'b0;
     end
   endtask
 
@@ -109,12 +108,17 @@ module testCPU ();
 
     // LW ======================================================================
     // RTL:
-    //   $t = MEM [$s + i]:4
+    //   PC = PC + 4;
+    //   $t = MEM[$s + offset];
 
-    // rS = `R_S0; // datamem address to load from
-    // rT = `R_S1; // register to load into <- value lives here
-    // inputInstruction({ `CMD_lw, rS, rT, 16'b0 });
-    // completeInstructionCycle();
+    insertToMemory(32'd500, 32'd42);
+
+    rS = `R_ZERO; // datamem address to load from
+    rT = `R_S1; // register to load into <- value lives here
+    resetPC = 1;
+    insertToMemory(32'd0, { `CMD_lw, rS, rT, 16'b0 });
+    resetPC = 0;
+    completeInstructionCycle();
 
     // check result...
     // request data from the data_memory
@@ -189,11 +193,11 @@ module testCPU ();
     //   else
     //     PC = PC + 4;
 
-    rS = `R_S0;
-    rT = `R_S1;
-    imm = 16'b10;
-    inputInstruction({ `CMD_bne, rS, rT, imm });
-    completeInstructionCycle();
+    // rS = `R_S0;
+    // rT = `R_S1;
+    // imm = 16'b10;
+    // insertToMemory({ `CMD_bne, rS, rT, imm });
+    // completeInstructionCycle();
 
     //pc = 0 --> 4
     //pc = 0 --> 14
