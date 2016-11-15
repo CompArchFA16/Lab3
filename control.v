@@ -14,18 +14,19 @@
 
 module control
 (
-    input [5:0] opp;
-    input [5:0] func;
-    output reg regDst;
-    output reg jump;
-    output reg branch;
-    output reg memRead;
-    output reg memtoReg;
-    output reg [2:0] aluOp;
-    output reg memWrite;
-    output reg aluSrc;
-    output reg regWrite;
-    output reg jumpReg;
+    input clk,
+    input [5:0] opp,
+    input [5:0] func,
+    output reg regDst,
+    output reg jump,
+    output reg branch,
+    output reg memRead,
+    output reg memtoReg,
+    output reg [2:0] aluOp,
+    output reg memWrite,
+    output reg aluSrc,
+    output reg regWrite,
+    output reg jumpReg
 );
 
     always @(posedge clk) begin
