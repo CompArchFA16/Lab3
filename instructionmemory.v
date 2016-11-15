@@ -6,11 +6,11 @@
 
 module instructionmemory
 (
-    input[9:0] address,
+    input[31:0] address,
     output[31:0] dataOut
 );
 
     reg[31:0] memory[1023:0];
     initial $readmemh("asmtest/jay_paul_tj/basic.dat", memory);
-    assign dataOut = memory[address];
+    assign dataOut = memory[address >> 2]; // Shifts by 2 bits (divide by 4)
 endmodule

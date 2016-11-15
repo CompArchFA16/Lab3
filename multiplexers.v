@@ -31,7 +31,8 @@ module mux_3bit
   mux_1bit mux2(out, sel[0], muxtomux, in3);
 
 endmodule
-// 5:1 Multiplexer
+
+// 5:1 Multiplexer for the ALU
 module mux_alu
 (
     output result,
