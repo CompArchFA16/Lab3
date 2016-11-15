@@ -10,6 +10,8 @@ module instMem
 
     initial begin
     	instructionMem[0] <= 32'h2008000a;
+        instructionMem[4] <= 32'h2008000b;
+        instructionMem[8] <= 32'h2008000c;
     end
 
     always @(posedge clk) begin
