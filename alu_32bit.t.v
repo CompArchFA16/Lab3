@@ -1,8 +1,6 @@
 // 32-bit ALU testbench
 
 `include "multiplexers.v"
-// `include "adder.v"
-// `include "gates.v"
 `include "alu.v"
 
 module test_alu_32bit ();
@@ -89,13 +87,13 @@ module test_alu_32bit ();
     if((result != 32'h70000000) || (carryout != 1'b1) || (overflow != 1'b1)) begin
         dutpassed = 0;  // Set to 'false' on failure
         $display("Test Case 6 Failed: ADD 4 implementation failed");
-    end    
+    end
 
     operandA= 32'h10000000; operandB = 32'hf0000000; command = `ADD; #5000
     if((result != 32'h00000000) || (carryout != 1'b1) || (overflow != 1'b0)) begin
         dutpassed = 0;  // Set to 'false' on failure
         $display("Test Case 6 Failed: ADD 5 implementation failed");
-    end  
+    end
     else begin
         $display("Last of Test Case 6 Passed");
     end
@@ -107,37 +105,37 @@ module test_alu_32bit ();
     if((result != 32'h30000000) || (carryout != 1'b0) || (overflow != 1'b0)) begin
         dutpassed = 0;  // Set to 'false' on failure
         $display("Test Case 7 Failed: SUB 1 implementation failed");
-    end    
+    end
 
     operandA= 32'he0000000; operandB = 32'h40000000; command = `SUB; #5000
     if((result != 32'ha0000000) || (carryout != 1'b1) || (overflow != 1'b0)) begin
         dutpassed = 0;  // Set to 'false' on failure
         $display("Test Case 7 Failed: SUB 2 implementation failed");
-    end    
+    end
 
     operandA= 32'h70000000; operandB = 32'he0000000; command = `SUB; #5000
     if((result != 32'h90000000) || (carryout != 1'b0) || (overflow != 1'b1)) begin
         dutpassed = 0;  // Set to 'false' on failure
         $display("Test Case 7 Failed: SUB 3 implementation failed");
-    end    
+    end
 
     operandA= 32'hf0000000; operandB = 32'h80000000; command = `SUB; #5000
     if((result != 32'h70000000) || (carryout != 1'b1) || (overflow != 1'b0)) begin
         dutpassed = 0;  // Set to 'false' on failure
         $display("Test Case 7 Failed: SUB 4 implementation failed");
-    end    
+    end
 
     operandA= 32'h70000000; operandB = 32'h50000000; command = `SUB; #5000
     if((result != 32'h20000000) || (carryout != 1'b1) || (overflow != 1'b0)) begin
         dutpassed = 0;  // Set to 'false' on failure
         $display("Test Case 7 Failed: SUB 5 implementation failed");
-    end    
+    end
 
     operandA= 32'hffffffff; operandB = 32'hffffffff; command = `SUB; #5000
     if((result != 32'h00000000) || (carryout != 1'b1) || (overflow != 1'b0)) begin
         dutpassed = 0;  // Set to 'false' on failure
         $display("Test Case 7 Failed: SUB 6 implementation failed");
-    end    
+    end
     else begin
         $display("Last of Test Case 7 Passed");
     end
@@ -147,31 +145,31 @@ module test_alu_32bit ();
     if((result != 32'h00000001) || (carryout != 1'b0) || (overflow != 1'b0)) begin
         dutpassed = 0;  // Set to 'false' on failure
         $display("Test Case 8 Failed: SLT 1 implementation failed");
-    end    
+    end
 
     operandA= 32'hffffffff; operandB = 32'h80000000; command = `SLT; #5000
     if((result != 32'h00000000) || (carryout != 1'b1) || (overflow != 1'b0)) begin
         dutpassed = 0;  // Set to 'false' on failure
         $display("Test Case 8 Failed: SLT 2 implementation failed");
-    end    
+    end
 
     operandA= 32'h01111111; operandB = 32'h0fffffff; command = `SLT; #5000
     if((result != 32'h00000001) || (carryout != 1'b0) || (overflow != 1'b0)) begin
         dutpassed = 0;  // Set to 'false' on failure
         $display("Test Case 8 Failed: SLT 3 implementation failed");
-    end    
+    end
 
     operandA= 32'h0fffffff; operandB = 32'h01111111; command = `SLT; #5000
     if((result != 32'h00000000) || (carryout != 1'b1) || (overflow != 1'b0)) begin
         dutpassed = 0;  // Set to 'false' on failure
         $display("Test Case 8 Failed: SLT 4 implementation failed");
-    end    
+    end
 
     operandA= 32'hf0000000; operandB = 32'h0fffffff; command = `SLT; #5000
     if((result != 32'h00000001) || (carryout != 1'b1) || (overflow != 1'b0)) begin
         dutpassed = 0;  // Set to 'false' on failure
         $display("Test Case 8 Failed: SLT 5 implementation failed");
-    end    
+    end
 
     operandA= 32'h0fffffff; operandB = 32'hf0000000; command = `SLT; #5000
     if((result != 32'h00000000) || (carryout != 1'b0) || (overflow != 1'b0)) begin

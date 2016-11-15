@@ -18,7 +18,7 @@ module mux_1bit
     not  #10 not_4(result, nor_wire);
 endmodule
 
-// 5:1 Multiplexer
+// 5:1 Multiplexer for the ALU
 module mux_alu
 (
     output result,
