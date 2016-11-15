@@ -57,14 +57,10 @@ module CPU (
     .reset(resetPC)
   );
 
-  // TODO: Deprecate into the same memory.
-  // RAM instruction_memory (
-  //   .dataOut(instruction_IF),
-  //   .clk(clk),
-  //   .address(pc_IF),
-  //   .writeEnable(1'b0),
-  //   .dataIn(32'b0)
-  // );
+  // TODO: Control this depending on instruction or data fetch.
+  assign toMemAddress = pc_IF;
+  assign toMemWriteEnable = 0;
+  assign instruction_IF = fromMemData;
 
   addFour addFour (
     .pcPlus4F(pcPlus4_IF),

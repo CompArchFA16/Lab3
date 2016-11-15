@@ -40,6 +40,7 @@ module testCPU ();
     .toMemAddress(toggleToMemAddress),
     .toMemWriteData(toggleToMemData),
     .toMemWriteEnable(toggleToMemWriteEnable),
+    .clk(clk),
     .isTesting(isTesting),
     .addressFromCPU(cpuToMemAddress),
     .dataFromCPU(cpuToMemData),
@@ -49,7 +50,6 @@ module testCPU ();
     .writeEnableFromTest(testToMemWriteEnable)
   );
 
-  // DUT.
   CPU dut (
     .toMemAddress(cpuToMemAddress),
     .toMemData(cpuToMemData),
@@ -77,7 +77,7 @@ module testCPU ();
   task completeInstructionCycle;
     begin
       // TODO: Update this time to the correct length of our instruction cycle.
-      #50;
+      #10;
     end
   endtask
 
@@ -90,14 +90,14 @@ module testCPU ();
       testToMemWriteEnable <= 1'b1;
       resetPC <= 1'b1;
       #2; // Wait for a clock cycle.
-      isTesting <= 1'b0;
+      isTesting <= 1'b0; // This means that the CPU is back in control.
       testToMemWriteEnable <= 1'b0;
       resetPC <= 1'b0;
     end
   endtask
 
   // Start the clock.
-  initial clk = 1;
+  initial clk = 0;
   always #1 clk = !clk;
 
   initial begin
@@ -105,6 +105,7 @@ module testCPU ();
     $dumpfile("cpu.vcd");
     $dumpvars;
     dutPassed = 1;
+
 
     // LW ======================================================================
     // RTL:
@@ -276,25 +277,11 @@ endmodule
 
 // MOCKS =======================================================================
 
-module mockDataMemory (
-  output reg [31:0] out,
-
-  input        clk,
- 	input [31:0] address,
-  input [31:0] in,
- 	input        writeEnable
-);
-	initial begin
-		if (address === 32'd7) begin
-			out <= 32'd3;
-		end
-	end
-endmodule
-
 module dataMemInputToggle (
   output reg [31:0] toMemAddress,
   output reg [31:0] toMemWriteData,
   output reg        toMemWriteEnable,
+  input        clk,
   input        isTesting,
   input [31:0] addressFromCPU,
   input [31:0] dataFromCPU,
@@ -303,10 +290,10 @@ module dataMemInputToggle (
   input [31:0] dataFromTest,
   input        writeEnableFromTest
 );
-  always @ (isTesting) begin
+  always @ (posedge clk) begin
     if (isTesting) begin
       toMemAddress     <= addressFromTest;
-      toMemWriteData   <= dataFromCPU;
+      toMemWriteData   <= dataFromTest;
       toMemWriteEnable <= writeEnableFromTest;
     end else begin
       toMemAddress     <= addressFromCPU;
