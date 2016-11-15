@@ -52,7 +52,7 @@ clk = 1; #100
 clk = 0; #100
 // $display("Output: %b %b", clk, addr);
 
-if (addr == 32'b00000000000000000000000000010000) begin
+if (addr == 32'b00000000000000000000000000000100) begin
     dutpassed = 1;
 end
 $display("DUT passed: %b", dutpassed);
