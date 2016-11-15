@@ -4,7 +4,7 @@
 `timescale 1ns / 1ps
 
 module test_instructionmemory();
-    reg[9:0] PC;
+    reg[31:0] PC;
     wire[31:0] dataOut;
 
     instructionmemory dut(PC, dataOut);
@@ -14,17 +14,21 @@ module test_instructionmemory();
         $dumpfile("instructionmemory.vcd");
         $dumpvars();
 
-        $display("  PC | Loaded instruction");
-        // Go through first three instructions sequentially
-        PC = 0;
+        $display("        PC | Loaded instruction");
+        // Go through first 3 instructions sequentially
+        PC = 0; #10
         $display("%d | %h                 ", PC, dataOut);
-        PC = 1;
+        PC = PC + 4; #10
         $display("%d | %h                 ", PC, dataOut);
-        PC = 4;
+        PC = PC + 4; #10
         $display("%d | %h                 ", PC, dataOut);
-        PC = 7;
+
+        // Skip to the 5th instruction
+        PC = 20; #10
         $display("%d | %h                 ", PC, dataOut);
-        PC = 12;
+
+        // Skip to the 10th instruction
+        PC = 40; #10
         $display("%d | %h                 ", PC, dataOut);
 
         $finish;
