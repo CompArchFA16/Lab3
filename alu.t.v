@@ -18,6 +18,9 @@ module test_alu_32bit ();
     // $dumpfile("alu_32bit.vcd");
     // $dumpvars;
 
+    dutpassed = 1;
+
+
     // Basic Gates (NAND, AND, NOR, OR, XOR)
     operandA= 32'haaaaaaaa; operandB = 32'hcccccccc; command = `NAND; #1000
     if(result != 32'h77777777) begin
@@ -195,6 +198,8 @@ module test_alu_32bit ();
     else begin
         $display("Last of Test Case 9 Passed");
     end
+
+    $display("dutpassed: %b",  dutpassed);
 
     end
 endmodule
