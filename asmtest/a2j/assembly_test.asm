@@ -1,3 +1,4 @@
+xori $sp, $zero, 0x3ffc
 main: 
 	add $t0, $zero, 5 #t0 = 5
 	sub $t1, $t0, 2 #t1 = 3
@@ -24,4 +25,5 @@ makeequal:
 	jr $ra
 
 end:
+	j end
 	

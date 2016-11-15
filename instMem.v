@@ -1,19 +1,17 @@
 module instMem
 (
-    input                   clk,
-    input [31: 0]           PC,
-    output reg [31:0]       instruction
+    input [31:0]            read_address,
+    output [31:0]       instruction
 );
     reg [31:0] instructionMem [31:0];
 
-    //initial $readmemh(“file.dat”, instructionMem);
+    //initial $readmemh(“assembly_test.dat”, instructionMem);
+    //initial $readmemh(“test.dat”, instructionMem);
 
     initial begin
-    	instructionMem[0] <= 32'h2008000a;
+        instructionMem[0] <= 32'h2008000a;
     end
 
-    always @(posedge clk) begin
-        instruction <= instructionMem[PC];
-    end
+    assign instruction = instructionMem[read_address];
 
 endmodule

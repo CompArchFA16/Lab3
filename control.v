@@ -25,12 +25,12 @@ initial begin
 	ALUOp[0] <=0;
 end
 
-always @(posedge clk) begin
+always @* begin
 
 	case(instruction)
 
 		6'b000000: begin //jr, add, sub, slt
-			RegDst <= 0;
+			RegDst <=0;
 			RegWrite <=0;
 			ALUSrc <=0;
 			MemWrite <=0;
@@ -42,7 +42,7 @@ always @(posedge clk) begin
 		end
 
 		6'b000010: begin //j 
-			RegDst <= 0;
+			RegDst <=0;
 			RegWrite <=0;
 			ALUSrc <=0;
 			MemWrite <=0;
@@ -54,7 +54,7 @@ always @(posedge clk) begin
 		end
 
 		6'b000011: begin //jal
-			RegDst <= 0;
+			RegDst <=0;
 			RegWrite <=1;
 			ALUSrc <=0;
 			MemWrite <=0;
@@ -66,7 +66,7 @@ always @(posedge clk) begin
 		end
 
 		6'b000101: begin //bne
-			RegDst <= 0;
+			RegDst <=0;
 			RegWrite <=0;
 			ALUSrc <=0;
 			MemWrite <=0;
@@ -78,7 +78,7 @@ always @(posedge clk) begin
 		end
 
 		6'b001110: begin //xori
-			RegDst <= 0;
+			RegDst <=0;
 			RegWrite <=1;
 			ALUSrc <=1;
 			MemWrite <=0;
@@ -90,7 +90,7 @@ always @(posedge clk) begin
 		end
 
 		6'b100011: begin //lw
-			RegDst <= 0;
+			RegDst <=0;
 			RegWrite <=1;
 			ALUSrc <=1;
 			MemWrite <=0;
@@ -102,7 +102,7 @@ always @(posedge clk) begin
 		end
 
 		6'b101011: begin //sw
-			RegDst <= 0;
+			RegDst <=0;
 			RegWrite <=1;
 			ALUSrc <=1;
 			MemWrite <=0;

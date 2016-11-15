@@ -14,7 +14,7 @@ module datamemory
 )
 (
     input 		                clk,
-    output reg [width-1:0]      readData,
+    output [width-1:0]          readData,
     input [addresswidth-1:0]    address,
     input                       MemWrite,
     input                       MemRead,
@@ -23,13 +23,19 @@ module datamemory
 
 
     reg [width-1:0] memory [depth-1:0];
+    reg [width-1:0] readData_reg;
 
     always @(posedge clk) begin
         if(MemWrite)
             memory[address] <= writeData;
-        if(MemRead)
-            readData <= memory[address];
     end
+
+    always @* begin
+    if(MemRead)
+        readData_reg <= memory[address];
+    end
+
+    assign readData = readData_reg;
 
 endmodule
 

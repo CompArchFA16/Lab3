@@ -19,15 +19,11 @@ module register
 
 // Register file storage
 reg [n-1:0] registers [naddr-1:0];
-reg [naddr-1:0] ra_reg, rb_reg;
 
 always @(posedge clk) begin
     if (wrEn) begin
         registers[wd_addr] <= wd;
     end
-
-    ra_reg <= ra_addr;
-    rb_reg <= rb_addr;
 end
 
 assign ra = registers[ra_reg];
