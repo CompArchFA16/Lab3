@@ -191,7 +191,6 @@ module CPU (
 
   shiftTwo the_shifting_of_two (
     .out(shiftOut),
-    .clk(clk),
     .in(signImm_EX)
   );
 
@@ -235,7 +234,7 @@ module CPU (
     .result(pcBranch_EX),
     .operandA(shiftOut),
     .operandB(pcPlus4_EX),
-    .command(3'b100) // TODO: Use the correct command.
+    .command(`ALU_CMD_ADD) // TODO: Use the correct command.
   );
 
   // MEM - Memory Access =======================================================
