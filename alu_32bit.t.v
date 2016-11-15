@@ -1,8 +1,8 @@
 // 32-bit ALU testbench
 
 `include "multiplexers.v"
-`include "adder.v"
-`include "gates.v"
+// `include "adder.v"
+// `include "gates.v"
 `include "alu.v"
 
 module test_alu_32bit ();
@@ -184,12 +184,19 @@ module test_alu_32bit ();
 
     // Zero flag
     operandA= 32'h1234abcd; operandB = 32'h1234abcd; command = `SUB; #5000
-    if((result != 32'h00000000) || (zero != 1'b0)) begin
+    if((result != 32'h00000000) || (zero != 1'b1)) begin
         dutpassed = 0;  // Set to 'false' on failure
-        $display("Test Case 9 Failed: SLT 6 implementation failed");
+        $display("Test Case 9 Failed: Zero 1 implementation failed");
     end
 
     operandA= 32'h1234abcd; operandB = 32'habcd1234; command = `SUB; #5000
-    $display(" %b | %h  %h | %h |    %b | A-B!=0", command, operandA, operandB, result, zero);
+    if((result != 32'h66679999) || (zero != 1'b0)) begin
+        dutpassed = 0;  // Set to 'false' on failure
+        $display("Test Case 9 Failed: Zero 2 implementation failed");
+    end
+    else begin
+        $display("Last of Test Case 9 Passed");
+    end
+
     end
 endmodule
