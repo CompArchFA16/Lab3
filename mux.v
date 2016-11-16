@@ -34,7 +34,8 @@ end
 end
 endmodule
 
-module mux32to1by1
+
+module mux32to1by1small
 (
     input [31:0] input1,
     input [31:0] input2,
@@ -51,3 +52,4 @@ module mux32to1by1
   end
   end
 endmodule
+
