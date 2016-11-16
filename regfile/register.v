@@ -1,3 +1,5 @@
+`ifndef __REGISTER_V__
+`define __REGISTER_V__
 // Single-bit D Flip-Flop with enable
 // Positive edge triggered
 // Code from HW4 
@@ -96,4 +98,4 @@ input[31:0]     input0, input1, input2, input3, input4, input5, input6, input7, 
   assign mux[31] = input31;
   assign out = mux[address];    // Connect the output of the array
 endmodule
-
+`endif

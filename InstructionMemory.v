@@ -1,3 +1,5 @@
+`ifndef __INSTRUCTIONMEMORY_V__
+`define __INSTRUCTIONMEMORY_V__
 module instructionmemory
 (
     input                       clk,
@@ -18,3 +20,4 @@ module instructionmemory
     assign dOut = memory[address];
 
 endmodule
+`endif

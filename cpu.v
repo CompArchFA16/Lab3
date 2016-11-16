@@ -1,8 +1,13 @@
 `ifndef __CPU_V__
 `define __CPU_V__
 
+`include "utils.v"
 `include "mux.v"
 `include "alu.v"
+`include "DataMemory.v"
+`include "InstructionMemory.v"
+`include "InstructionDecoder.v"
+`include "mux.v"
 
 module cpu
 (

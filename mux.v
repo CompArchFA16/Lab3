@@ -1,8 +1,6 @@
-// http://www.alteraforum.com/forum/showthread.php?t=22519
-
 `ifndef __MUX_V__
 `define __MUX_V__
-
+// http://www.alteraforum.com/forum/showthread.php?t=22519
 module mux 
 #(   parameter WIDTH    = 8,
      parameter CHANNELS = 4) 

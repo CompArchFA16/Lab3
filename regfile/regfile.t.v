@@ -1,3 +1,5 @@
+`ifndef __REGFILE_T_V__
+`define __REGFILE_T_V__
 //------------------------------------------------------------------------------
 // Test harness validates hw4testbench by connecting it to various functional 
 // or broken register files, and verifying that it correctly identifies each
@@ -203,3 +205,4 @@ output reg		    Clk
 end
 
 endmodule
+`endif

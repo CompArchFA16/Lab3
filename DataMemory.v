@@ -1,3 +1,5 @@
+`ifndef __DATAMEMORY_V__
+`define __DATAMEMORY_V__
 
 module datamemory
 (
@@ -22,3 +24,4 @@ module datamemory
     assign dataOut = memory[address];
 
 endmodule
+`endif

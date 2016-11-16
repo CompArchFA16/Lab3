@@ -1,3 +1,5 @@
+`ifndef __INSTRUCTIONDECODER_V__
+`define __INSTRUCTIONDECODER_V__
 module instructionDecoder
 (
 	input [31:0] instruction,
@@ -20,3 +22,4 @@ module instructionDecoder
 	assign jadr = instruction[25:0];
 
 endmodule
+`endif
