@@ -4,9 +4,11 @@ module quickpctest();
 reg clk;
 reg enable;
 wire [31:0] addr;
+wire [31:0] pcinput;
+wire [31:0] nextaddr;
 reg dutpassed;
 
-pc peecee(clk, enable, addr);
+pc peecee(clk, enable, pcinput, addr, nextaddr);
 
 initial begin
 dutpassed = 0;
