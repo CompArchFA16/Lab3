@@ -22,28 +22,28 @@ assign zero = ~|result;
 
 always @(posedge clk) begin
 	case (ALUcommand)
-		`c_ADD: begin
+		`C_ADD: begin
 			{carryout,result} <= a + b;
 		end
-		`c_SUB: begin
+		`C_SUB: begin
 			{carryout,result} <= a + ~b + 1;
 		end
-		`c_SLT:  begin
+		`C_SLT:  begin
 			result <= (a < b);
 		end // invert B to subtract subtract
-		`c_XOR:  begin
+		`C_XOR:  begin
 			result <= (a ^ b);
 		end    
-		`c_NAND: begin
+		`C_NAND: begin
 			result <= ~(a&b);
 		end
-		`c_AND:  begin
+		`C_AND:  begin
 			result <= (a&b);
 		end    
-		`c_NOR:  begin
+		`C_NOR:  begin
 			result <= ~(a|b);
 		end    
-		`c_OR:   begin
+		`C_OR:   begin
 			result <= (a|b);
 		end
 		default: begin
