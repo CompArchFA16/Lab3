@@ -14,6 +14,7 @@ output reg [31:0]   addr = 32'b00000000000000000000000000000000
     always @(posedge clk) begin
     	if (enable) begin
 	        if (addr == 32'b00000000000000000000000000001010) begin
+                addr = 32'b00000000000000000000000000000000;
 	        end
 	        else begin
 	        addr <= addr + 1;
