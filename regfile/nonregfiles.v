@@ -1,3 +1,5 @@
+`ifndef __NONREGFILES_V__
+`define __NONREGFILES_V__
 // Write Enable is broken
 module regfilewrenable
 (
@@ -128,3 +130,4 @@ input		      Clk		          // Clock (Positive Edge Triggered)
   mux32to1by32 mux2(ReadData2, 5'b10001, res_mux[0], res_mux[1], res_mux[2], res_mux[3], res_mux[4], res_mux[5], res_mux[6], res_mux[7], res_mux[8], res_mux[9], res_mux[10], res_mux[11], res_mux[12], res_mux[13], res_mux[14], res_mux[15], res_mux[16], res_mux[17], res_mux[18], res_mux[19], res_mux[20], res_mux[21], res_mux[22], res_mux[23], res_mux[24], res_mux[25], res_mux[26], res_mux[27], res_mux[28], res_mux[29], res_mux[30], res_mux[31]);
 
 endmodule
+`endif

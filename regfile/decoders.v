@@ -1,3 +1,5 @@
+`ifndef __DECODERS_V__
+`define __DECODERS_V__
 // 32 bit decoder with enable signal
 //   enable=0: all output bits are 0
 //   enable=1: out[address] is 1, all other outputs are 0
@@ -11,3 +13,4 @@ input[4:0]	address
     assign out = enable<<address; 
 
 endmodule
+`endif

@@ -1,3 +1,5 @@
+`ifndef __SIGNEXTEND_V__
+`define __SIGNEXTEND_V__
 module signextend
 (
 	output[31:0]  signextended, // Sign extended immediate
@@ -8,3 +10,4 @@ module signextend
 	assign signextended = issigned? {{16{immediate[15]}}, immediate[15:0]} : {16'h0000, immediate[15:0]};
 
 endmodule
+`endif

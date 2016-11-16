@@ -11,6 +11,7 @@ module testsignextend ();
   signextend se1 (signextended, immediate, issigned);
 
   initial begin
+<<<<<<< HEAD
     $dumpfile("signextended.vcd");
     $dumpvars(0,testsignextend);
     pass = 1;
@@ -46,6 +47,17 @@ module testsignextend ();
         else begin
             $display("SignExtended Tests Failed");
         end
+=======
+    $display("   Immediate   | issigned | signextended | PASS");
+    immediate=16'hFFFF; issigned=1'b0; #1000
+    $display("%b |    %b     | %b | %s", immediate, issigned, signextended, signextended == {16'b0, immediate}? "PASS" : "FAIL");
+    immediate=16'hFFFF; issigned=1'b1; #1000
+    $display("%b |    %b     | %b | %s", immediate, issigned, signextended, signextended == {~16'b0, immediate}? "PASS" : "FAIL");
+    immediate=16'h0000; issigned=1'b0; #1000
+    $display("%b |    %b     | %b | %s", immediate, issigned, signextended, signextended == {16'b0, immediate}? "PASS" : "FAIL");
+    immediate=16'h0000; issigned=1'b1; #1000
+    $display("%b |    %b     | %b | %s", immediate, issigned, signextended, signextended == {16'b0, immediate}? "PASS" : "FAIL");
+>>>>>>> 5343afbacf12fe7202d8c28c6e89df821837c1e2
   end
 
 endmodule
