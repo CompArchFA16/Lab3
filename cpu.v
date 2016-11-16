@@ -58,6 +58,7 @@ instructionmemory im(pc, instr); // this may internally be datamemory with w_en 
 
 // INSTRUCTION DECODER
 instructiondecoder id(instr, opcode, rs, rt, rd, shamt, funct, imm, jadr); // convenience module
+assign jumpaddress = {(PC+4)[31:28], jadr, 2'b00}
 
 // REGISTER FILE
 mux m2(rf_din, {alu_res, dm_dout, pc+4}, rf_seldin); //00 = pc+4, 01 = dm_dout, 10 = alu_res
