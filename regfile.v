@@ -5,7 +5,7 @@
 //   2 asynchronous read ports
 //   1 synchronous, positive edge triggered write port
 //------------------------------------------------------------------------------
-
+`timescale 1 ns / 1 ps
 module regfile
 (
 output[31:0]	ReadData1,	// Contents of first register read
