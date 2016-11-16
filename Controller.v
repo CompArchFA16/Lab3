@@ -6,15 +6,15 @@
 module controller(
 	input opcode,
 	input funct,
-	output [1:0] sel_pc,
-	output sgn,
-	output sel_b,
-	output [1:0] sel_aluop,
-	output dm_wen,
-	output rf_wen,
-	output [1:0] rf_selwadr,
-	output [1:0] rf_seldin,
-	output sel_bne
+	output reg [1:0] sel_pc,
+	output reg sgn,
+	output reg sel_b,
+	output reg [1:0] sel_aluop,
+	output reg dm_wen,
+	output reg rf_wen,
+	output reg [1:0] rf_selwadr,
+	output reg [1:0] rf_seldin,
+	output reg sel_bne
 );
 
 always @(opcode or funct) begin
