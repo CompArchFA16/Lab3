@@ -11,9 +11,11 @@ module testsignextend();
     reg[15:0]       immediate;
     wire[31:0]      extended_imm;
 
+    reg dutpassed;
+
     
     // Instantiate with parameter width = 8
-    signextend dut(immediate, extended_imm);
+    signextend dut(extended_imm, immediate);
     always begin
     #1 clk = ~clk;
     //#6 peripheralClkEdge= ~peripheralClkEdge;
@@ -21,58 +23,44 @@ module testsignextend();
 
     initial begin
     	// Your Test Code
-        $dumpfile("signextend.vcd");
-        $dumpvars();
+        // $dumpfile("signextend.vcd");
+        // $dumpvars();
+
+        dutpassed =1;
 
         clk=1; 
         immediate = 16'b1010101010101010; #0
+        if(extended_imm != 32'b11111111111111111010101010101010) begin
+            dutpassed = 0;  // Set to 'false' on failure
+            $display("Test Case 1 Failed: MSB in imm 1 implementation failed");
+        end
+        else begin
+            $display("Test Case 1 Passed");
+        end
+        #2
 
-        $display("  immediate               |     Ext      ");
-        $display("    %b      |   %b   ",  immediate[15:0], extended_imm);
+
+        // $display("  immediate               |     Ext      ");
+        // $display("    %b      |   %b   ",  immediate[15:0], extended_imm);
 
         immediate = 16'b0010101010101010; #0
 
-        $display("  immediate               |     Ext      ");
-        $display("    %b      |   %b   ",  immediate[15:0], extended_imm);
+        if(extended_imm != 32'b00000000000000000010101010101010) begin
+            dutpassed = 0;  // Set to 'false' on failure
+            $display("Test Case 2 Failed: MSB in imm 0 implementation failed");
+        end
+        else begin
+            $display("Test Case 2 Passed");
+        end
+        #2
+
+        $display("dutpassed: %b",  dutpassed);
+
+
+        // $display("  immediate               |     Ext      ");
+        // $display("    %b      |   %b   ",  immediate[15:0], extended_imm);
 
         #2 $finish;
     end
 
 endmodule
-
-// module testsignextend_26();
-
-//     reg             clk;
-//     reg[25:0]       immediate;
-//     wire[31:0]      extended_imm;
-
-    
-//     // Instantiate with parameter width = 8
-//     signextend_26 dut(immediate, extended_imm);
-//     always begin
-//     #1 clk = ~clk;
-//     end
-
-//     initial begin
-//         // Your Test Code
-//         $dumpfile("signextend.vcd");
-//         $dumpvars();
-
-//         clk=1; 
-        
-//         immediate = 26'b11111111111111111111111111; #0
-
-
-//         $display("  immediate               |     Ext      ");
-//         $display("    %b      |   %b   ",  immediate, extended_imm);
- 
-//         immediate = 26'b01111111111111111111111111; #0
-
-
-//         $display("  immediate               |     Ext      ");
-//         $display("    %b      |   %b   ",  immediate, extended_imm);       
-
-//         #2 $finish;
-//     end
-
-// endmodule
