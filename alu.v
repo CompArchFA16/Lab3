@@ -6,21 +6,20 @@
 
 module alu
 (
-	output[n-1:0]    result,
+	output[n-1:0]   result,
 	output          carryout,
 	output          zero,
 	output          overflow,
-	input[n-1:0]     operandA,
-	input[n-1:0]     operandB,
-	input[2:0]      command
-
+	input[n-1:0]    operandA,
+	input[n-1:0]    operandB,
+	input[2:0]      command,
 );
 
 // FLAGS
 assign overflow = ({carryout,result[31]} == 2'b01);
 assign zero = ~|result;
 
-always @(posedge clk) begin
+always @* begin
 	case (ALUcommand)
 		`C_ADD: begin
 			{carryout,result} <= a + b;

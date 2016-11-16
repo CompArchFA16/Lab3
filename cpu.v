@@ -6,7 +6,7 @@
 
 module cpu
 (
-
+  input clk
 );
 
 // TODO : add clock
