@@ -1,4 +1,10 @@
 // Define ALU command codes
+
+// `define CMD_ADD  6'h20
+// `define CMD_SUB  6'h22
+// `define CMD_XOR  6'he
+// `define CMD_SLT  6'h2a
+
 `define CMD_ADD  3'd0
 `define CMD_SUB  3'd1
 `define CMD_XOR  3'd2
@@ -7,16 +13,6 @@
 `define CMD_NAND 3'd5
 `define CMD_NOR  3'd6
 `define CMD_OR   3'd7
-
-// define gates with delays
-`define NAND nand #20
-`define NOR nor #20
-`define NOT not #10
-`define AND and #30
-`define NAND32 nand #320
-`define OR or #30
-`define XNOR xnor #60
-`define XOR xor #60
 
 // Define the ALU look up table to return the control signals which determine
 // the behavior of the ALU
@@ -57,12 +53,12 @@ module adder_1_bit
   wire AandB;
   wire AxorBandCin;
 
-  `XOR xorgate0(AxorB, a, b);
-  `XOR xorgate1(sum, AxorB, cin);
+  xor xorgate0(AxorB, a, b);
+  xor xorgate1(sum, AxorB, cin);
 
-  `AND andgate0(AandB, a, b);
-  `AND andgate1(AxorBandCin, AxorB, cin);
-  `OR orgate(cout, AandB, AxorBandCin);
+  and andgate0(AandB, a, b);
+  and andgate1(AxorBandCin, AxorB, cin);
+  or orgate(cout, AandB, AxorBandCin);
 endmodule
 
 module adder_8_bit
@@ -100,9 +96,9 @@ module adder_32_bit
   //   The result of adding two positive numbers is negative
   //   The result of adding two negative numbers is positive
   wire same_sign, switched;
-  `XNOR xnor0(same_sign, a[31], b[31]);
-  `XOR xor0(switched, sum[31], a[31]);
-  `AND and0(ofl, same_sign, switched);
+  xnor xnor0(same_sign, a[31], b[31]);
+  xor xor0(switched, sum[31], a[31]);
+  and and0(ofl, same_sign, switched);
 endmodule
 
 // INVERTER
@@ -112,7 +108,7 @@ module inverter_1_bit
   output out,
   input in
 );
-  `NOT not0(out, in);
+  not not0(out, in);
 endmodule
 
 module inverter_8_bit
@@ -149,7 +145,7 @@ module xor_1_bit
   input a,
   input b
 );
-  `XOR xor0(out, a, b);
+  xor xor0(out, a, b);
 endmodule
 
 module xor_8_bit
@@ -188,7 +184,7 @@ module nand_1_bit
   input a,
   input b
 );
-  `NAND nand0(out, a, b);
+  nand nand0(out, a, b);
 endmodule
 
 module nand_8_bit
@@ -227,7 +223,7 @@ module nor_1_bit
   input a,
   input b
 );
-  `NOR nor0(out, a, b);
+  nor nor0(out, a, b);
 endmodule
 
 module nor_8_bit
@@ -265,7 +261,7 @@ module nand_32_to_1
   output out,
   input[31:0] in
 );
-  `NAND32 nand0(out,
+  nand nand0(out,
     in[0], in[1], in[2], in[3], in[4], in[5], in[6], in[7],
     in[8], in[9], in[10], in[11], in[12], in[13], in[14], in[15],
     in[16], in[17], in[18], in[19], in[20], in[21], in[22], in[23],
@@ -279,14 +275,14 @@ module byte_to_zero
 (
   output[7:0] out
 );
-  `OR or0(out[0], 0, 0);
-  `OR or1(out[1], 0, 0);
-  `OR or2(out[2], 0, 0);
-  `OR or3(out[3], 0, 0);
-  `OR or4(out[4], 0, 0);
-  `OR or5(out[5], 0, 0);
-  `OR or6(out[6], 0, 0);
-  `OR or7(out[7], 0, 0);
+  or or0(out[0], 0, 0);
+  or or1(out[1], 0, 0);
+  or or2(out[2], 0, 0);
+  or or3(out[3], 0, 0);
+  or or4(out[4], 0, 0);
+  or or5(out[5], 0, 0);
+  or or6(out[6], 0, 0);
+  or or7(out[7], 0, 0);
 endmodule
 
 module or_1_to_32
@@ -294,14 +290,14 @@ module or_1_to_32
   output[31:0] out,
   input in
 );
-  `OR or0(out[0], 0, in);
-  `OR or1(out[1], 0, 0);
-  `OR or2(out[2], 0, 0);
-  `OR or3(out[3], 0, 0);
-  `OR or4(out[4], 0, 0);
-  `OR or5(out[5], 0, 0);
-  `OR or6(out[6], 0, 0);
-  `OR or7(out[7], 0, 0);
+  or or0(out[0], 0, in);
+  or or1(out[1], 0, 0);
+  or or2(out[2], 0, 0);
+  or or3(out[3], 0, 0);
+  or or4(out[4], 0, 0);
+  or or5(out[5], 0, 0);
+  or or6(out[6], 0, 0);
+  or or7(out[7], 0, 0);
 
   byte_to_zero byte_or0(out[15:8]);
   byte_to_zero byte_or1(out[23:16]);
@@ -318,10 +314,10 @@ module mux_1_bit
   input s
 );
   wire not_s, a_and_not_s, b_and_s;
-  `NOT not0(not_s, s);
-  `AND and0(a_and_not_s, a, not_s);
-  `AND and1(b_and_s, b, s);
-  `OR or0(out, a_and_not_s, b_and_s);
+  not not0(not_s, s);
+  and and0(a_and_not_s, a, not_s);
+  and and1(b_and_s, b, s);
+  or or0(out, a_and_not_s, b_and_s);
 endmodule
 
 module mux_8_bit
@@ -423,7 +419,7 @@ module is_zero
   wire not_and_not_num;
   inverter_32_bit inv0(.out(not_num), .in(num));
   nand_32_to_1 nand0(.out(not_and_not_num), .in(not_num));
-  `NOT not0(out, not_and_not_num);
+  not not0(out, not_and_not_num);
 endmodule
 
 // MAIN ALU
