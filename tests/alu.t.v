@@ -33,7 +33,7 @@ module testALU();
   );
 
   initial begin
-    // $dumpfile("testALU.vcd");
+    // $dumpfile("waveforms/testALU.vcd");
     // $dumpvars(0, testALU);
 
     dutpassed = 1;

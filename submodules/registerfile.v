@@ -7,6 +7,20 @@
 //------------------------------------------------------------------------------
 
 
+// 32 bit decoder with enable signal
+//   enable=0: all output bits are 0
+//   enable=1: out[address] is 1, all other outputs are 0
+module decoder1to32
+(
+output[31:0]  out,
+input   enable,
+input[4:0]  address
+);
+
+    assign out = enable<<address;
+
+endmodule
+
 // Single-bit D Flip-Flop with enable
 //   Positive edge triggered
 module register
@@ -114,7 +128,7 @@ endmodule
 
 
 
-module regfile
+module registerfile
 (
 output[31:0]  ReadData1,  // Contents of first register read
 output[31:0]  ReadData2,  // Contents of second register read
