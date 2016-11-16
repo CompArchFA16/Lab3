@@ -1,55 +1,71 @@
 //Tom Lisa Anisha so hawt
- `timescale 1 ns / 1 ps
+`timescale 1 ns / 1 ps
 `include "pc.v"
 `include "memory.v"
-`include "ctrl_unit.v"
-`include "instrdecode.v"
-`include "mux.v"
+`include "instrFetch.v"
+`include "regfile.v"
+
+//`include "ctrl_unit.v"
+//`include "instrdecode.v"
+//`include "mux.v"
 
 module pipelineCPU
 (
     input clk,
-    output whatever
+    output [31:0] whatever
 );
 
-//instructions - stage 1
-mux2to132bits  pcmux(pcplus4d, pcbranch,,output reg out);
+
+// Instruction Fetch
+
+reg enable = 1;
+wire [31:0] PCaddr;
+reg regWE = 0;
+wire [31:0] InstrOut;
+wire [31:0] instrD;
+wire [31:0] PCplus4D;
+reg wrenable = 1;
+
 pc programcounter(clk, enable, PCaddr);
-Instr_memory iMem(clk, regWE, IMaddr, DataIn, DataOut);
-//pipeline register
-registerIF rif(wrenable, clk, dataout, PCaddr);
+Instr_memory iMem(PCaddr, InstrOut);
+registerIF rif(wrenable, clk, InstrOut, PCaddr, instrD, PCplus4D);
 
-/*    input clk,input [31:0] instrd,input pcplus4d,input [31:0] ResultW,input [4:0] writeRegW,input RegWriteW,output pcplus4e,output seImm,output [4:0] rte,output [4:0] rde,output [31:0] rd1,output [31:0] rd2 */
-instrDecode iDstage(clk, instr, );
-//ctrl unit here
+// Instruction Decode
+wire [5:0] Op;
+wire [5:0] Funct;
+wire [4:0] A1;
+wire [4:0] A2;
+wire [4:0] RtED;
+wire [4:0] RdED;
+wire [15:0] Imm;
 
-registerID rid(regwriteD, memtoregD, MemWriteD, BranchD, ALUCtrlD, ALUSrcD, RegDstD, rd1, rd2, rtE, rdE , seImm, pcplus4d, RegWriteE, MemtoRegE, MemWriteE, BranchE, ALUCtrlE, ALUSrcE, RegDstE, rd1e, rd2e, rtEe, rdEe, seImme,pcplus4e );
+wire [31:0] RD1D;
+wire [31:0] RD2D;
+wire [31:0] resultW;
+wire [4:0] WriteRegW;
+wire PCSrcM;
+wire seImm;
 
-/*input [31:0] rd1,
-input [31:0] rd2,
-input [31:0] rtE,
-input [31:0] rdE,
-input RegDstE,
-input ALUSrcE,
-input [2:0] ALUCtrlE,
-input [31:0] seImm,
-input pcaddr,
-output [31:0] aluout,
-output writedatae,
-output [31:0] writeregE,
-output pcbranch */
-EXEC executestage();
+InstrFetchUnit instrFetch(instrD, Op, Funct, A1, A2, RtED, RdED, Imm);
+regfile regfilemodule(RD1D, RD2D, resultW, A1, A2, WriteRegW, PCSrcM, clk);
+assign seImm = {Imm, 16'b0000000000000000};
 
-//insert pipeline register
-registerEX rex(clk, RegWriteE, MemtoRegE, MemWriteE, BranchE, zeroE, aluoute, writedatae, writeregE, pcbranche, RegWriteM, MemtoRegM, MemWriteM, BranchM, zerom, aluoutm, writedataM, writeregM, pcbranchM);
+endmodule
 
-//  input clk, regWE,input[31:0] Addr,input[31:0] DataIn,output[31:0]  DataOut
-Data_memory dMem(clk, MemWriteM, aluout, writedatam, readdatam);
 
-//pipeline register
-registerMEM(clk, RegWriteM, MemtoRegM, aluoutm, readdataM, writeregM, RegWriteW, MemtoRegW, aluoutw, readdataW, writeRegW);
 
-//    input input1, input input2,input select,output reg out
-mux2to1 writebackmux(aluout, readdataW, MemtoRegW,ResultW);
 
+module registerIF
+(
+	input wrenable,
+    input       clk,
+    input [31:0] d1,
+    input [31:0] d2,
+    output reg [31:0] q1,
+    output reg [31:0] q2
+    );
+    always @(posedge clk) begin
+            q1 = d1;
+            q2 = d2;
+    end
 endmodule
