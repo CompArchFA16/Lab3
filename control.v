@@ -7,14 +7,13 @@
 `define RTYPE 6'h0
 
 `define JR    6'h8
-`define ADD   6'h20
-`define SUB   6'h22
-`define SLT   6'h2a
+`define ADDOP   6'h20
+`define SUBOP   6'h22
+`define SLTOP   6'h2a
 
 
 module control
 (
-    input clk,
     input [5:0] opp,
     input [5:0] func,
     output reg regDst,
@@ -29,7 +28,7 @@ module control
     output reg jumpReg
 );
 
-    always @(posedge clk) begin
+    always @(opp, func) begin
         case(opp)
             `JUMP: 
                 begin
@@ -124,7 +123,7 @@ module control
                             regWrite  <= 0;
                             jumpReg   <= 1;
                         end
-                    `ADD:
+                    `ADDOP:
                         begin
                             regDst    <= 1;
                             jump      <= 0;
@@ -137,7 +136,7 @@ module control
                             regWrite  <= 1;
                             jumpReg   <= 0;
                         end
-                    `SUB:
+                    `SUBOP:
                         begin
                             regDst    <= 1;
                             jump      <= 0;
@@ -150,7 +149,7 @@ module control
                             regWrite  <= 1;
                             jumpReg   <= 0;
                         end
-                    `SLT:
+                    `SLTOP:
                         begin
                             regDst    <= 1;
                             jump      <= 0;

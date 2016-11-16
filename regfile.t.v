@@ -1,4 +1,4 @@
-`include "RegfileDir/regfile.v"
+`include "regfile.v"
 //------------------------------------------------------------------------------
 // Test harness validates hw4testbench by connecting it to various functional 
 // or broken register files, and verifying that it correctly identifies each

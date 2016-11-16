@@ -1,4 +1,4 @@
-`include "RegfileDir/mux.v"
+`include "mux.v"
 
 module muxTest();
     reg[31:0] inputs;

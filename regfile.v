@@ -1,6 +1,6 @@
-`include "RegfileDir/decoders.v"
-`include "RegfileDir/mux.v"
-`include "RegfileDir/register.v"
+`include "decoders.v"
+`include "mux.v"
+`include "register.v"
 
 //------------------------------------------------------------------------------
 // MIPS register file
