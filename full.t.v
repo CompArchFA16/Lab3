@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Test harness validates alutestbench by connecting it to alu, and verifying that it works
+// This test bench simply runs all the test benches for the individual modules. 
 //------------------------------------------------------------------------------
 //`include "register.v"
 //`include "alu.v"
@@ -15,16 +15,13 @@
 `include "datamem.t.v"
 //`include "instructionmem.t.v"
 `include "signextend.t.v"
+`include "control.t.v"
 
 module fulltestbenchharness();
-
-
-  wire   begintest;  // Set High to begin testing alu
-  wire    dutpassed;  // Indicates whether alu passed tests
-
-alutestbenchharness alu();
-datamemtestbenchharness datamem();
-//instructionmemtestbenchharness inst();
-setestbenchharness se();
+  alutestbenchharness alu(); //tests alu and alucontrol
+  datamemtestbenchharness datamem(); //tests data memory
+  //instructionmemtestbenchharness inst();
+  setestbenchharness se(); //tests signextend
+  controltestbenchharness control();
 
 endmodule
