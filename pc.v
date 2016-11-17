@@ -5,6 +5,9 @@ module pc
 	output reg [31:0] pc_out
 );
 
+initial begin
+	pc_out <=32'b0;
+end
 always @(posedge clk) begin
 	pc_out <= pc_in;
 end

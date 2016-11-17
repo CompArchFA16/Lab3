@@ -1,0 +1,58 @@
+$date
+	Wed Nov 16 21:19:56 2016
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module test $end
+$var wire 32 ! aout [31:0] $end
+$var wire 32 " bout [31:0] $end
+$var reg 5 # a [4:0] $end
+$var reg 5 $ b [4:0] $end
+$var reg 1 % clk $end
+$var reg 32 & wrData [31:0] $end
+$var reg 1 ' wrEn $end
+$var reg 5 ( wrReg [4:0] $end
+$scope module register $end
+$var wire 1 ) clk $end
+$var wire 32 * ra [31:0] $end
+$var wire 5 + ra_addr [4:0] $end
+$var wire 32 , rb [31:0] $end
+$var wire 5 - rb_addr [4:0] $end
+$var wire 32 . wd [31:0] $end
+$var wire 5 / wd_addr [4:0] $end
+$var wire 1 0 wrEn $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+10
+b1000 /
+b110010 .
+bx -
+bx ,
+b0 +
+bx *
+0)
+b1000 (
+1'
+b110010 &
+0%
+bx $
+b0 #
+bx "
+bx !
+$end
+#5
+1%
+1)
+#10
+b1000 #
+b1000 +
+b110010 !
+b110010 *
+#60
