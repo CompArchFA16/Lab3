@@ -13,8 +13,8 @@ id: instructionDecoder.v instructionDecoder.t.v
 se: signExtend.v signExtend.t.v
 	$(CC) -o $(OUT) signExtend.t.v && ./$(OUT)
 
-reg: RegfileDir/regfile.v RegfileDir/regfile.t.v
-	$(CC) -o $(OUT) RegfileDir/regfile.t.v && ./$(OUT)
+reg: regfile.v regfile.t.v
+	$(CC) -o $(OUT) regfile.t.v && ./$(OUT)
 
 clean:
 	rm -r $(OUT)
