@@ -18,7 +18,7 @@ module CPU
     // Instr. Memory Wires
     wire [31:0] instrAddr;
     wire [31:0] instrData;
-    instrMemory instrMemory0(clk, 1'b0, pc, 32'b0, instrData);
+    instrMemory instrMemory0(clk, 1'b0, {2'b0, pc[31:2]}, 32'b0, instrData);
 
     // Instruction Decoder
     wire [5:0] Opp, Funct;
@@ -49,7 +49,9 @@ module CPU
     wire [4:0] Aa;
     regfile regfile0(Da, Db, Dw, Aa, Ab, Aw, regWrite, clk);
 
-    assign Dw = (regDest == 0 ? Rt : Rd);
+    assign Aw = (regDest == 0 ? Rt : Rd);
+    assign Aa = Rs;
+    assign Ab = Rt;
 
     // ALU Wires
     wire [31:0] aluInput0;
@@ -59,6 +61,7 @@ module CPU
     wire overflow;
     ALU alu0 (aluOutput, zero, overflow, aluInput0, aluInput1, aluOp);
 
+    assign aluInput0 = Da;
     assign aluInput1 = (aluSrc == 0 ? Db : Imm);
 
     // Data Memory Wires
