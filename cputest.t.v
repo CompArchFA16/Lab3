@@ -12,7 +12,7 @@ module cputest();
 	initial begin
 		$dumpfile("cpu.vcd");
 	    $dumpvars();
-	    #300
+	    #5000
 	    $finish;
     end
 

@@ -26,10 +26,10 @@ end
 
 always @(posedge clk) begin
     if (wrEn) begin
-    	$display("%b", wd);
-    	$display("%b", wd_addr);
+    	// $display("%b", wd);
+    	// $display("%b", wd_addr);
         registers[wd_addr] = wd;
-        $display("%b", registers[wd_addr]);
+        // $display("%b", registers[wd_addr]);
     end
 end
 
@@ -38,29 +38,29 @@ assign rb = registers[rb_addr];
 
 endmodule
 
-module test();
-	reg [31:0] wrData;
-	reg [4:0] a,b,wrReg;
-	reg clk, wrEn;
-	wire [31:0] aout, bout;
+// module test();
+// 	reg [31:0] wrData;
+// 	reg [4:0] a,b,wrReg;
+// 	reg clk, wrEn;
+// 	wire [31:0] aout, bout;
 
-	register register(clk,a,b,aout,bout,wrEn,wrReg,wrData);
+// 	register register(clk,a,b,aout,bout,wrEn,wrReg,wrData);
 
-	initial begin
-		$dumpfile("register.vcd");
-	    $dumpvars();
+// 	initial begin
+// 		$dumpfile("register.vcd");
+// 	    $dumpvars();
 
-		clk = 0; 
-		a = 5'd0;
-		wrReg = 5'd8; 
-		wrData = 32'd50; 
-		wrEn = 1; 
-		#5
-		clk = 1;
-		#5
-		a = 5'd8;
-		#50
+// 		clk = 0; 
+// 		a = 5'd0;
+// 		wrReg = 5'd8; 
+// 		wrData = 32'd50; 
+// 		wrEn = 1; 
+// 		#5
+// 		clk = 1;
+// 		#5
+// 		a = 5'd8;
+// 		#50
 
-		$display("%b", aout);
-	end
-endmodule
+// 		$display("%b", aout);
+// 	end
+// endmodule
