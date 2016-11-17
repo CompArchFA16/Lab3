@@ -2,7 +2,7 @@ module control
 (
 	input clk,
 	input [5:0] instruction, //instruction[31:26]
-	input [3:0] instruction_funct, //instruction[3:0]
+	input [5:0] instruction_funct, //instruction[5:0]
 
 	output reg [1:0] RegDst, //Mux for Register_WriteRegister_in
 	output reg Branch, //AND with ALU_Zero_out to get PCSrc
@@ -39,10 +39,20 @@ always @* begin
 			MemRead <= 0;
 			MemtoReg <= 2'b00;
 			Branch <= 0;
-			ALUOp <= 3'b001;
-			if (instruction_funct == 3'b1000) begin
+			if (instruction_funct == 6'b001000) begin //jr
 				Jump <= 2'b10;
-			end else begin
+				ALUOp <= 3'b000;
+			end 
+			else if (instruction_funct == 6'b100000) begin //add
+				ALUOp <= 3'b001;
+				Jump <= 2'b00;
+			end 
+			else if (instruction_funct == 6'b100010) begin //sub
+				ALUOp <= 3'b010;
+				Jump <= 2'b00;
+			end
+			else if (instruction_funct == 6'b101010) begin //slt
+				ALUOp <= 3'b011;
 				Jump <= 2'b00;
 			end
 		end

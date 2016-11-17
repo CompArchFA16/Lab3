@@ -105,7 +105,7 @@ module cpu
 				  .instruction(inst));
 
 	control cpuControl(.instruction(inst[31:26]),
-					   .instruction_funct(inst[3:0]),
+					   .instruction_funct(inst[5:0]),
 					   .RegDst(RegDst), 
 					   .Branch(Branch),
 					   .Jump(Jump),
@@ -117,10 +117,10 @@ module cpu
 					   .RegWrite(RegWrite));
 
 	mux3 #(5) mux5_inst_reg(.in1(inst[20:16]), 
-		                   .in0(inst[15:11]), 
-		                   .in2(5'b11111), //check if this is reg[$31]
-		                   .sel(RegDst), 
-		                   .out(writeRegister));
+		                    .in0(inst[15:11]), 
+		                    .in2(5'b11111), //check if this is reg[$31]
+		                    .sel(RegDst), 
+		                    .out(writeRegister));
 
 	register cpuRegister(.clk(clk), 
 						 .ra_addr(inst[25:21]), 
@@ -135,9 +135,9 @@ module cpu
 		             .seOut(SEinst));
 
 	mux2 mux_reg_alu(.in0(reg_readData2), 
-		            .in1(SEinst), 
-		            .sel(ALUsrc), 
-		            .out(ALU_in));
+		             .in1(SEinst), 
+		             .sel(ALUsrc), 
+		             .out(ALU_in));
 
 	alu cpuALU(.alucontrol(ALUop), 
 		       .a(reg_readData1), 

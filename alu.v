@@ -22,7 +22,7 @@ always @* begin //NOTE: You are describing combo logic, since there is no clock 
 
 	//slt
 	else if (alucontrol == 3'b011) begin
-		aluRes_reg <= (a < b) ? 1 : 0;
+		aluRes_reg <= (a > b) ? 32'b1 : 32'b0;
 	end
 
 	//xori
