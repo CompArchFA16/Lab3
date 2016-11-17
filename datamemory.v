@@ -10,7 +10,7 @@ module datamemory
     parameter addresswidth  = 32,
     //parameter depth         = 2**addresswidth,
     parameter depth = 10,
-    parameter width         = 32
+    parameter width = 32
 )
 (
     input 		                clk,

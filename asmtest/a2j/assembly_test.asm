@@ -1,27 +1,29 @@
 xori $sp, $zero, 0x3ffc
-main: 
-	add $t0, $zero, 5 #t0 = 5
-	sub $t1, $t0, 2 #t1 = 3
-	slt $t4, $t1, $t0 #t4 = 1
-	jal storeload
+xori $t0, $zero, 4 #t0 = 4
+xori $t1, $zero, 1 #t1 = 1
+
+main:
+	sub $t2, $t0, $t1 #$t2 = 3
+	add $t3, $t0, $t1 #t3 = 5
+	slt $t4, $t0, $t1 #t4 = 1
 	
+	jal storeload
+
 	bne $t0, $t1, makeequal
-	xori $t5, $t4, 0 
+	xori $t7, $t4, 0 
 	j end
 	
 storeload: 
-	add $sp, $sp, -8
 	sw $t0, 0($sp)
 	sw $t1, 4($sp)
 
-	lw $t2, 0($sp) #t2 = t0 = 5
-	lw $t3, 4($sp) #t3 = t1 = 3
-	add $sp, $sp, 8
+	lw $t5, 0($sp) #t5 = t0 = 4
+	lw $t6, 4($sp) #t6 = t1 = 1
 	
 	jr $ra
 
 makeequal:
-	sub $t0, $t0, 1
+	sub $t0, $t0, $t1
 	jr $ra
 
 end:
