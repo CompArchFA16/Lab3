@@ -105,6 +105,7 @@ module cpu
 				  .instruction(inst));
 
 	control cpuControl(.instruction(inst[31:26]),
+					   .instruction_funct(inst[3:0]),
 					   .RegDst(RegDst), 
 					   .Branch(Branch),
 					   .Jump(Jump),
@@ -115,8 +116,8 @@ module cpu
 					   .ALUSrc(ALUsrc), 
 					   .RegWrite(RegWrite));
 
-	mux3 #(5) mux5_inst_reg(.in0(inst[20:16]), 
-		                   .in1(inst[15:11]), 
+	mux3 #(5) mux5_inst_reg(.in1(inst[20:16]), 
+		                   .in0(inst[15:11]), 
 		                   .in2(5'b11111), //check if this is reg[$31]
 		                   .sel(RegDst), 
 		                   .out(writeRegister));

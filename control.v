@@ -2,6 +2,7 @@ module control
 (
 	input clk,
 	input [5:0] instruction, //instruction[31:26]
+	input [3:0] instruction_funct, //instruction[3:0]
 
 	output reg [1:0] RegDst, //Mux for Register_WriteRegister_in
 	output reg Branch, //AND with ALU_Zero_out to get PCSrc
@@ -30,7 +31,7 @@ always @* begin
 
 	case(instruction)
 
-		6'b100000: begin //add
+		6'b000000: begin //add, sub, slt, jr
 			RegDst <= 2'b00;
 			RegWrite <= 1; //check
 			ALUSrc <= 0;
@@ -38,21 +39,25 @@ always @* begin
 			MemRead <= 0;
 			MemtoReg <= 2'b00;
 			Branch <= 0;
-			Jump <= 2'b00;
 			ALUOp <= 3'b001;
+			if (instruction_funct == 3'b1000) begin
+				Jump <= 2'b10;
+			end else begin
+				Jump <= 2'b00;
+			end
 		end
 
-		6'b100010: begin //sub
-			RegDst <= 2'b00;
-			RegWrite <= 1; //check
-			ALUSrc <= 0;
-			MemWrite <= 0;
-			MemRead <= 0;
-			MemtoReg <= 2'b00;
-			Branch <= 0;
-			Jump <= 2'b00;
-			ALUOp <= 3'b010;
-		end
+		// 6'b100010: begin //sub
+		// 	RegDst <= 2'b00;
+		// 	RegWrite <= 1; //check
+		// 	ALUSrc <= 0;
+		// 	MemWrite <= 0;
+		// 	MemRead <= 0;
+		// 	MemtoReg <= 2'b00;
+		// 	Branch <= 0;
+		// 	Jump <= 2'b00;
+		// 	ALUOp <= 3'b010;
+		// end
 
 		6'b001110: begin //xori
 			RegDst <= 2'b01;
@@ -66,17 +71,17 @@ always @* begin
 			ALUOp <= 3'b100;
 		end
 
-		6'b101010: begin //slt
-			RegDst <= 2'b00;
-			RegWrite <= 1;
-			ALUSrc <= 0;
-			MemWrite <= 0;
-			MemRead <= 0;
-			MemtoReg <= 2'b00;
-			Branch <= 0;
-			Jump <= 2'b00;
-			ALUOp <= 3'b011;
-		end
+		// 6'b101010: begin //slt
+		// 	RegDst <= 2'b00;
+		// 	RegWrite <= 1;
+		// 	ALUSrc <= 0;
+		// 	MemWrite <= 0;
+		// 	MemRead <= 0;
+		// 	MemtoReg <= 2'b00;
+		// 	Branch <= 0;
+		// 	Jump <= 2'b00;
+		// 	ALUOp <= 3'b011;
+		// end
 
 		6'b000101: begin //bne
 			RegDst <= 2'b00;
@@ -114,17 +119,17 @@ always @* begin
 			ALUOp <= 3'b000;
 		end
 
-		6'b001000: begin //jr
-			RegDst <= 2'b00;
-			RegWrite <= 0;
-			ALUSrc <= 0;
-			MemWrite <= 0;
-			MemRead <= 0;
-			MemtoReg <= 2'b00;
-			Branch <= 0;
-			Jump <= 2'b10; //diff from j and jal
-			ALUOp <= 3'b000;
-		end
+		// 6'b001000: begin //jr
+		// 	RegDst <= 2'b00;
+		// 	RegWrite <= 0;
+		// 	ALUSrc <= 0;
+		// 	MemWrite <= 0;
+		// 	MemRead <= 0;
+		// 	MemtoReg <= 2'b00;
+		// 	Branch <= 0;
+		// 	Jump <= 2'b10; //diff from j and jal
+		// 	ALUOp <= 3'b000;
+		// end
 
 		6'b100011: begin //lw
 			RegDst <= 2'b00;
