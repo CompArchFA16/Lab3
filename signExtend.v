@@ -2,7 +2,7 @@ module signExtend(seIn, seOut);
 
 	input [15:0] seIn;
 	output [31:0] seOut;
-	
+
 	assign seOut[15:0] = seIn;
 
 	genvar i;

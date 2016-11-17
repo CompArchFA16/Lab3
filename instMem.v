@@ -5,7 +5,7 @@ module instMem
 );
     reg [31:0] instructionMem [31:0];
 
-    initial $readmemh(“assembly_test.dat”, instructionMem);
+    initial $readmemh(“memory.list”, instructionMem);
     //initial $readmemh(“test.dat”, instructionMem);
 
     // initial begin

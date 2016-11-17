@@ -136,7 +136,7 @@ output reg 		dutpassed,	// Signal test result
   // Verify expectations and report test result
   if((aluRes != 31) || (zero != 0)) begin
     dutpassed = 0;	// Set to 'false' on failure
-    $display("Test Case 1: Addition Failed");
+    $display("ALU: Test Case 1: Addition Failed");
   end
 
   // Test Case 2:
@@ -151,7 +151,7 @@ output reg 		dutpassed,	// Signal test result
   // #5 clk=1; #5 clk=0;
   if((aluRes != 40) || (zero != 0)) begin
     dutpassed = 0;
-    $display("Test Case 2: Subtraction Failed");
+    $display("ALU: Test Case 2: Subtraction Failed");
   end
 
   // Test Case 3:
@@ -166,7 +166,7 @@ output reg 		dutpassed,	// Signal test result
   #10
   if((aluRes != 1) || (zero != 0)) begin
     dutpassed = 0;
-    $display("Test Case 3: SLT Failed");
+    $display("ALU: Test Case 3: SLT Failed");
   end
 
   // Test Case 4:
@@ -181,7 +181,7 @@ output reg 		dutpassed,	// Signal test result
   #10
   if((aluRes != 3) || (zero != 0)) begin
     dutpassed = 0;
-    $display("Test Case 4: Xori Failed");
+    $display("ALU: Test Case 4: Xori Failed");
   end
 
     ALUop = 2'b00;
@@ -193,7 +193,7 @@ output reg 		dutpassed,	// Signal test result
     #10
   if((aluRes != 0) || (zero != 1)) begin
     dutpassed = 0;
-    $display("Test Case 5: zeros Failed");
+    $display("ALU: Test Case 5: zeros Failed");
     $display(ALUcontrol);
     $display(aluRes);
     $display(zero);

@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Test harness validates instructionmemtestbench by connecting it to data memory, and verifying that it works
+// Test harness validates datamemtestbench by connecting it to data memory, and verifying that it works
 //------------------------------------------------------------------------------
 //`include "register.v"
 //`include "alu.v"
@@ -128,7 +128,7 @@ output reg 		dutpassed,	// Signal test result
      // Verify expectations and report test result
   if(readData != 16) begin
     dutpassed = 0;  // Set to 'false' on failure
-    $display("Test Case 1 Failed");
+    $display("Data Mem: Test Case 1 Failed");
   end
 
   // Test Case 2: 
@@ -148,7 +148,7 @@ output reg 		dutpassed,	// Signal test result
      // Verify expectations and report test result
   if((readData != 32'd9999_9999)) begin
     dutpassed = 0;  // Set to 'false' on failure
-    $display("Test Case 2 Failed");
+    $display("Data Mem: Test Case 2 Failed");
   end
     
   // Test Case 3: 
@@ -162,7 +162,7 @@ output reg 		dutpassed,	// Signal test result
      // Verify expectations and report test result
   if(readData != 16) begin
     dutpassed = 0;  // Set to 'false' on failure
-    $display("Test Case 3 Failed");
+    $display("Data Mem: Test Case 3 Failed");
   end
 
 

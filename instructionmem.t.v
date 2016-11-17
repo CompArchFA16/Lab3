@@ -61,7 +61,7 @@ endmodule
 
 
 //------------------------------------------------------------------------------
-// ALU test bench
+// Instruction Memory test bench
 //   Generates signals to drive instruction memory and passes them back up one
 //   layer to the test harness.
 //
@@ -83,7 +83,7 @@ output reg 		dutpassed,	// Signal test result
   input [31:0] instruction  // instruction
 );
 
-  // Initialize register driver signals
+  // Initialize instruction driver signals
   initial begin
     PC=32'd0; 
     clk=0;
