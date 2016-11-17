@@ -65,7 +65,7 @@ module CPU
     wire [31:0] dataAddr;
     wire [31:0] dataOut;
     wire [31:0] dataWrite;
-    dataMemory dataMemory0(clk, WrEn_dataMem, dataAddr, dataWrite, dataOut);
+    dataMemory dataMemory0(clk, memWrite, dataAddr, dataWrite, dataOut);
 
     assign dataAddr = aluOutput;
     assign Dw = (memtoReg == 0 ? aluOutput : dataOut);
@@ -85,5 +85,9 @@ module CPU
 
     wire [31:0] actualPCNext;
     assign actualPCNext = (jumpReg == 0 ? jumpDest : Da);
+
+    always @(posedge clk) begin
+        pc <= actualPCNext;
+    end
 
 endmodule
