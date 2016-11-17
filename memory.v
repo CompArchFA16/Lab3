@@ -15,6 +15,8 @@ module dataMemory
     end
   end
     
+  initial $readmemh("dataOut.dat", mem);
+
   assign DataOut = mem[Addr];
 endmodule
 
@@ -34,7 +36,7 @@ module instrMemory
     end
   end
   
-  initial $readmemh(“file.dat”, mem);
+  initial $readmemh("program.dat", mem);
     
   assign DataOut = mem[Addr];
 endmodule
