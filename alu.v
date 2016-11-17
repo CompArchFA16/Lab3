@@ -1,9 +1,9 @@
 //all logic timing
-`define AND and #30 //2 input AND
-`define AND4 and #50 //4 input AND
-`define OR or #30 //2 input OR
-`define OR8 or #90 //8 input OR
-`define NOT not #10
+`define AND and #0 //2 input AND
+`define AND4 and #0 //4 input AND
+`define OR or #0 //2 input OR
+`define OR8 or #0 //8 input OR
+`define NOT not #0
 
 //all devices located in adder32.v file
 `include "adder32.v"

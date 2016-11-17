@@ -7,6 +7,7 @@
 //`include "ctrl_unit.v"
 //`include "instrdecode.v"
 `include "mux.v"
+`include "alu.v"
 
 module pipelineCPU
 (
@@ -24,10 +25,14 @@ wire [31:0] InstrOut;
 wire [31:0] instrD;
 wire [31:0] PCplus4D;
 reg wrenable = 1;
+wire [31:0] PCin;
+wire [31:0] nextPC;
 
-pc programcounter(clk, enable, PCaddr);
+
+mux32to1by1small muxif(PCaddr, PCBranchM, PCSrcM, PCin);
+pc programcounter(clk, enable, PCin, PCaddr, nextPC);
 Instr_memory iMem(PCaddr, InstrOut);
-registerIF rif(wrenable, clk, InstrOut, PCaddr, instrD, PCplus4D);
+registerIF rif(wrenable, clk, InstrOut, nextPC, instrD, PCplus4D);
 
 // Instruction Decode
 wire [5:0] Op;
@@ -45,9 +50,9 @@ wire [31:0] RD2D;
 wire [31:0] RD2E;
 wire [31:0] SrcAE;
 wire [31:0] SrcBE;
-wire [31:0] resultW = 32'b00000000111111110000000011111111;
-wire [4:0] WriteRegW = 5'b01010;
-wire RegWriteW = 1;
+wire [31:0] resultW;// = 32'b00000000111111110000000011111111;
+//wire [4:0] WriteRegW = 5'b01010;
+//wire RegWriteW = 1;
 wire [31:0] SignImmE;
 
 wire RegWriteD;
@@ -75,8 +80,47 @@ registerID rid(clk, RegWriteD, MemtoRegD, MemWriteD, BranchD, ALUControlD, ALUSr
 
 // Execute phase
 wire [4:0] WriteRegE;
+wire [31:0] ALUResE; 
+wire carryout;
+wire overflow;
+wire zeroE;
+wire [31:0] PCBranchE;
+
+wire RegWriteM;
+wire MemtoRegM;
+wire MemWriteM;
+wire BranchM;
+wire ZeroM;
+wire [31:0] ALUResM;
+wire [31:0] WriteDataM;
+wire [4:0] WriteRegM;
+wire [31:0] PCBranchM;
+
+
 mux2to15bits mux1(RtEE, RdEE, RegDstE, WriteRegE);
 mux32to1by1small mux2(RD2E, SignImmE, ALUSrcE, SrcBE);
+ALU alu(ALUResE, carryout, overflow, zeroE, SrcAE, SrcBE, ALUControlE);
+assign PCBranchE = SignImmE + PCPlus4E;
+
+registerEX rex(clk, RegWriteE, MemtoRegE, MemWriteE, BranchE, zeroE, ALUResE, RD2E, WriteRegE, PCBranchE, RegWriteM, MemtoRegM, MemWriteM, BranchM, ZeroM, ALUResM, WriteDataM, WriteRegM, PCBranchM);
+
+// MEM
+wire [31:0] ReadDataM;
+wire PCSrcM;
+wire RegWriteW;
+wire MemtoRegW;
+wire [31:0] ALUResW;
+wire [31:0] ReadDataW;
+wire [4:0] WriteRegW;
+
+Data_memory dmem(clk, MemWriteM, ALUResM, WriteDataM, ReadDataM);
+and andgate(PCSrcM, BranchM, ZeroM);
+registerMEM rmem(clk, RegWriteM, MemtoRegM, ALUResM, ReadDataM, WriteRegM, RegWriteW, MemtoRegW, ALUResW, ReadDataW, WriteRegW);
+
+
+// Write Back
+mux32to1by1small muxwb(ALUResW, ReadDataW, MemtoRegW, resultW);
+
 
 
 endmodule
@@ -179,10 +223,10 @@ module registerEX
     output reg  q3,
     output reg  q4,
     output reg  q5,
-    output reg  q6,
-    output reg  q7,
-    output reg  q8,
-    output reg  q9
+    output reg  [31:0] q6,
+    output reg  [31:0] q7,
+    output reg  [4:0] q8,
+    output reg  [31:0] q9
     );
     always @(posedge clk) begin
             q1 = d1;

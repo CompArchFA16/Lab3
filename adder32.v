@@ -1,17 +1,17 @@
 //Define gate timings
-`define AND and #30 //2 input AND with unit 10 per input
-`define AND3 and #40 //3 input AND with unit 10 per input
-`define AND32 and #320 //32 input AND
-`define OR or #30 //2 input OR
-`define OR32 or #320 //32 input OR
-`define NOT not #10 //1 input INV
-`define XOR xor #60 //see lab report, timing derived from NAND gate version.
-`define NAND nand #20 // 2 input nand, no hidden inverters
-`define NOR nor #20 // 2 input nor, no hidden inverters
-`define NOR32 nor #320 //32 input NOR
-`define XOR32 xor #1080 //32 input XOR
-`define NOT not #10 //inverter
-`define NOR nor #20 //2 input NOR
+`define AND and #0 //2 input AND with unit 10 per input
+`define AND3 and #0 //3 input AND with unit 10 per input
+`define AND32 and #0 //32 input AND
+`define OR or #0 //2 input OR
+`define OR32 or #0 //32 input OR
+`define NOT not #0 //1 input INV
+`define XOR xor #0 //see lab report, timing derived from NAND gate version.
+`define NAND nand #0 // 2 input nand, no hidden inverters
+`define NOR nor #0 // 2 input nor, no hidden inverters
+`define NOR32 nor #0 //32 input NOR
+`define XOR32 xor #0 //32 input XOR
+`define NOT not #0 //inverter
+`define NOR nor #0 //2 input NOR
 
 module structuralFullAdder
 //One bit adder/subtractor

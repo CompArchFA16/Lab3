@@ -8,7 +8,9 @@ module pc
 (
 input               clk,
 input				enable,
-output reg [31:0]   addr = 32'b00000000000000000000000000000000
+input [31:0]		pcinput,
+output reg [31:0]   addr,// = 32'b00000000000000000000000000000000,
+output reg [31:0]   nextaddr// = 32'b00000000000000000000000000000000
 );
 
     always @(posedge clk) begin
@@ -17,7 +19,9 @@ output reg [31:0]   addr = 32'b00000000000000000000000000000000
                 addr = 32'b00000000000000000000000000000000;
 	        end
 	        else begin
-	        addr <= addr + 1;
+	        addr <= pcinput;
+	        nextaddr <= pcinput+1;
+	        //addr <= addr + 1;
 	        end
 	    end
     end
