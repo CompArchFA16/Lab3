@@ -35,10 +35,10 @@ module LUTcaller // Converts the commands to a more convenient format
     output reg       WrEn_DM,
     output reg[1:0]  WrAddr_Reg_Mux,
     output reg       ALU_input,
-    output reg[5:0]  ALUcommand,
+    output reg[2:0]  ALUcommand,
     output reg[1:0]  Reg_Data_Src_Mux,
     output reg       JumpR,
-    output reg  Jump_Target_Mux,
+    output reg       Jump_Target_Mux,
     output reg       Branch,
     input[5:0]       controlUnitCommand,
     input[5:0]       funct
@@ -48,7 +48,7 @@ module LUTcaller // Converts the commands to a more convenient format
     wire       WrEn_DM1;
     wire[1:0]  WrAddr_Reg_Mux1;
     wire       ALU_input1;
-    wire[5:0]  ALUcommand1;
+    wire[2:0]  ALUcommand1;
     wire[1:0]  Reg_Data_Src_Mux1;
     wire       JumpR1;
     wire  Jump_Target_Mux1;
@@ -58,7 +58,7 @@ module LUTcaller // Converts the commands to a more convenient format
     wire       WrEn_DM2;
     wire[1:0]  WrAddr_Reg_Mux2;
     wire       ALU_input2;
-    wire[5:0]  ALUcommand2;
+    wire[2:0]  ALUcommand2;
     wire[1:0]  Reg_Data_Src_Mux2;
     wire       JumpR2;
     wire  Jump_Target_Mux2;
@@ -104,7 +104,7 @@ module controlUnitLUT // Converts the commands to a more convenient format
     output reg       WrEn_DM,
     output reg[1:0]  WrAddr_Reg_Mux,
     output reg       ALU_input,
-    output reg[5:0]  ALUcommand,
+    output reg[2:0]  ALUcommand,
     output reg[1:0]  Reg_Data_Src_Mux,
     output reg       JumpR,
     output reg       Jump_Target_Mux,
@@ -130,7 +130,7 @@ module R_type_LUT // Converts the commands to a more convenient format
     output reg       WrEn_DM,
     output reg[1:0]  WrAddr_Reg_Mux,
     output reg       ALU_input,
-    output reg[5:0]  ALUcommand,
+    output reg[2:0]  ALUcommand,
     output reg[1:0]  Reg_Data_Src_Mux,
     output reg       JumpR,
     output reg       Jump_Target_Mux,
