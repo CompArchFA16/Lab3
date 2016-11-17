@@ -22,7 +22,7 @@ module datamemory
 );
 
 
-    reg [width-1:0] memory [depth-1:0];
+    reg [width-1:0] memory [16'h3fff:16'h3000];
     reg [width-1:0] readData_reg;
 
     always @(posedge clk) begin

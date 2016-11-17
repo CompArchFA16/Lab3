@@ -118,7 +118,7 @@ module cpu
 
 	mux3 #(5) mux5_inst_reg(.in1(inst[20:16]), 
 		                    .in0(inst[15:11]), 
-		                    .in2(5'b11111), //check if this is reg[$31]
+		                    .in2(5'd31), //check if this is reg[$31]
 		                    .sel(RegDst), 
 		                    .out(writeRegister));
 

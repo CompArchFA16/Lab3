@@ -9,8 +9,7 @@ main:
 	
 	jal storeload
 
-	bne $t5, $t6, makeequal
-	xori $t7, $t4, 0 
+	bne $t0, $t1, makeequal
 	j end
 	
 storeload: 
@@ -27,7 +26,7 @@ storeload:
 	jr $ra
 
 makeequal:
-	sub $t5, $t5, $t1
+	sub $t0, $t0, $t1
 	jr $ra
 
 end:
