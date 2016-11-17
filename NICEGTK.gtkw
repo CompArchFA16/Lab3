@@ -1,0 +1,121 @@
+[*]
+[*] GTKWave Analyzer v3.3.76 (w)1999-2016 BSI
+[*] Thu Nov 17 02:55:30 2016
+[*]
+[dumpfile] "/home/byron/Documents/School/thirdYear/CompArch/Lab3/testing.vcd"
+[dumpfile_mtime] "Thu Nov 17 02:43:28 2016"
+[dumpfile_size] 15361
+[savefile] "/home/byron/Documents/School/thirdYear/CompArch/Lab3/NICEGTK.gtkw"
+[timestart] 0
+[size] 1598 874
+[pos] -1 -1
+*-6.781771 14 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] testCpu.
+[treeopen] testCpu.cpu0.
+[treeopen] testCpu.cpu0.dataMemory0.
+[sst_width] 229
+[signals_width] 209
+[sst_expanded] 1
+[sst_vpaned_height] 235
+@28
+testCpu.clk
+@22
+testCpu.cpu0.pc[31:0]
+testCpu.cpu0.actualPCNext[31:0]
+@200
+-
+-Instr
+@c00022
+testCpu.cpu0.instrData[31:0]
+@28
+(0)testCpu.cpu0.instrData[31:0]
+(1)testCpu.cpu0.instrData[31:0]
+(2)testCpu.cpu0.instrData[31:0]
+(3)testCpu.cpu0.instrData[31:0]
+(4)testCpu.cpu0.instrData[31:0]
+(5)testCpu.cpu0.instrData[31:0]
+(6)testCpu.cpu0.instrData[31:0]
+(7)testCpu.cpu0.instrData[31:0]
+(8)testCpu.cpu0.instrData[31:0]
+(9)testCpu.cpu0.instrData[31:0]
+(10)testCpu.cpu0.instrData[31:0]
+(11)testCpu.cpu0.instrData[31:0]
+(12)testCpu.cpu0.instrData[31:0]
+(13)testCpu.cpu0.instrData[31:0]
+(14)testCpu.cpu0.instrData[31:0]
+(15)testCpu.cpu0.instrData[31:0]
+(16)testCpu.cpu0.instrData[31:0]
+(17)testCpu.cpu0.instrData[31:0]
+(18)testCpu.cpu0.instrData[31:0]
+(19)testCpu.cpu0.instrData[31:0]
+(20)testCpu.cpu0.instrData[31:0]
+(21)testCpu.cpu0.instrData[31:0]
+(22)testCpu.cpu0.instrData[31:0]
+(23)testCpu.cpu0.instrData[31:0]
+(24)testCpu.cpu0.instrData[31:0]
+(25)testCpu.cpu0.instrData[31:0]
+(26)testCpu.cpu0.instrData[31:0]
+(27)testCpu.cpu0.instrData[31:0]
+(28)testCpu.cpu0.instrData[31:0]
+(29)testCpu.cpu0.instrData[31:0]
+(30)testCpu.cpu0.instrData[31:0]
+(31)testCpu.cpu0.instrData[31:0]
+@1401200
+-group_end
+@22
+testCpu.cpu0.instrMemory0.Addr[9:0]
+testCpu.cpu0.instrMemory0.DataOut[31:0]
+@200
+-
+-InstrDecoder
+@22
+testCpu.cpu0.instrDec0.instruction[31:0]
+testCpu.cpu0.instrDec0.Opp[5:0]
+testCpu.cpu0.instrDec0.Rs[4:0]
+testCpu.cpu0.instrDec0.Rt[4:0]
+testCpu.cpu0.instrDec0.Rd[4:0]
+testCpu.cpu0.instrDec0.Funct[5:0]
+testCpu.cpu0.instrDec0.Shamt[4:0]
+testCpu.cpu0.instrDec0.Imm[31:0]
+testCpu.cpu0.instrDec0.Jadd[25:0]
+@200
+-
+-Control
+@28
+testCpu.cpu0.control0.aluOp[2:0]
+testCpu.cpu0.control0.aluSrc
+testCpu.cpu0.control0.branch
+testCpu.cpu0.control0.jumpReg
+testCpu.cpu0.control0.memWrite
+testCpu.cpu0.control0.memtoReg
+testCpu.cpu0.control0.memRead
+testCpu.cpu0.control0.regDst
+testCpu.cpu0.control0.regWrite
+testCpu.cpu0.control0.jump
+@200
+-
+-Regfile
+@23
+testCpu.cpu0.regfile0.ReadData1[31:0]
+@22
+testCpu.cpu0.regfile0.ReadData2[31:0]
+testCpu.cpu0.regfile0.ReadRegister1[4:0]
+testCpu.cpu0.regfile0.ReadRegister2[4:0]
+@28
+testCpu.cpu0.regfile0.Clk
+testCpu.cpu0.regfile0.RegWrite
+@22
+testCpu.cpu0.regfile0.WriteData[31:0]
+testCpu.cpu0.regfile0.WriteRegister[4:0]
+@200
+-
+-ALU
+@22
+testCpu.cpu0.alu0.B[31:0]
+testCpu.cpu0.alu0.A[31:0]
+@28
+testCpu.cpu0.alu0.command[2:0]
+@22
+testCpu.cpu0.alu0.result[31:0]
+[pattern_trace] 1
+[pattern_trace] 0
