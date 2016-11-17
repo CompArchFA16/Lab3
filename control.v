@@ -78,7 +78,7 @@ module control
                     memtoReg  <= 0;
                     aluOp     <= 0;
                     memWrite  <= 1;
-                    aluSrc    <= 0;
+                    aluSrc    <= 1;
                     regWrite  <= 0;
                     jumpReg   <= 0;
                 end

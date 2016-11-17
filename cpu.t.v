@@ -6,46 +6,14 @@ module testCpu();
     CPU cpu0(clk);
     initial clk=0;
 
+    always #50 clk=!clk;
+
     initial begin
         $dumpfile("testing.vcd");
         $dumpvars();
         $display("Testing CPU!");
 
-        #50 clk=!clk;
-        #50 clk=!clk;
-        #50 clk=!clk;
-        #50 clk=!clk;
-        #50 clk=!clk;
-        #50 clk=!clk;
-        #50 clk=!clk;
-        #50 clk=!clk;
-        #50 clk=!clk;
-        #50 clk=!clk;
-        #50 clk=!clk;
-        #50 clk=!clk;
-        #50 clk=!clk;
-        #50 clk=!clk;
-        #50 clk=!clk;
-        #50 clk=!clk;
-        #50 clk=!clk;
-        #50 clk=!clk;
-        #50 clk=!clk;
-        #50 clk=!clk;
-        #50 clk=!clk;
-        #50 clk=!clk;
-        #50 clk=!clk;
-        #50 clk=!clk;
-        #50 clk=!clk;
-        #50 clk=!clk;
-        #50 clk=!clk;
-        #50 clk=!clk;
-        #50 clk=!clk;
-        #50 clk=!clk;
-        #50 clk=!clk;
-        #50 clk=!clk;
-        #50 clk=!clk;
-        #50 clk=!clk;
-        #50 clk=!clk;
+        #100000
 
         $finish;
         $dumpflush;

@@ -72,6 +72,7 @@ module CPU
 
     assign dataAddr = aluOutput;
     assign Dw = (memtoReg == 0 ? aluOutput : dataOut);
+    assign dataWrite = Db;
 
     // Jumping Routines
     wire [31:0] jumpAddress;
