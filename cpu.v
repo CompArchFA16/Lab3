@@ -18,7 +18,7 @@ module CPU
     // Instr. Memory Wires
     wire [31:0] instrAddr;
     wire [31:0] instrData;
-    memory instrMemory0(clk, 1'b0, pc, 32'b0, instrData);
+    instrMemory instrMemory0(clk, 1'b0, pc, 32'b0, instrData);
 
     // Instruction Decoder
     wire [5:0] Opp, Funct;
@@ -65,7 +65,7 @@ module CPU
     wire [31:0] dataAddr;
     wire [31:0] dataOut;
     wire [31:0] dataWrite;
-    memory dataMemory0(clk, WrEn_dataMem, dataAddr, dataWrite, dataOut);
+    dataMemory dataMemory0(clk, WrEn_dataMem, dataAddr, dataWrite, dataOut);
 
     assign dataAddr = aluOutput;
     assign Dw = (memtoReg == 0 ? aluOutput : dataOut);
