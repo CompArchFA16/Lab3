@@ -23,11 +23,13 @@
 `include "regfile/regfile.v"
 
 module CPU (
-  output [31:0] toMemAddress,
-  output [31:0] toMemData,
+  output [31:0] instructionAddress,
+  output [31:0] dataMemAddress,
+  output [31:0] dataOut,
   output        toMemWriteEnable,
   input         clk,
-  input  [31:0] fromMemData,
+  input  [31:0] instruction,
+  input  [31:0] dataIn,
   input         resetPC
 );
 
@@ -58,9 +60,9 @@ module CPU (
   );
 
   // TODO: Control this depending on instruction or data fetch.
-  assign toMemAddress = pc_IF;
+  assign instructionAddress = pc_IF;
   assign toMemWriteEnable = 0;
-  assign instruction_IF = fromMemData;
+  assign instruction_IF = instruction;
 
   addFour addFour (
     .pcPlus4F(pcPlus4_IF),

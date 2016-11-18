@@ -14,27 +14,32 @@ module testCPU ();
   reg resetPC;
   reg isTesting;
 
-  reg [31:0] testToMemAddress;
-  reg [31:0] testToMemData;
-  reg        testToMemWriteEnable;
+  wire [31:0] instructionAddress;
+  wire [31:0] instructionMemOut;
+  wire [31:0] dataMemOut;
 
   wire [31:0] cpuToMemAddress;
   wire [31:0] cpuToMemData;
   wire        cpuToMemWriteEnable;
 
+  CPU dut (
+    .instructionAddress(instructionAddress),
+    .dataMemAddress(cpuToMemAddress),
+    .dataOut(cpuToMemData),
+    .toMemWriteEnable(cpuToMemWriteEnable),
+    .clk(clk),
+    .instruction(instructionMemOut),
+    .dataIn(dataMemOut),
+    .resetPC(resetPC)
+  );
+
+  reg [31:0] testToMemAddress;
+  reg [31:0] testToMemData;
+  reg        testToMemWriteEnable;
+
   wire [31:0] toggleToMemAddress;
   wire [31:0] toggleToMemData;
   wire        toggleToMemWriteEnable;
-
-  wire [31:0] dataMemOut;
-
-  RAM ram (
-    .dataOut(dataMemOut),
-    .clk(clk),
-    .address(toggleToMemAddress),
-    .dataIn(toggleToMemData),
-    .writeEnable(toggleToMemWriteEnable)
-  );
 
   dataMemInputToggle inputToggle (
     .toMemAddress(toggleToMemAddress),
@@ -50,13 +55,14 @@ module testCPU ();
     .writeEnableFromTest(testToMemWriteEnable)
   );
 
-  CPU dut (
-    .toMemAddress(cpuToMemAddress),
-    .toMemData(cpuToMemData),
-    .toMemWriteEnable(cpuToMemWriteEnable),
+  RAM ram (
+    .readData1(instructionMemOut),
+    .readData2(dataMemOut),
     .clk(clk),
-    .fromMemData(dataMemOut),
-    .resetPC(resetPC)
+    .address1(instructionAddress),
+    .address2(toggleToMemAddress),
+    .dataIn(toggleToMemData),
+    .writeEnable(toggleToMemWriteEnable)
   );
 
   // HELPERS ===================================================================
