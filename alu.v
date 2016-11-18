@@ -7,8 +7,8 @@
 module alu
 #(parameter n = 32)
 (
-	output reg [n-1:0]   result,
-	output reg carryout,
+	output reg signed [n-1:0]   result,
+	output reg signed carryout,
 	output zero,
 	output overflow,
 	input [n-1:0]    a,
@@ -26,7 +26,7 @@ always @* begin
 			{carryout,result} <= a + b;
 		end
 		`C_SUB: begin
-			{carryout,result} <= a + ~b + 1;
+			{carryout,result} <= a - b;
 		end
 		`C_SLT:  begin
 			result <= (a < b);
