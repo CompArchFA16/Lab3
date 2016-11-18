@@ -10,7 +10,7 @@ module cpu
 	wire[31:0] PctoIM;		// wire going from pc to Instruction memory
 
 // pc + 4
-	wire[31:0] PCplus4		// adds four to the program counter
+	wire[31:0] PCplus4;		// adds four to the program counter
 	wire unused1, unused2, unused3, unused4; // unused outputs of the plus 4 alu
 
 // PC input mux here
@@ -48,7 +48,7 @@ module cpu
 	wire WrEn_DM;			// enables writing to data memory=
 
 // mux after data memory
-	wire[31:0] DataMuxtoReg;	// the data leaving the memory mux and going to the regfile
+	// wire[31:0] DataMuxtoReg;	// the data leaving the memory mux and going to the regfile
 	wire[31:0] RegDataSrcMux;	// control signal for mux after data memory
 	
 // need branching shifter and alu
@@ -62,7 +62,7 @@ module cpu
 	// do the lookup table for control signals
 	register32 ProgramCounter(PctoIM, MuxtoPc, 1, clk); // the program counter
 
-	alu plus4(PCplus4, unused1, unused2, unused3, PctoIM, 0'b0100, 3'd0);
+	ALU plus4(PCplus4, unused1, unused2, unused3, PctoIM, 4'b0100, 3'd0);
 
 	mux_3bit PC_input_mux(MuxtoPc, PcMuxCmd, jump_signal, branch_signal, PCplus4);
 
@@ -76,7 +76,7 @@ module cpu
 
 	mux_1bit jumpMux(jump_signal, Jump_R, ReadData1, JumpData);
 
-	alu JalAlu(JalAluOut, unused8, unused9, unused10, PCplus4, 0'b0100, 3'd0);
+	ALU JalAlu(JalAluOut, unused8, unused9, unused10, PCplus4, 4'b0100, 3'd0);
 
 	signextend signXtend(extended, IMout[15:0]);
 
@@ -88,7 +88,7 @@ module cpu
 
 	mux_3bit DM_mux(DataMuxtoReg, RegDataSrcMux, AluOutput, DataMemOut, JalAluOut);
 
-	alu branchAlu(branch_signal, unused11, unused12, unused13, shifted_imm, PCplus4, 3'd0);
+	ALU branchAlu(branch_signal, unused11, unused12, unused13, shifted_imm, PCplus4, 3'd0);
 
 	not invert_zero(nzero, zero);
 	and branchand(PcMuxCmd[0], nzero, branch_com);

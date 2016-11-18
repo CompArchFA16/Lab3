@@ -23,7 +23,7 @@ module mux_3bit
   output[31:0] result,
   input[1:0] sel,
   input[31:0] in1, in2, in3
-)
+);
   wire[31:0] muxtomux; // from the first mux to the second
   wire[31:0] out; // output form the second mux
 
