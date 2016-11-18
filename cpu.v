@@ -82,7 +82,7 @@ module CPU
     assign branchImmediate = pcNext + (Imm << 2);
     
     wire [31:0] branchDestination;
-    assign branchDestination = ( (zero & branch) == 0 ? pcNext: branchImmediate);
+    assign branchDestination = ( ( (!zero) & branch) == 0 ? pcNext: branchImmediate);
 
     wire [31:0] jumpDest;
     assign jumpDest = ( jump == 0 ? branchDestination : jumpAddress);

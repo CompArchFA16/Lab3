@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.76 (w)1999-2016 BSI
-[*] Thu Nov 17 02:55:30 2016
+[*] Thu Nov 17 03:25:26 2016
 [*]
 [dumpfile] "/home/byron/Documents/School/thirdYear/CompArch/Lab3/testing.vcd"
-[dumpfile_mtime] "Thu Nov 17 02:43:28 2016"
-[dumpfile_size] 15361
+[dumpfile_mtime] "Thu Nov 17 03:24:17 2016"
+[dumpfile_size] 2380960
 [savefile] "/home/byron/Documents/School/thirdYear/CompArch/Lab3/NICEGTK.gtkw"
 [timestart] 0
 [size] 1598 874
 [pos] -1 -1
-*-6.781771 14 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-6.781771 78 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] testCpu.
 [treeopen] testCpu.cpu0.
 [treeopen] testCpu.cpu0.dataMemory0.
@@ -117,5 +117,14 @@ testCpu.cpu0.alu0.A[31:0]
 testCpu.cpu0.alu0.command[2:0]
 @22
 testCpu.cpu0.alu0.result[31:0]
+@200
+-
+-DataMem
+@22
+testCpu.cpu0.dataMemory0.Addr[9:0]
+testCpu.cpu0.dataMemory0.DataIn[31:0]
+testCpu.cpu0.dataMemory0.DataOut[31:0]
+@28
+testCpu.cpu0.dataMemory0.regWE
 [pattern_trace] 1
 [pattern_trace] 0
