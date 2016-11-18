@@ -19,16 +19,19 @@ module Data_memory
   output[31:0]  DataOut
 );
 
-  reg [31:0] mem[0:9];
+  reg [31:0] mem[0:10];
 
   always @(posedge clk) begin
     if (regWE) begin
       mem[Addr] <= DataIn;
+      $writememh("Dmem.dat", mem);
     end
   end
 
-  initial $readmemh("Dmem.dat", mem);
+  initial begin
+      $readmemh("Dmem.dat", mem);
+  end
  
-  assign DataOut = mem[Addr];
+      assign DataOut = mem[Addr];
 endmodule
 
