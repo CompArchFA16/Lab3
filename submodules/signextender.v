@@ -3,7 +3,7 @@
 module signextender (
 	input clk,
 	input [15:0] imm,
-	output reg [31:0] signExtendOut
+	output reg [31:0] signextendOut
 	);
 
 	always @ ( clk ) begin
