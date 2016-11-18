@@ -5,6 +5,8 @@
 //   If MemWrite is true, writes writeData to mem[address]
 //------------------------------------------------------------------------
 
+`timescale 1ns / 1ps
+
 module datamemory
 #(
     parameter addresswidth  = 32,

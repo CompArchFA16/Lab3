@@ -12,6 +12,8 @@
 //`include "control.v"
 //`include "datamemory.v"
 
+`timescale 1ns / 1ps
+
 module setestbenchharness();
 
   wire [15:0] seIn;    // Clock (Positive Edge Triggered)

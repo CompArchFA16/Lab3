@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 module signExtend(seIn, seOut);
 
 	input [15:0] seIn;

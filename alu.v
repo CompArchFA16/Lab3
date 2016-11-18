@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 module alu(
 
   output [31:0] aluRes,

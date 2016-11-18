@@ -18,6 +18,8 @@
 //`include "control.t.v"
 `include "cpu.t.v"
 
+`timescale 1ns / 1ps
+
 module fulltestbenchharness();
   alutestbenchharness alu();              // Tests alu and alucontrol
   datamemtestbenchharness datamem();      // Tests data memory

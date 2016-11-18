@@ -12,6 +12,8 @@
 //`include "control.v"
 //`include "datamemory.v"
 
+`timescale 1ns / 1ps
+
 module datamemtestbenchharness
 #(  parameter addresswidth  = 32,
     //parameter depth         = 2**addresswidth,

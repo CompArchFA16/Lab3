@@ -1,3 +1,6 @@
+`timescale 1ns / 1ps
+
+
 module register
 
 #(parameter n = 32, parameter naddr = 5)

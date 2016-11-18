@@ -15,6 +15,8 @@
 //`include "datamem.t.v"
 //`include "instructionmem.t.v"
 
+`timescale 1ns / 1ps
+
 module cputestbenchharness();
 
   wire        clk;              // Clock (Positive Edge Triggered)

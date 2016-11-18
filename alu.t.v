@@ -14,6 +14,8 @@
 //`include "control.v"
 //`include "datamemory.v"
 
+`timescale 1ns / 1ps
+
 module alutestbenchharness();
 
   wire [31:0]	aluRes;	// alu result output
