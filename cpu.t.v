@@ -12,13 +12,14 @@ module testcpu();
   end
 
   always 
-    #5 clk=!clk;
+    #50 clk=!clk;
 
   initial begin
     $dumpfile("cpu.vcd");
     $dumpvars(0, cputest);
 
     #5000;
+    $finish;
   end
 
 endmodule
