@@ -22,7 +22,11 @@ module cpu
 wire [2:0] sel_pc;
 wire sgn, sel_b;
 wire [1:0] sel_aluop;
-wire dm_wen, rf_selwadr, rf_wen, rf_seldin, sel_bne;
+
+wire dm_wen;
+wire [1:0] rf_seldin;
+wire [1:0] rf_selwadr;
+wire rf_wen, sel_bne;
 
 // INSTRUCTION MEMORY
 wire [31:0] pc; //program counter
@@ -66,8 +70,8 @@ instructiondecoder id(instr, opcode, rs, rt, rd, shamt, funct, imm, jadr); // co
 assign jumpaddress = {(PC+4)[31:28], jadr, 2'b00}
 
 // REGISTER FILE
-mux m2(rf_din, {alu_res, dm_dout, pc+4}, rf_seldin); //00 = pc+4, 01 = dm_dout, 10 = alu_res
-mux m4(rf_wadr,{rd, 5'd31, rt}, rf_selwadr); // rd=10, 31=01, rt=00
+mux #(.WIDTH(2), .CHANNELS(3)) m2(rf_din, {alu_res, dm_dout, pc+4}, rf_seldin); //00 = pc+4, 01 = dm_dout, 10 = alu_res
+mux #(.WIDTH(3), .CHANNELS(3)) m4(rf_wadr,{rd, 5'd31, rt}, rf_selwadr); // rd=10, 31=01, rt=00
 regiterfile rf(ds, dt, rs, rt, rf_wadr, rf_we, rf_din);
 
 // EXTENDER
@@ -75,11 +79,12 @@ extender ext(opb_imm, imm, sgn); // sign / ~unsigned extend
 
 // ALU
 assign opb_mem = dt; // alias
-mux m0(operandB, {opb_imm, opb_mem}, sel_b); // select immediate when sel_b is high
-mux m1(operandA, {pc+4, ds}, sel_bne); // when bne, take pc+4
+mux #(.WIDTH(32), .CHANNELS(2)) m0(operandB, {opb_imm, opb_mem}, sel_b); // select immediate when sel_b is high
+mux #(.WIDTH(32), .CHANNELS(2)) m1(operandA, {pc+4, ds}, sel_bne); // when bne, take pc+4
 
 wire [31:0] alu_res;
-mux m4(alucontrol,{func, sel_aluop}, sel_aluop); // TODO : Fix this mux, this logically correct but won't work in impl.
+mux #(.WIDTH(6), .CHANNELS(2)) m4(alucontrol,{func, {4'b0000,sel_aluop}}, sel_aluop); // TODO : Fix this mux, this logically correct but won't work in impl.
+
 alu a(alu_res, operandA, operandB, alucontrol);
 
 // DATA MEMORY
