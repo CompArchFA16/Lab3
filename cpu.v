@@ -250,7 +250,7 @@ module CPU (
 	wire        zero_MEM;
 	wire [4:0]  writeReg_MEM;
 
-	gate_EX_MEM gate_EX_MEM (
+	gate_EX_MEM the_gate_EX_MEM (
 		.regWrite_MEM(regWrite_MEM),
 		.memToReg_MEM(memToReg_MEM),
 		.memWrite_MEM(toMemWriteEnable),
@@ -287,7 +287,7 @@ module CPU (
   wire [31:0] aluOut_WB;
   wire [31:0] readData_WB;
 
-  gate_MEM_WB my_gate_MEM_WB (
+  gate_MEM_WB the_gate_MEM_WB (
     .regWrite_WB(regWrite_WB),
     .memToReg_WB(memToReg_WB),
     .aluOut_WB(aluOut_WB),
