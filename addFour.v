@@ -1,9 +1,6 @@
 module addFour (
-  output reg [31:0] pcPlus4F,
-  input        clk,
+  output [31:0] pcPlus4F,
   input [31:0] pc
 );
-	always @(posedge clk) begin
-		pcPlus4F <= pc + 32'd4;
-	end
+		assign pcPlus4F = pc + 32'd4;
 endmodule

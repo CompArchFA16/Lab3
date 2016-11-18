@@ -66,7 +66,6 @@ module CPU (
 
   addFour addFour (
     .pcPlus4F(pcPlus4_IF),
-    .clk(clk),
     .pc(pc_IF)
   );
 
@@ -249,6 +248,9 @@ module CPU (
   // Data.
 	wire        zero_MEM;
 	wire [4:0]  writeReg_MEM;
+  wire [31:0] aluOut_MEM;
+
+  assign dataMemAddress = aluOut_MEM;
 
 	gate_EX_MEM the_gate_EX_MEM (
 		.regWrite_MEM(regWrite_MEM),
@@ -257,7 +259,7 @@ module CPU (
 		.branch_MEM(branch_MEM),
 
     .zero_MEM(zero_MEM),
-    .aluOut_MEM(dataMemAddress),
+    .aluOut_MEM(aluOut_MEM),
     .writeData_MEM(dataOut),
     .writeReg_MEM(writeReg_MEM),
     .pcBranch_MEM(pcBranch_MEM),
@@ -296,7 +298,7 @@ module CPU (
     .clk(clk),
     .regWrite_MEM(regWrite_MEM),
     .memToReg_MEM(memToReg_MEM),
-    .aluOut_MEM(dataMemAddress),
+    .aluOut_MEM(aluOut_MEM),
     .readData_MEM(dataIn),
     .writeReg_MEM(writeReg_MEM)
   );

@@ -7,7 +7,7 @@ module dff #( parameter width  = 1 ) (
   input	[width-1:0] in,
   input reset
 );
-  always @(posedge clk or negedge reset) begin
+  always @(posedge clk) begin
     if (~reset) begin
       out <= 1'b0;
     end else begin

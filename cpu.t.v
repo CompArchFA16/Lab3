@@ -41,18 +41,25 @@ module testCPU ();
   wire [31:0] toggleToMemData;
   wire        toggleToMemWriteEnable;
 
-  dataMemInputToggle inputToggle (
-    .toMemAddress(toggleToMemAddress),
-    .toMemWriteData(toggleToMemData),
-    .toMemWriteEnable(toggleToMemWriteEnable),
-    .clk(clk),
-    .isTesting(isTesting),
-    .addressFromCPU(cpuToMemAddress),
-    .dataFromCPU(cpuToMemData),
-    .writeEnableFromCPU(cpuToMemWriteEnable),
-    .addressFromTest(testToMemAddress),
-    .dataFromTest(testToMemData),
-    .writeEnableFromTest(testToMemWriteEnable)
+  mux_2 #(32) toggleAddress (
+    .out(toggleToMemAddress),
+    .address(isTesting),
+    .input0(cpuToMemAddress),
+    .input1(testToMemAddress)
+  );
+
+  mux_2 #(32) toggleData (
+    .out(toggleToMemData),
+    .address(isTesting),
+    .input0(cpuToMemData),
+    .input1(testToMemData)
+  );
+
+  mux_2 #(1) toggleWriteEnable (
+    .out(toggleToMemWriteEnable),
+    .address(isTesting),
+    .input0(cpuToMemWriteEnable),
+    .input1(testToMemWriteEnable)
   );
 
   RAM ram (
@@ -282,33 +289,5 @@ module testCPU ();
 
     $display("Has CPU tests passed? %b", dutPassed);
     $finish;
-  end
-endmodule
-
-// MOCKS =======================================================================
-
-module dataMemInputToggle (
-  output reg [31:0] toMemAddress,
-  output reg [31:0] toMemWriteData,
-  output reg        toMemWriteEnable,
-  input        clk,
-  input        isTesting,
-  input [31:0] addressFromCPU,
-  input [31:0] dataFromCPU,
-  input        writeEnableFromCPU,
-  input [31:0] addressFromTest,
-  input [31:0] dataFromTest,
-  input        writeEnableFromTest
-);
-  always @ (posedge clk) begin
-    if (isTesting) begin
-      toMemAddress     <= addressFromTest;
-      toMemWriteData   <= dataFromTest;
-      toMemWriteEnable <= writeEnableFromTest;
-    end else begin
-      toMemAddress     <= addressFromCPU;
-      toMemWriteData   <= dataFromCPU;
-      toMemWriteEnable <= writeEnableFromCPU;
-    end
   end
 endmodule
