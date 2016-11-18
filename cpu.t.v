@@ -17,28 +17,28 @@
 
 module cputestbenchharness();
 
-  wire  clk;    // Clock (Positive Edge Triggered)
-  wire [31:0] datamem_readData;
-  wire [31:0] writeData;
-  wire [31:0] addALUres;
-  wire [31:0] reg_readData1;
-  wire [31:0] reg_readData2;
-  wire [31:0] ALUresult;
+  wire        clk;              // Clock (Positive Edge Triggered)
+  wire [31:0] datamem_readData; // Data read from data memory
+  wire [31:0] writeData;        // Data to be written to data memory
+  wire [31:0] addALUres;        // Result of PC + 4
+  wire [31:0] reg_readData1;    // Data from first register port
+  wire [31:0] reg_readData2;    // Data from second register port
+  wire [31:0] ALUresult;        // Result from main ALU
 
-  reg		begintest;	// Set High to begin testing alu 
+  reg		  begintest;	// Set High to begin testing alu 
   wire		dutpassed;	// Indicates whether alu passed tests
 
 
-cpu cputest
-(
-  .clk(clk),
-  .datamem_readData(datamem_readData),
-  .writeData(writeData),
-  .addALUres(addALUres),
-  .reg_readData1(reg_readData1),
-  .reg_readData2(reg_readData2),
-  .ALUresult(ALUresult)
-);
+  cpu cputest
+  (
+    .clk(clk),
+    .datamem_readData(datamem_readData),
+    .writeData(writeData),
+    .addALUres(addALUres),
+    .reg_readData1(reg_readData1),
+    .reg_readData2(reg_readData2),
+    .ALUresult(ALUresult)
+  );
 
   // Instantiate test bench to test the DUT
   cputestbench tester
@@ -74,7 +74,8 @@ endmodule
 //------------------------------------------------------------------------------
 // CPU test bench
 //   Generates signals to drive CPU and passes them back up one
-//   layer to the test harness.
+//   layer to the test harness. Each instruction in our test set is tested, and
+//   an output from that cycle is selected to be tested for correctness
 //
 //   Once 'begintest' is asserted, begin testing the CPU.
 //   Once your test is conclusive, set 'dutpassed' appropriately and then
@@ -82,25 +83,23 @@ endmodule
 //------------------------------------------------------------------------------
 
 module cputestbench
-#(parameter clktime = 1)
-(
-// Test bench driver signal connections
-input	   		begintest,	// Triggers start of testing
-output reg 		endtest,	// Raise once test completes
-output reg 		dutpassed,	// Signal test result
+  #(parameter clktime = 1)
+  (
+    // Test bench driver signal connections
+    input	   		  begintest,	// Triggers start of testing
+    output reg 		endtest,	  // Raise once test completes
+    output reg 		dutpassed,	// Signal test result
 
 
-// ALU DUT connections
-    output reg clk,
-    input [31:0] datamem_readData,
-    input [31:0] writeData,
-    input [31:0]   addALUres,
-    input [31:0] reg_readData1,
-    input [31:0] reg_readData2,
-    input [31:0] ALUresult
-);
-
-  
+    // ALU DUT connections
+    output reg    clk,
+    input [31:0]  datamem_readData,
+    input [31:0]  writeData,
+    input [31:0]  addALUres,
+    input [31:0]  reg_readData1,
+    input [31:0]  reg_readData2,
+    input [31:0]  ALUresult
+  );
 
   // Initialize register driver signals
   initial begin
@@ -115,7 +114,7 @@ output reg 		dutpassed,	// Signal test result
 
   // Test Case 1: 
   //   Run first instruction: to pass, writeData = 3ffc.
-  // Verify expectations and report test result
+  // First case takes place before first clock cycle
   if(writeData != 32'h3ffc) begin
     dutpassed = 0;	// Set to 'false' on failure
     $display("CPU: Test Case 1 Failed");
@@ -131,7 +130,7 @@ output reg 		dutpassed,	// Signal test result
     $display("CPU: Test Case 2 Failed");
   end
 
- // Test Case 3: 
+  // Test Case 3: 
   //   Run third instruction: to pass, writeData = 1.
 
   #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
@@ -141,7 +140,7 @@ output reg 		dutpassed,	// Signal test result
     $display("CPU: Test Case 3 Failed");
   end
 
- // Test Case 4: 
+  // Test Case 4: 
   //   Run fourth instruction: to pass, addALUres = 14098h.
 
   #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
@@ -152,7 +151,7 @@ output reg 		dutpassed,	// Signal test result
   end
 
 
- // Test Case 5: 
+  // Test Case 5: 
   //   Run fifth instruction: to pass, addALUres = 16094.
 
   #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
@@ -162,7 +161,7 @@ output reg 		dutpassed,	// Signal test result
     $display("CPU: Test Case 5 Failed");
   end
 
- // Test Case 6: 
+  // Test Case 6: 
   //   Run sixth instruction: to pass, reg_readData1 = 1.
 
   #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
@@ -172,7 +171,7 @@ output reg 		dutpassed,	// Signal test result
     $display("CPU: Test Case 6 Failed");
   end
 
- // Test Case 7: 
+  // Test Case 7: 
   //   Run seventh instruction: to pass, reg_readData1 = 4.
 
   #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
@@ -182,7 +181,7 @@ output reg 		dutpassed,	// Signal test result
     $display("CPU: Test Case 7 Failed");
   end
 
- // Test Case 8: 
+  // Test Case 8: 
   //   Run eigth instruction: to pass, writeData = 3ff8.
 
   #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
@@ -192,7 +191,7 @@ output reg 		dutpassed,	// Signal test result
     $display("CPU: Test Case 8 Failed");
   end
 
- // Test Case 9: 
+  // Test Case 9: 
   //   Run 9th instruction: to pass, reg_readData1 = 3ff8.
 
   #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
@@ -202,7 +201,7 @@ output reg 		dutpassed,	// Signal test result
     $display("CPU: Test Case 9 Failed");
   end
 
- // Test Case 10: 
+  // Test Case 10: 
   //   Run 10th instruction: to pass, reg_readData1 = 3ff4.
 
   #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
@@ -212,7 +211,7 @@ output reg 		dutpassed,	// Signal test result
     $display("CPU: Test Case 10 Failed");
   end
 
- // Test Case 11: 
+  // Test Case 11: 
   //   Run 11th instruction: to pass, reg_readData2 = 1.
 
   #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
@@ -222,7 +221,7 @@ output reg 		dutpassed,	// Signal test result
     $display("CPU: Test Case 11 Failed");
   end
 
- // Test Case 12: 
+  // Test Case 12: 
   //   Run 12th instruction: to pass, datamem_readData = 4.
 
   #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
@@ -232,7 +231,7 @@ output reg 		dutpassed,	// Signal test result
     $display("CPU: Test Case 12 Failed");
   end
 
-// Test Case 13: 
+  // Test Case 13: 
   //   Run 13th instruction: to pass, datamem_readData = 1.
 
   #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
@@ -242,7 +241,7 @@ output reg 		dutpassed,	// Signal test result
     $display("CPU: Test Case 13 Failed");
   end
 
-// Test Case 14: 
+  // Test Case 14: 
   //   Run 14th instruction: to pass, addALUres = ffffa0c0.
 
   #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
@@ -252,7 +251,7 @@ output reg 		dutpassed,	// Signal test result
     $display("CPU: Test Case 14 Failed");
   end
 
-// Test Case 15: 
+  // Test Case 15: 
   //   Run 15th instruction: to pass, ALUresult = 3ffc.
 
   #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
@@ -271,7 +270,6 @@ output reg 		dutpassed,	// Signal test result
     dutpassed = 0;  // Set to 'false' on failure
     $display("CPU: Test Case 16 Failed");
   end
-
 
   // Test Case 17: 
   //   Run 17th instruction: to pass, reg_readData1 = 4.
@@ -303,7 +301,7 @@ output reg 		dutpassed,	// Signal test result
     $display("CPU: Test Case 19 Failed");
   end
 
-// Test Case 20: 
+  // Test Case 20: 
   //   Run 20th instruction: to pass, writeData = 2.
 
   #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
@@ -383,7 +381,6 @@ output reg 		dutpassed,	// Signal test result
     $display("CPU: Test Case 27 Failed");
   end
 
-
   // Test Case 28: 
   //   Run 28th instruction: to pass, addALUres = a4.
 
@@ -394,21 +391,10 @@ output reg 		dutpassed,	// Signal test result
     $display("CPU: Test Case 28 Failed");
   end
 
-
-
-
-
   // All done!  Wait a moment and signal test completion.
-
-
-
-
-
 
   #5
   endtest = 1;
-
-
 
 end
 
