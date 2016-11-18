@@ -8,9 +8,10 @@ module pc
 );
 
 initial begin
-	pc_out <=32'b0;
+	pc_out <=32'b0; //set initial PC to 0
 end
-always @(posedge clk) begin
+
+always @(posedge clk) begin //makes the computed signal wait till next clk posedge
 	pc_out <= pc_in ;
 end
 

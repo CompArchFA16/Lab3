@@ -23,12 +23,12 @@ module datamemory
 );
 
 
-    reg [width-1:0] memory [16'h3fff:16'h3000];
+    reg [width-1:0] memory [16'h3fff:16'h3000]; //data memory allocation
     reg [width-1:0] readData_reg;
 
     always @(posedge clk) begin
         if(MemWrite)
-            memory[address] <= writeData;
+            memory[address] <= writeData; //write data in parallel at next posedge
     end
 
     always @* begin

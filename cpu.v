@@ -105,8 +105,8 @@ module cpu
 				  .instruction(inst));
 
     // Select correct control signals based on instruction
-	control cpuControl(.instruction(inst[31:26]),
-					   .instruction_funct(inst[5:0]),
+	control cpuControl(.instruction(inst[31:26]), //op code
+					   .instruction_funct(inst[5:0]), //funct code
 					   .RegDst(RegDst), 
 					   .Branch(Branch),
 					   .Jump(Jump),
@@ -118,16 +118,16 @@ module cpu
 					   .RegWrite(RegWrite));
 
     // Select between three addresses for the data to be written in register
-	mux3 #(5) mux5_inst_reg(.in1(inst[20:16]), 
-		                    .in0(inst[15:11]), 
+	mux3 #(5) mux5_inst_reg(.in1(inst[20:16]), //rt
+		                    .in0(inst[15:11]), //rd
 		                    .in2(5'd31), //reg[$31]
 		                    .sel(RegDst), 
 		                    .out(writeRegister));
 
     // Register, reads and writes to appropriate addresses
 	register cpuRegister(.clk(clk), 
-						 .ra_addr(inst[25:21]), 
-						 .rb_addr(inst[20:16]), 
+						 .ra_addr(inst[25:21]), //rs
+						 .rb_addr(inst[20:16]), //rt
 						 .wrEn(RegWrite), 
 						 .wd_addr(writeRegister), 
 						 .wd(writeData), 
@@ -184,7 +184,7 @@ module cpu
 
     // Mux for jumping
 	mux3 mux_jump(.in0(branch_out), 
-		          .in1({pc4_out[31:28], inst[25:0], 2'b00}), 
+		          .in1({pc4_out[31:28], inst[25:0], 2'b00}), //jump address
 		          .in2(reg_readData1),
 		          .sel(Jump), 
 		          .out(pc_in));
