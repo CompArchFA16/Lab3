@@ -14,12 +14,12 @@ module datamemory
     parameter width = 32
 )
 (
-    input 		                clk, 
-    output [width-1:0]          readData,
-    input [addresswidth-1:0]    address,
-    input                       MemWrite,
-    input                       MemRead,
-    input [width-1:0]           writeData
+    input 		                clk,      // Clock (Positive Edge Triggered)
+    output [width-1:0]          readData, // Data read from data memory
+    input  [addresswidth-1:0]   address,  // address
+    input                       MemWrite, // Data memory write enable
+    input                       MemRead,  // Data memory read enable
+    input  [width-1:0]          writeData // Data to write to data memory
 );
 
 
