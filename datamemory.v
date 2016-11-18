@@ -10,12 +10,11 @@
 module datamemory
 #(
     parameter addresswidth  = 32,
-    //parameter depth         = 2**addresswidth,
     parameter depth = 10,
     parameter width = 32
 )
 (
-    input 		                clk,
+    input 		                clk, 
     output [width-1:0]          readData,
     input [addresswidth-1:0]    address,
     input                       MemWrite,

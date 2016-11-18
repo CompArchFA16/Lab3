@@ -63,7 +63,7 @@ endmodule
 // Main CPU module: runs all of the other modules and connects their inputs and outputs
 module cpu
 (
-	input         clk,
+	input         clk,				// Clock (Positive Edge Triggered)
     output [31:0] datamem_readData, // Data read from data memory
     output [31:0] writeData,        // Data to be written to data memory
     output [31:0] addALUres,        // Result of PC + 4

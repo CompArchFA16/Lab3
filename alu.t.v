@@ -41,7 +41,7 @@ module alutestbenchharness();
 
 
 
-control ALUcontroltest
+control ALUcontroltest  //instantiate control 
 (
   .clk(clk),
   .instruction(instruction),
@@ -57,7 +57,7 @@ control ALUcontroltest
   .Jump(Jump)
   );
 
-alu ALUtest
+alu ALUtest  //instantiate alu
 (
   .aluRes(aluRes),
   .zero(zero),
@@ -68,30 +68,30 @@ alu ALUtest
 
 
   // Instantiate test bench to test the DUT
-  alutestbench tester
-  (
-    .begintest(begintest),
-    .endtest(endtest),
-    .dutpassed(dutpassed),
+alutestbench tester
+(
+  .begintest(begintest),
+  .endtest(endtest),
+  .dutpassed(dutpassed),
 
-    .aluRes(aluRes),
-    .zero(zero),
-    .a(a),
-    .b(b),
+  .aluRes(aluRes),
+  .zero(zero),
+  .a(a),
+  .b(b),
 
-    .clk(clk),
-    .instruction(instruction),
-    .instruction_funct(instruction_funct),
-    .RegDst(RegDst),
-    .Branch(Branch),
-    .MemRead(MemRead),
-    .MemtoReg(MemtoReg),
-    .ALUOp(ALUOp),
-    .MemWrite(MemWrite),
-    .ALUSrc(ALUSrc),
-    .RegWrite(RegWrite),
-    .Jump(Jump)
-  );
+  .clk(clk),
+  .instruction(instruction),
+  .instruction_funct(instruction_funct),
+  .RegDst(RegDst),
+  .Branch(Branch),
+  .MemRead(MemRead),
+  .MemtoReg(MemtoReg),
+  .ALUOp(ALUOp),
+  .MemWrite(MemWrite),
+  .ALUSrc(ALUSrc),
+  .RegWrite(RegWrite),
+  .Jump(Jump)
+);
 
   // Test harness asserts 'begintest' for 1000 time steps, starting at time 10
   initial begin
@@ -169,8 +169,6 @@ output reg 		dutpassed,	// Signal test result
     a=32'd30;
     b=32'd1;
     #10
-  //#5 clk=1; #5 clk=0;	// Generate two clock pulses
-  //#5 clk=1; #5 clk=0;
   // Verify expectations and report test result
   if((aluRes != 31) || (zero != 0)) begin
     dutpassed = 0;	// Set to 'false' on failure
@@ -184,9 +182,7 @@ output reg 		dutpassed,	// Signal test result
     instruction = 6'b000000;
     a=32'd45;
     b=32'd5;
-    #100
-  // #5 clk=1; #5 clk=0; // Generate two clock pulses
-  // #5 clk=1; #5 clk=0;
+    #10
   if((aluRes != 40) || (zero != 0)) begin
     dutpassed = 0;
     $display("ALU: Test Case 2: Subtraction Failed");
@@ -199,8 +195,6 @@ output reg 		dutpassed,	// Signal test result
     instruction = 6'b000000;
     a=32'd5;
     b=32'd6;
-  // #5 clk=1; #5 clk=0; // Generate two clock pulses
-  // #5 clk=1; #5 clk=0;
   #10
   if((aluRes != 1) || (zero != 0)) begin
     dutpassed = 0;
@@ -214,25 +208,23 @@ output reg 		dutpassed,	// Signal test result
     instruction = 6'b001110;
     a=32'd5;
     b=32'd6;
-  // #5 clk=1; #5 clk=0; // Generate two clock pulses
-  // #5 clk=1; #5 clk=0;
   #10
   if((aluRes != 3) || (zero != 0)) begin
     dutpassed = 0;
     $display("ALU: Test Case 4: Xori Failed");
   end
 
+  // Test Case 5:
+  //   SLT a and b. a = 7, b = 6.
+  //   To pass, aluRes = 0 and zero = 1
     instruction_funct=6'b101010;
     instruction = 6'b000000;
     a=32'd7;
     b=32'd6;
-  // #5 clk=1; #5 clk=0; // Generate two clock pulses
-  // #5 clk=1; #5 clk=0;
     #10
   if((aluRes != 0) || (zero != 1)) begin
     dutpassed = 0;
     $display("ALU: Test Case 5: zeros Failed");
-
   end
 
   // All done!  Wait a moment and signal test completion.
