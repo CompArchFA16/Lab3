@@ -19,10 +19,11 @@
 `include "cpu.t.v"
 
 module fulltestbenchharness();
-  alutestbenchharness alu(); //tests alu and alucontrol
-  datamemtestbenchharness datamem(); //tests data memory
-  instructionmemtestbenchharness inst();
-  setestbenchharness se(); //tests signextend
-  //controltestbenchharness control();
+  alutestbenchharness alu();              // Tests alu and alucontrol
+  datamemtestbenchharness datamem();      // Tests data memory
+  instructionmemtestbenchharness inst();  // Tests instruction memory
+  setestbenchharness se();                // Tests signextend
+  //controltestbenchharness control();      // Tests control
+  cputestbenchharness cpu();              // Tests cpu
 
 endmodule

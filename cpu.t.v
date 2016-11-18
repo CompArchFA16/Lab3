@@ -93,12 +93,12 @@ module cputestbench
 
     // ALU DUT connections
     output reg    clk,
-    input [31:0]  datamem_readData,
-    input [31:0]  writeData,
-    input [31:0]  addALUres,
-    input [31:0]  reg_readData1,
-    input [31:0]  reg_readData2,
-    input [31:0]  ALUresult
+    input [31:0]  datamem_readData, // Data read from data memory
+    input [31:0]  writeData,        // Data to be written to data memory
+    input [31:0]  addALUres,        // Result of PC + 4
+    input [31:0]  reg_readData1,    // Data from first register port
+    input [31:0]  reg_readData2,    // Data from second register port
+    input [31:0]  ALUresult         // Result from main ALU
   );
 
   // Initialize register driver signals
