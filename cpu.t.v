@@ -122,7 +122,7 @@ module testCPU ();
     rS = `R_ZERO; // datamem address to load from
     rT = `R_S1; // register to load into <- value lives here
     resetPC = 1;
-    insertToMemory(32'd0, { `CMD_lw, rS, rT, 16'd128 });
+    insertToMemory(32'd0, { `CMD_lw, rS, rT, 16'd500 });
     resetPC = 0;
     completeInstructionCycle();
 
