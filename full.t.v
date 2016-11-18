@@ -3,7 +3,6 @@
 //------------------------------------------------------------------------------
 //`include "register.v"
 //`include "alu.v"
-`include "alucontrol.v"
 //`include "cpu.v"
 //`include "instMem.v"
 //`include "pc.v"
@@ -15,7 +14,6 @@
 `include "datamem.t.v"
 `include "instructionmem.t.v"
 `include "signextend.t.v"
-//`include "control.t.v"
 `include "cpu.t.v"
 
 `timescale 1ns / 1ps

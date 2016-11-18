@@ -1,6 +1,5 @@
 `include "control.v"
 `include "alu.v"
-`include "alucontrol.v"
 `include "register.v"
 `include "pc.v"
 `include "datamemory.v"
