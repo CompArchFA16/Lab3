@@ -22,7 +22,6 @@ module alutestbenchharness();
   wire        zero;	  // alu output (if output is zero = 1)
   wire [31:0]	a, b;	  // the two 31-bit inputs to be operated on
  
-  wire        clk;                // Clock (Positive Edge Triggered)
   wire [5:0]  instruction;       //instruction[31:26]
   wire [5:0]  instruction_funct;  //instruction[5:0]
 
@@ -43,7 +42,6 @@ module alutestbenchharness();
 
 control ALUcontroltest  //instantiate control 
 (
-  .clk(clk),
   .instruction(instruction),
   .instruction_funct(instruction_funct),
   .RegDst(RegDst),
@@ -79,7 +77,6 @@ alutestbench tester
   .a(a),
   .b(b),
 
-  .clk(clk),
   .instruction(instruction),
   .instruction_funct(instruction_funct),
   .RegDst(RegDst),
@@ -131,7 +128,6 @@ output reg 		dutpassed,	// Signal test result
   input             zero,        // alu output (if output is zero = 1)
   output reg [31:0] a, b,        // the two 31-bit inputs to be operated on
  
-  output reg        clk,                // Clock (Positive Edge Triggered)
   output reg [5:0]  instruction,        //instruction[31:26]
   output reg [5:0]  instruction_funct,  //instruction[5:0]
 

@@ -1,14 +1,21 @@
 `timescale 1ns / 1ps
 
+// ALU
+// Takes as input the alucontrol signal to select the operation, 
+// 		and two inputs to perform the operation on.
+// Performs add, subtract, select-less-than, and xori on two inputs. 
+// Outputs the result of the operation and 'zero', which is true if 
+// 		the result is zero.
+
 module alu(
 
-  output [31:0] aluRes,
-  output zero,
-  input [2:0] alucontrol,
-  input [31:0] a, b
+  output [31:0] aluRes, 	// Result of ALU operation
+  output 		zero,		// If aluRes == 0
+  input [2:0] 	alucontrol,	// Control signal to select alu operation
+  input [31:0] 	a, b 		// The two inputs of alu operation
 );
 
-	reg [31:0] aluRes_reg;
+	reg [31:0] aluRes_reg;  // Intermediate storing of ALU result
 
 always @* begin 
 	//add
