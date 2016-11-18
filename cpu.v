@@ -87,10 +87,10 @@ signextend ext(opb_imm, imm, sgn); // sign / ~unsigned extend
 // ALU
 assign opb_mem = dt; // alias
 mux #(.WIDTH(32), .CHANNELS(2)) m0(operandB, {opb_imm, opb_mem}, sel_b); // select immediate when sel_b is high
-mux #(.WIDTH(32), .CHANNELS(2)) m1(operandA, {pc+32'd4, ds}, sel_bne); // when bne, take pc+4
+mux #(.WIDTH(32), .CHANNELS(2)) m1(operandA, {pc+32'd4, ds}, sel_bne); // when sel_bne is high, take ds
 
 wire [31:0] alu_res;
-mux #(.WIDTH(6), .CHANNELS(2)) m5(alucontrol_large,{funct, {4'b0000,sel_aluop}}, sel_aluop); // TODO : Fix this mux, this logically correct but won't work in impl.
+mux #(.WIDTH(6), .CHANNELS(2)) m5(alucontrol_large,{funct, {4'b0000,sel_aluop}}, (sel_aluop == 2'b10) ); // choose funct when sel_aluop == 2'b10
 assign alucontrol = alucontrol_large[2:0];
 wire carryout, zero, overflow;
 
