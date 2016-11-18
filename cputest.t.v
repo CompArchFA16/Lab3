@@ -1,3 +1,4 @@
+//for checking with gtkwave for hexcode from asm
 `include "cpu.v"
 
 module cputest();
