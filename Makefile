@@ -1,3 +1,5 @@
+run: run-cpu run-ram
+
 run-cpu: build-cpu
 	./cpu.o
 
