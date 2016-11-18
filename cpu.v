@@ -77,9 +77,9 @@ instructionDecoder id(instr, opcode, rs, rt, rd, shamt, funct, imm, jadr); // co
 assign jumpaddress = jadr; //{(PC+4)[31:28], jadr, 2'b00}
 
 // REGISTER FILE
-mux #(.WIDTH(32), .CHANNELS(4)) m2(rf_din, {32'dx, alu_res, dm_dout, pc+32'd4}, rf_seldin); //00 = pc+4, 01 = dm_dout, 10 = alu_res
+mux #(.WIDTH(32), .CHANNELS(4)) m2(rf_din, {32'dx, alu_res, dm_dout, pc+32'd1}, rf_seldin); //00 = pc+4, 01 = dm_dout, 10 = alu_res
 mux #(.WIDTH(5), .CHANNELS(4)) m4(rf_wadr,{5'dx, rd, 5'd31, rt}, rf_selwadr); // rd=10, 31=01, rt=00
-regfile rf(ds, dt, rf_din, rs, rt, rf_wadr, rf_we, clk);
+regfile rf(ds, dt, rf_din, rs, rt, rf_wadr, rf_wen, clk);
 
 // EXTENDER
 signextend ext(opb_imm, imm, sgn); // sign / ~unsigned extend
@@ -87,7 +87,7 @@ signextend ext(opb_imm, imm, sgn); // sign / ~unsigned extend
 // ALU
 assign opb_mem = dt; // alias
 mux #(.WIDTH(32), .CHANNELS(2)) m0(operandB, {opb_imm, opb_mem}, sel_b); // select immediate when sel_b is high
-mux #(.WIDTH(32), .CHANNELS(2)) m1(operandA, {pc+32'd4, ds}, sel_bne); // when sel_bne is high, take ds
+mux #(.WIDTH(32), .CHANNELS(2)) m1(operandA, {pc+32'd1, ds}, sel_bne); // when sel_bne is high, take ds
 
 wire [31:0] alu_res;
 mux #(.WIDTH(6), .CHANNELS(2)) m5(alucontrol_large,{funct, {4'b0000,sel_aluop}}, (sel_aluop == 2'b10) ); // choose funct when sel_aluop == 2'b10
@@ -102,7 +102,7 @@ assign dm_din = dt; // happens to be the only one used
 
 datamemory dm(clk, dm_wen, dm_din, dm_din, dm_dout);
 
-mux #(.WIDTH(32), .CHANNELS(4)) m6(next_pc, {32'dx, pc+32'd4, ds, jumpaddress}, sel_pc);
+mux #(.WIDTH(32), .CHANNELS(4)) m6(next_pc, {32'dx,jumpaddress,ds,pc+32'd1}, sel_pc);
 
 always @(posedge clk) begin
 	pc <= next_pc;
