@@ -7,16 +7,16 @@ module seTest();
     signExtend se(imm, seImm);
     
     initial begin
-        imm = 8'h00000000;
-        #10 imm = 8'hffffffff;
+        imm = 4'h0000;
+        #10 imm = 4'hffff;
         $display("Imm: %b seImm: %b", imm, seImm);
-        #10 imm = 8'h00000000;
+        #10 imm = 4'h0000;
         $display("Imm: %b seImm: %b", imm, seImm);
-        #10 imm = 8'haaaaaaaa;
+        #10 imm = 4'haaaa;
         $display("Imm: %b seImm: %b", imm, seImm);
-        #10 imm = 8'h22222222;
+        #10 imm = 4'h2222;
         $display("Imm: %b seImm: %b", imm, seImm);
-        #10 imm = 8'h01111111;
+        #10 imm = 4'h0111;
         $display("Imm: %b seImm: %b", imm, seImm);
     end
 
