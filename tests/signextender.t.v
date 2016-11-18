@@ -15,6 +15,8 @@ module testSignextend ();
 	always #10 clk =! clk;
 	initial begin
 
+		clk = 1;
+
         $display("-------------------------");
     	$display("SIGNEXTENDER TEST CASES");
 		$display("-------------------------");
@@ -22,13 +24,15 @@ module testSignextend ();
 
         // Sign extend with ones
         $display("| imm | signextendOut |");
-    	imm = 16'b1010101010101010; signextendOut = 1; #100
+    	imm = 16'b1010101010101010; #1000000
 		$display("| 	%b 		| 		%b 		| ", imm, signextendOut);
 
         // Sign extend with zeros
         $display("| imm | signextendOut |");
     	imm = 16'b0101010101010101; #100
 		$display("| 	%b 		| 		%b 		| ", imm, signextendOut);
+
+		$finish;
 
 	end
 endmodule
