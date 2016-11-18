@@ -236,7 +236,7 @@ module CPU (
     .result(pcBranch_EX),
     .operandA(shiftOut),
     .operandB(pcPlus4_EX),
-    .command(`ALU_CMD_ADD) // TODO: Use the correct command.
+    .command(`ALU_CMD_ADD)
   );
 
   // MEM - Memory Access =======================================================
@@ -244,24 +244,21 @@ module CPU (
   // Controls.
   wire regWrite_MEM;
   wire memToReg_MEM;
-  wire memWrite_MEM;
   wire branch_MEM;
 
   // Data.
 	wire        zero_MEM;
-	wire [31:0] aluOut_MEM;
-	wire [31:0] writeData_MEM;
 	wire [4:0]  writeReg_MEM;
 
 	gate_EX_MEM gate_EX_MEM (
 		.regWrite_MEM(regWrite_MEM),
 		.memToReg_MEM(memToReg_MEM),
-		.memWrite_MEM(memWrite_MEM),
+		.memWrite_MEM(toMemWriteEnable),
 		.branch_MEM(branch_MEM),
 
     .zero_MEM(zero_MEM),
-    .aluOut_MEM(aluOut_MEM),
-    .writeData_MEM(writeData_MEM),
+    .aluOut_MEM(dataMemAddress),
+    .writeData_MEM(dataOut),
     .writeReg_MEM(writeReg_MEM),
     .pcBranch_MEM(pcBranch_MEM),
 
@@ -281,9 +278,6 @@ module CPU (
 
   `AND (pcSource, branch_MEM, zero_MEM);
 
-  // TODO: Fix this weird wiring issue.
-  wire [31:0] readData_MEM;
-
   // WB - Register Write Back ==================================================
 
   // Controls.
@@ -302,8 +296,8 @@ module CPU (
     .clk(clk),
     .regWrite_MEM(regWrite_MEM),
     .memToReg_MEM(memToReg_MEM),
-    .aluOut_MEM(aluOut_MEM),
-    .readData_MEM(readData_MEM),
+    .aluOut_MEM(dataMemAddress),
+    .readData_MEM(dataIn),
     .writeReg_MEM(writeReg_MEM)
   );
 
