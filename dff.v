@@ -8,7 +8,7 @@ module dff #( parameter width  = 1 ) (
   input reset
 );
   always @(posedge clk) begin
-    if (~reset) begin
+    if (reset) begin
       out <= 1'b0;
     end else begin
       out <= in;

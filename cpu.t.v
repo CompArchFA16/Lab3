@@ -90,7 +90,7 @@ module testCPU ();
   task completeInstructionCycle;
     begin
       // TODO: Update this time to the correct length of our instruction cycle.
-      #50;
+      #10;
     end
   endtask
 
@@ -118,7 +118,6 @@ module testCPU ();
     $dumpvars;
     dutPassed = 1;
 
-
     // LW ======================================================================
     // RTL:
     //   PC = PC + 4;
@@ -128,21 +127,28 @@ module testCPU ();
 
     rS = `R_ZERO; // datamem address to load from
     rT = `R_S1; // register to load into <- value lives here
+
     resetPC = 1;
     insertToMemory(32'd0, { `CMD_lw, rS, rT, 16'd500 });
+    insertToMemory(32'd4, { `CMD_add, `R_ZERO, `R_ZERO, `R_ZERO });
+    insertToMemory(32'd8, { `CMD_add, `R_ZERO, `R_ZERO, `R_ZERO });
+    insertToMemory(32'd12, { `CMD_add, `R_ZERO, `R_ZERO, `R_ZERO });
+    insertToMemory(32'd16, { `CMD_add, `R_ZERO, `R_ZERO, `R_ZERO });
+    insertToMemory(32'd20, { `CMD_sw, rS, rT, 15'd501 });
     resetPC = 0;
+
+    completeInstructionCycle();
     completeInstructionCycle();
 
-    // check result...
-    // request data from the data_memory
-    // check output, if correct, test passes.
-
-    // dataMemAddr =  32'd7;
-    // dataMemWE = 1'b1;
-
-    // TODO: Complete.
-    // if dataMemAddr is wrong
-      // fail
+    isTesting = 1;
+    testToMemAddress = 31'd501;
+    #2;
+    if (dataMemOut !== 32'd42) begin
+      dutPassed = 0;
+      $display("Store after a load failed.");
+      $display("Actual data memory output: %d", dataMemOut);
+    end
+    isTesting = 0;
 
     // SW ======================================================================
     // RTL:
