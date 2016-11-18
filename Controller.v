@@ -4,8 +4,8 @@
 `include "utils.v"
 
 module controller(
-	input opcode,
-	input funct,
+	input [5:0] opcode,
+	input [5:0] funct,
 	output reg [1:0] sel_pc,
 	output reg sgn,
 	output reg sel_b,

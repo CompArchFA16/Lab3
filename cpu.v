@@ -64,7 +64,7 @@ wire [31:0] dm_dout;
 ///// ============== MODULE DECLARATIONS ==================
 
 // CONTROLLER
-controller ctrl(opcode, sel_pc, sgn, sel_b, sel_aluop, dm_wen, rf_wen, rf_wadr, rf_selwadr, rf_seldin, sel_bne); // control signals based on operation
+controller ctrl(opcode, funct, sel_pc, sgn, sel_b, sel_aluop, dm_wen, rf_wen, rf_wadr, rf_selwadr, rf_seldin, sel_bne); // control signals based on operation
 
 // INSTRUCTION MEMORY
 instructionMemory im(pc, instr); // this may internally be datamemory with w_en always 0
