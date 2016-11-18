@@ -12,8 +12,8 @@ module CPU
     // PC
     reg [31:0] pc;
     initial pc = 0;
-    wire [31:0] pcNext;
-    assign pcNext = pc+4;
+    wire [31:0] pcPlusFour;
+    assign pcPlusFour = pc+4;
 
     // Instr. Memory Wires
     wire [31:0] instrAddr;
@@ -38,7 +38,8 @@ module CPU
     wire aluSrc;
     wire regWrite;
     wire jumpReg;
-    control control0(Opp, Funct, regDest, jump, branch, memRead, memtoReg, aluOp, memWrite, aluSrc, regWrite, jumpReg);
+    wire jalLink;
+    control control0(Opp, Funct, regDest, jump, branch, memRead, memtoReg, aluOp, memWrite, aluSrc, regWrite, jumpReg, jalLink);
 
     // Regfile wires
     wire [31:0] Da;
@@ -71,18 +72,20 @@ module CPU
     dataMemory dataMemory0(clk, memWrite, dataAddr, dataWrite, dataOut);
 
     assign dataAddr = aluOutput;
-    assign Dw = (memtoReg == 0 ? aluOutput : dataOut);
+    wire [31:0] Dw1;
+    assign Dw1 = (memtoReg == 0 ? aluOutput : dataOut);
+    assign Dw = (jalLink == 0 ? Dw1 : pcPlusFour);
     assign dataWrite = Db;
 
     // Jumping Routines
     wire [31:0] jumpAddress;
-    assign jumpAddress = { pcNext[31:28], (Jadd << 2)};
+    assign jumpAddress = { pcPlusFour[31:28], (Jadd << 2)};
 
     wire [31:0] branchImmediate;
-    assign branchImmediate = pcNext + (Imm << 2);
+    assign branchImmediate = pcPlusFour + (Imm << 2);
     
     wire [31:0] branchDestination;
-    assign branchDestination = ( ( (!zero) & branch) == 0 ? pcNext: branchImmediate);
+    assign branchDestination = ( ( (!zero) & branch) == 0 ? pcPlusFour: branchImmediate);
 
     wire [31:0] jumpDest;
     assign jumpDest = ( jump == 0 ? branchDestination : jumpAddress);

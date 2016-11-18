@@ -2,11 +2,11 @@
 ## Prime Number Generator
 
 # Main start
-xori $a0, $zero, 0 # $a0 is the top prime to go to
-xori $a1, $zero, 4 # $a1 is word-size
+xori $a0, $zero, 50 # $a0 is the top prime to go to
+xori $a1, $zero, 1 # $a1 is word-size
 xori $a2, $zero, 1 # $a2 is the immediate 1
 
-xori $s0, $zero, 0x10010000 # $s0 stores the start address of the data
+xori $s0, $zero, 0x000 # $s0 stores the start address of the data
 xori $s1, $zero, 2 # $s1 stores the current number iterating through
 
 # Start $s0 at 2's place

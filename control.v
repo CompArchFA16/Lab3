@@ -25,7 +25,8 @@ module control
     output reg memWrite,
     output reg aluSrc,
     output reg regWrite,
-    output reg jumpReg
+    output reg jumpReg,
+    output reg jalLink
 );
 
     always @(opp, func) begin
@@ -42,6 +43,7 @@ module control
                     aluSrc    <= 0;
                     regWrite  <= 0;
                     jumpReg   <= 0;
+                    jalLink   <= 0;
                 end
             `JAL:
                 begin
@@ -55,6 +57,7 @@ module control
                     aluSrc    <= 0;
                     regWrite  <= 1;
                     jumpReg   <= 0;
+                    jalLink   <= 1;
                 end
             `LW:
                 begin
@@ -65,9 +68,10 @@ module control
                     memtoReg  <= 1;
                     aluOp     <= 0;
                     memWrite  <= 0;
-                    aluSrc    <= 0;
+                    aluSrc    <= 1;
                     regWrite  <= 1;
                     jumpReg   <= 0;
+                    jalLink   <= 0;
                 end
             `SW:
                 begin
@@ -81,6 +85,7 @@ module control
                     aluSrc    <= 1;
                     regWrite  <= 0;
                     jumpReg   <= 0;
+                    jalLink   <= 0;
                 end
             `BNE:
                 begin
@@ -94,6 +99,7 @@ module control
                     aluSrc    <= 0;
                     regWrite  <= 0;
                     jumpReg   <= 0;
+                    jalLink   <= 0;
                 end
             `XORI:
                 begin
@@ -107,6 +113,7 @@ module control
                     aluSrc    <= 1;
                     regWrite  <= 1;
                     jumpReg   <= 0;
+                    jalLink   <= 0;
                 end
             `RTYPE:
                 case(func)
@@ -122,6 +129,7 @@ module control
                             aluSrc    <= 0;
                             regWrite  <= 0;
                             jumpReg   <= 1;
+                            jalLink   <= 0;
                         end
                     `ADDOP:
                         begin
@@ -135,6 +143,7 @@ module control
                             aluSrc    <= 0;
                             regWrite  <= 1;
                             jumpReg   <= 0;
+                            jalLink   <= 0;
                         end
                     `SUBOP:
                         begin
@@ -148,6 +157,7 @@ module control
                             aluSrc    <= 0;
                             regWrite  <= 1;
                             jumpReg   <= 0;
+                            jalLink   <= 0;
                         end
                     `SLTOP:
                         begin
@@ -161,6 +171,7 @@ module control
                             aluSrc    <= 0;
                             regWrite  <= 1;
                             jumpReg   <= 0;
+                            jalLink   <= 0;
                         end
                 endcase
         endcase
