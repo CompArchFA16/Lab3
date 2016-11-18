@@ -37,7 +37,7 @@ always @* begin
 	else if (alucontrol == 3'b100) begin
 		aluRes_reg <= a ^ b;
 	end
-
+	//otherwise, set output to zero
 	else begin 
 		aluRes_reg <= 32'b0;
 	end

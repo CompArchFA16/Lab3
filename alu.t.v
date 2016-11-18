@@ -160,8 +160,8 @@ output reg 		dutpassed,	// Signal test result
   // Test Case 1:
   //   Add 'a' and 'b': a = 30, b = 1.
   //   To pass, aluRes = 31.
-    instruction_funct=6'b100000;
-    instruction = 6'b000000;
+    instruction_funct=6'b100000; // add instruction
+    instruction = 6'b000000;     // add, sub, slt, jr instruction
     a=32'd30;
     b=32'd1;
     #10
@@ -174,8 +174,8 @@ output reg 		dutpassed,	// Signal test result
   // Test Case 2:
   //   Subtract 'b' from 'a', a = 45, b = 5.
   //   To pass, aluRes = 40, zero = 0.
-    instruction_funct=6'b100010;
-    instruction = 6'b000000;
+    instruction_funct=6'b100010;// sub instruction
+    instruction = 6'b000000;    // add, sub, slt, jr instruction
     a=32'd45;
     b=32'd5;
     #10
@@ -187,8 +187,8 @@ output reg 		dutpassed,	// Signal test result
   // Test Case 3:
   //   Select-less-than a and b. a = 5, b = 6.
   //   To pass, aluRes = 1.
-    instruction_funct=6'b101010;
-    instruction = 6'b000000;
+    instruction_funct=6'b101010;// slt instruction
+    instruction = 6'b000000;    // add, sub, slt, jr instruction
     a=32'd5;
     b=32'd6;
   #10
@@ -200,8 +200,8 @@ output reg 		dutpassed,	// Signal test result
   // Test Case 4:
   //   Xori a and b. a = 5, b = 6.
   //   To pass, aluRes = 3
-    instruction_funct=6'b00_1110;
-    instruction = 6'b001110;
+    instruction_funct=6'b00_1110; 
+    instruction = 6'b001110;      // xori instruction
     a=32'd5;
     b=32'd6;
   #10
@@ -213,8 +213,8 @@ output reg 		dutpassed,	// Signal test result
   // Test Case 5:
   //   SLT a and b. a = 7, b = 6.
   //   To pass, aluRes = 0 and zero = 1
-    instruction_funct=6'b101010;
-    instruction = 6'b000000;
+    instruction_funct=6'b101010;// slt instruction
+    instruction = 6'b000000;    // add, sub, slt, jr instruction
     a=32'd7;
     b=32'd6;
     #10
