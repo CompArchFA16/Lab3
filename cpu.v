@@ -1,6 +1,6 @@
 module cpu
 (
-	input clk;
+	input clk
 );
 
 
@@ -93,6 +93,6 @@ module cpu
 	not invert_zero(nzero, zero);
 	and branchand(PcMuxCmd[0], nzero, branch_com);
 
-	LUTcaller LUT(WrEn_Reg, WrEn_DM, WrAddressRegMux, alu_input, alu_com, RegDataSrcMux, Jump_R, PcMuxCmd[1], branch_com, IMout[31:26], IMout[5:0])
+	LUTcaller LUT(WrEn_Reg, WrEn_DM, WrAddressRegMux, alu_input, alu_com, RegDataSrcMux, Jump_R, PcMuxCmd[1], branch_com, IMout[31:26], IMout[5:0]);
 endmodule
 	
