@@ -6,7 +6,7 @@ module cputest();
 
 	cpu test(.clk(clk));
 
-	initial clk=1;
+	initial clk=0;
     always #100 clk=!clk; 
 
 	initial begin

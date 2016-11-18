@@ -57,18 +57,6 @@ always @* begin
 			end
 		end
 
-		// 6'b100010: begin //sub
-		// 	RegDst <= 2'b00;
-		// 	RegWrite <= 1; //check
-		// 	ALUSrc <= 0;
-		// 	MemWrite <= 0;
-		// 	MemRead <= 0;
-		// 	MemtoReg <= 2'b00;
-		// 	Branch <= 0;
-		// 	Jump <= 2'b00;
-		// 	ALUOp <= 3'b010;
-		// end
-
 		6'b001110: begin //xori
 			RegDst <= 2'b01;
 			RegWrite <= 1;
@@ -80,18 +68,6 @@ always @* begin
 			Jump <= 2'b00;
 			ALUOp <= 3'b100;
 		end
-
-		// 6'b101010: begin //slt
-		// 	RegDst <= 2'b00;
-		// 	RegWrite <= 1;
-		// 	ALUSrc <= 0;
-		// 	MemWrite <= 0;
-		// 	MemRead <= 0;
-		// 	MemtoReg <= 2'b00;
-		// 	Branch <= 0;
-		// 	Jump <= 2'b00;
-		// 	ALUOp <= 3'b011;
-		// end
 
 		6'b000101: begin //bne
 			RegDst <= 2'b00;
@@ -128,18 +104,6 @@ always @* begin
 			Jump <= 2'b01;
 			ALUOp <= 3'b000;
 		end
-
-		// 6'b001000: begin //jr
-		// 	RegDst <= 2'b00;
-		// 	RegWrite <= 0;
-		// 	ALUSrc <= 0;
-		// 	MemWrite <= 0;
-		// 	MemRead <= 0;
-		// 	MemtoReg <= 2'b00;
-		// 	Branch <= 0;
-		// 	Jump <= 2'b10; //diff from j and jal
-		// 	ALUOp <= 3'b000;
-		// end
 
 		6'b100011: begin //lw
 			RegDst <= 2'b00;

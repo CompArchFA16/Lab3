@@ -9,7 +9,7 @@ initial begin
 	pc_out <=32'b0;
 end
 always @(posedge clk) begin
-	pc_out <= pc_in;
+	pc_out <= pc_in ;
 end
 
 endmodule
