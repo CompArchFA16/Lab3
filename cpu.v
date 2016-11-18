@@ -32,7 +32,7 @@ wire [1:0] rf_selwadr;
 wire rf_wen, sel_bne;
 
 // INSTRUCTION MEMORY
-reg [31:0] pc; //program counter
+reg [31:0] pc = 0; //program counter
 wire [31:0] next_pc;
 wire [31:0] instr; //instruction
 
@@ -67,7 +67,7 @@ wire [31:0] dm_dout;
 ///// ============== MODULE DECLARATIONS ==================
 
 // CONTROLLER
-//controller ctrl(opcode, funct, sel_pc, sgn, sel_b, sel_aluop, dm_wen, rf_wen, rf_selwadr, rf_seldin, sel_bne); // control signals based on operation
+controller ctrl(opcode, funct, sel_pc, sgn, sel_b, sel_aluop, dm_wen, rf_wen, rf_selwadr, rf_seldin, sel_bne); // control signals based on operation
 
 // INSTRUCTION MEMORY
 instructionMemory im(clk, writeEnable, pc, instr); // this may internally be datamemory with w_en always 0
