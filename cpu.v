@@ -60,7 +60,7 @@ module cpu
 	wire nzero;
 	wire branch_com;
 	// do the lookup table for control signals
-	register32 ProgramCounter(PctoIM, MuxtoPc, 1, clk); // the program counter
+	register32_negedge ProgramCounter(PctoIM, MuxtoPc, 1, clk); // the program counter
 
 	ALU plus4(PCplus4, unused1, unused2, unused3, PctoIM, 4'b0100, 3'd0);
 
@@ -95,4 +95,3 @@ module cpu
 
 	LUTcaller LUT(WrEn_Reg, WrEn_DM, WrAddressRegMux, alu_input, alu_com, RegDataSrcMux, Jump_R, PcMuxCmd[1], branch_com, IMout[31:26], IMout[5:0]);
 endmodule
-	
