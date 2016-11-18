@@ -7,11 +7,11 @@ module signextender (
 	);
 
 	always @ ( clk ) begin
-    	if (in[15] === 1'b0) begin # If the first bit is one, add 16 ones
-      		out <= { 16'b0, in };
+    	if (imm[15] === 1'b0) begin // If the first bit is one, add 16 ones
+      		signextendOut <= { 16'b0, imm };
     	end
-    	else begin # Otherwise add 16 ones
-      		out <= { 16'b1, in };
+    	else begin // Otherwise add 16 ones
+      		signextendOut <= { 16'b1, imm };
     	end
 	end
 
