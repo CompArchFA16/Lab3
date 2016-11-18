@@ -5,9 +5,9 @@ module mux
 #(   parameter WIDTH    = 8,
      parameter CHANNELS = 4) 
 (
-    output  [WIDTH-1:0]                 out
+    output  [WIDTH-1:0]                 out,
     input   [(CHANNELS*WIDTH)-1:0]      in_bus,
-    input   [$clog2(CHANNELS-1)-1:0]    sel,   
+    input   [$clog2(CHANNELS-1)-1:0]    sel   
 );
 
 genvar ig;

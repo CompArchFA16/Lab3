@@ -4,10 +4,13 @@
 `include "utils.v"
 `include "mux.v"
 `include "alu.v"
+`include "Controller.v"
 `include "DataMemory.v"
 `include "InstructionMemory.v"
 `include "InstructionDecoder.v"
 `include "mux.v"
+`include "regfile/regfile.v"
+`include "signextend/signextend.v"
 
 module cpu
 (
@@ -39,6 +42,7 @@ wire [4:0] rs, rt, rd, shamt;
 wire [5:0] funct;
 wire [15:0] imm;
 wire [25:0] jadr;
+wire [31:0] jumpaddress;
 
 // REGISTER FILE
 // rs,rt,rd provided by instruction decoder
@@ -63,19 +67,19 @@ wire [31:0] dm_dout;
 controller ctrl(opcode, sel_pc, sgn, sel_b, sel_aluop, dm_wen, rf_wen, rf_wadr, rf_selwadr, rf_seldin, sel_bne); // control signals based on operation
 
 // INSTRUCTION MEMORY
-instructionmemory im(pc, instr); // this may internally be datamemory with w_en always 0
+instructionMemory im(pc, instr); // this may internally be datamemory with w_en always 0
 
 // INSTRUCTION DECODER
-instructiondecoder id(instr, opcode, rs, rt, rd, shamt, funct, imm, jadr); // convenience module
-assign jumpaddress = {(PC+4)[31:28], jadr, 2'b00}
+instructionDecoder id(instr, opcode, rs, rt, rd, shamt, funct, imm, jadr); // convenience module
+assign jumpaddress = jadr; //{(PC+4)[31:28], jadr, 2'b00}
 
 // REGISTER FILE
 mux #(.WIDTH(2), .CHANNELS(3)) m2(rf_din, {alu_res, dm_dout, pc+4}, rf_seldin); //00 = pc+4, 01 = dm_dout, 10 = alu_res
 mux #(.WIDTH(3), .CHANNELS(3)) m4(rf_wadr,{rd, 5'd31, rt}, rf_selwadr); // rd=10, 31=01, rt=00
-regiterfile rf(ds, dt, rs, rt, rf_wadr, rf_we, rf_din);
+regfile rf(ds, dt, rs, rt, rf_wadr, rf_we, rf_din);
 
 // EXTENDER
-extender ext(opb_imm, imm, sgn); // sign / ~unsigned extend
+signextend ext(opb_imm, imm, sgn); // sign / ~unsigned extend
 
 // ALU
 assign opb_mem = dt; // alias
@@ -83,7 +87,7 @@ mux #(.WIDTH(32), .CHANNELS(2)) m0(operandB, {opb_imm, opb_mem}, sel_b); // sele
 mux #(.WIDTH(32), .CHANNELS(2)) m1(operandA, {pc+4, ds}, sel_bne); // when bne, take pc+4
 
 wire [31:0] alu_res;
-mux #(.WIDTH(6), .CHANNELS(2)) m4(alucontrol,{func, {4'b0000,sel_aluop}}, sel_aluop); // TODO : Fix this mux, this logically correct but won't work in impl.
+mux #(.WIDTH(6), .CHANNELS(2)) m5(alucontrol,{func, {4'b0000,sel_aluop}}, sel_aluop); // TODO : Fix this mux, this logically correct but won't work in impl.
 
 alu a(alu_res, operandA, operandB, alucontrol);
 

@@ -1,6 +1,6 @@
 `ifndef __INSTRUCTIONMEMORY_V__
 `define __INSTRUCTIONMEMORY_V__
-module instructionmemory
+module instructionMemory
 (
     input                       clk,
     input 						writeEnable,
