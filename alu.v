@@ -1,15 +1,23 @@
+`timescale 1ns / 1ps
+
+// ALU
+// Takes as input the alucontrol signal to select the operation, 
+// 		and two inputs to perform the operation on.
+// Performs add, subtract, select-less-than, and xori on two inputs. 
+// Outputs the result of the operation and 'zero', which is true if 
+// 		the result is zero.
+
 module alu(
 
-  output [31:0] aluRes,
-  output zero,
-  input [2:0] alucontrol,
-  input [31:0] a, b
+  output [31:0] aluRes, 	// Result of ALU operation
+  output 		zero,		// If aluRes == 0
+  input [2:0] 	alucontrol,	// Control signal to select alu operation
+  input [31:0] 	a, b 		// The two inputs of alu operation
 );
 
-  //I don't think we need to deal with cin/cout
-reg [31:0] aluRes_reg;
+	reg [31:0] aluRes_reg;  // Intermediate storing of ALU result
 
-always @* begin //NOTE: You are describing combo logic, since there is no clock signal
+always @* begin 
 	//add
 	if (alucontrol == 3'b001) begin
 		aluRes_reg <= a + b;
@@ -35,7 +43,7 @@ always @* begin //NOTE: You are describing combo logic, since there is no clock 
 	end
 
 end
-	assign zero = ~|aluRes_reg;
-	assign aluRes = aluRes_reg;
+	assign zero = ~|aluRes_reg; // If aluRes = 32'b0, zero is true
+	assign aluRes = aluRes_reg;	// Set aluRes for output
 
 endmodule

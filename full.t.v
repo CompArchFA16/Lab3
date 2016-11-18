@@ -3,7 +3,6 @@
 //------------------------------------------------------------------------------
 //`include "register.v"
 //`include "alu.v"
-//`include "alucontrol.v"
 //`include "cpu.v"
 //`include "instMem.v"
 //`include "pc.v"
@@ -13,15 +12,17 @@
 //`include "datamemory.v"
 `include "alu.t.v"
 `include "datamem.t.v"
-//`include "instructionmem.t.v"
+`include "instructionmem.t.v"
 `include "signextend.t.v"
-`include "control.t.v"
+`include "cpu.t.v"
+
+`timescale 1ns / 1ps
 
 module fulltestbenchharness();
-  alutestbenchharness alu(); //tests alu and alucontrol
-  datamemtestbenchharness datamem(); //tests data memory
-  //instructionmemtestbenchharness inst();
-  setestbenchharness se(); //tests signextend
-  controltestbenchharness control();
+  alutestbenchharness alu();              // Tests alu and control
+  datamemtestbenchharness datamem();      // Tests data memory
+  instructionmemtestbenchharness inst();  // Tests instruction memory
+  setestbenchharness se();                // Tests signextend
+  cputestbenchharness cpu();              // Tests cpu
 
 endmodule
