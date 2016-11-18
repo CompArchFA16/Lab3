@@ -9,7 +9,7 @@ module instructionMemory
 
 );
     reg [31:0] memory [2**10-1:0];
-    initial $readmemb("instructions.txt", memory);
+    initial $readmemh("asmtest/addsub.dat", memory);
     assign dOut = memory[address];
 
 endmodule
