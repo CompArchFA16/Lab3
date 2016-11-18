@@ -18,19 +18,80 @@ module mux_1bit
     not  #10 not_4(result, nor_wire);
 endmodule
 
-module mux_3bit
+module mux_3bit//used to build the 3 input mux where each input is 32 bits
 (
-  output[31:0] result,
+  output result,
+  input[1:0] sel,
+  input in1, in2, in3
+);
+  wire muxtomux; // from the first mux to the second
+  // wire out; // output form the second mux
+
+  mux_1bit mux1(muxtomux, sel[1], in1, in2);
+  mux_1bit mux2(result, sel[0], muxtomux, in3);
+
+endmodule
+
+module mux_3_input_5 //each input is 32 bits
+(
+  output [4:0] result,
+  input[1:0] sel,
+  input[4:0] in1, in2, in3
+);
+  // wire[31:0] muxtomux; // from the first mux to the second
+  wire[4:0] out; // output form the second mux
+
+  genvar i;
+  generate
+    for (i = 0; i < 5; i = i+1) begin: bb
+      mux_3bit mux1(out[i], sel, in1[i], in2[i], in3[i]);
+    end
+  endgenerate
+
+  assign result = out;
+endmodule
+
+module mux_2_input_32 //each input is 32 bits
+(
+  output [31:0] result,
+  input sel,
+  input[31:0] in1, in2
+);
+  // wire[31:0] muxtomux; // from the first mux to the second
+  wire[31:0] out; // output form the second mux
+
+  genvar i;
+  generate
+    for (i = 0; i < 32; i = i+1) begin: cc
+      mux_1bit mux1(out[i], sel, in1[i], in2[i]);
+    end
+  endgenerate
+
+  assign result = out;
+endmodule
+
+
+module mux_3_input_32 //each input is 32 bits
+(
+  output [31:0] result,
   input[1:0] sel,
   input[31:0] in1, in2, in3
 );
-  wire[31:0] muxtomux; // from the first mux to the second
+  // wire[31:0] muxtomux; // from the first mux to the second
   wire[31:0] out; // output form the second mux
 
-  mux_1bit mux1(muxtomux, sel[1], in1, in2);
-  mux_1bit mux2(out, sel[0], muxtomux, in3);
+  genvar i;
+  generate
+    for (i = 0; i < 32; i = i+1) begin: aa
+      mux_3bit mux1(out[i], sel, in1[i], in2[i], in3[i]);
+    end
+  endgenerate
 
+  assign result = out;
 endmodule
+
+
+
 
 // 5:1 Multiplexer for the ALU
 module mux_alu

@@ -48,8 +48,8 @@ module cpu
 	wire WrEn_DM;			// enables writing to data memory=
 
 // mux after data memory
-	// wire[31:0] DataMuxtoReg;	// the data leaving the memory mux and going to the regfile
-	wire[31:0] RegDataSrcMux;	// control signal for mux after data memory
+	wire[4:0] Reg_Wr_Addr_mux_out;	// address that we will write to after muxing in reg
+	wire[1:0] RegDataSrcMux;	// control signal for mux after data memory
 	
 // need branching shifter and alu
 	wire[31:0] shifted_imm;
@@ -64,29 +64,29 @@ module cpu
 
 	ALU plus4(PCplus4, unused1, unused2, unused3, PctoIM, 4'b0100, 3'd0);
 
-	mux_3bit PC_input_mux(MuxtoPc, PcMuxCmd, jump_signal, branch_signal, PCplus4);
+	mux_3_input_32 PC_input_mux(MuxtoPc, PcMuxCmd, jump_signal, branch_signal, PCplus4);
 
 	instructionmemory InstructionMemory(IMout, PctoIM);
 
-	mux_3bit write_address_reg_mux(DataMuxtoReg, WrAddressRegMux, IMout[20:16], IMout[15:11], 5'd31);
+	mux_3_input_5 write_address_reg_mux(Reg_Wr_Addr_mux_out, WrAddressRegMux, IMout[20:16], IMout[15:11], 5'd31);
 
 	regfile RegisterFile(ReadData1, ReadData2, DataMuxtoReg, IMout[25:21], IMout[20:16], WriteRegAddress, WrEn_Reg, clk);
 
 	jump_shifter JumpShift(JumpData, IMout[25:0], PCplus4[31:28]);
 
-	mux_1bit jumpMux(jump_signal, Jump_R, ReadData1, JumpData);
+	mux_2_input_32 jumpMux(jump_signal, Jump_R, ReadData1, JumpData);
 
 	ALU JalAlu(JalAluOut, unused8, unused9, unused10, PCplus4, 4'b0100, 3'd0);
 
 	signextend signXtend(extended, IMout[15:0]);
 
-	mux_1bit alu_mux(muxtoalu, alu_input, ReadData2, extended);
+	mux_2_input_32 alu_mux(muxtoalu, alu_input, ReadData2, extended);
 
 	ALU BigAlu(AluOutput, unused5, zero, unused7, ReadData1, muxtoalu, alu_com);
 
 	datamemory Data_Memory(clk, WrEn_DM, AluOutput, ReadData2, DataMemOut); // address size probelms!
 
-	mux_3bit DM_mux(DataMuxtoReg, RegDataSrcMux, AluOutput, DataMemOut, JalAluOut);
+	mux_3_input_32 DM_mux(DataMuxtoReg, RegDataSrcMux, AluOutput, DataMemOut, JalAluOut);
 
 	ALU branchAlu(branch_signal, unused11, unused12, unused13, shifted_imm, PCplus4, 3'd0);
 
