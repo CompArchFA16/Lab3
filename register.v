@@ -26,10 +26,12 @@ module register
 // Register file storage
 reg [n-1:0] registers [1000:0];
 
+//setting $zero to be 0
 initial begin
 	registers[0] = 32'b0;
 end
 
+//write to register at the (next) posedge of clk in parallel
 always @(posedge clk) begin
     if (wrEn) begin
     	// $display("%b", wd);
@@ -39,6 +41,7 @@ always @(posedge clk) begin
     end
 end
 
+//always output R[rs] and R[rt]
 assign ra = registers[ra_addr];
 assign rb = registers[rb_addr];
 
