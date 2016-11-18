@@ -119,3 +119,4 @@ tags
 !*.elf
 !*.bmm
 !*.xmp
+!*.png
