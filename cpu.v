@@ -64,18 +64,18 @@ endmodule
 module cpu
 (
 	input clk,
-    output[31:0] datamem_readData,
-    output[31:0] writeData,
-    output [31:0] addALUres,
-    output [31:0] reg_readData1,
-    output [31:0] reg_readData2,
-    output [31:0] ALUresult
+    output[31:0] datamem_readData, // Data read from data memory
+    output[31:0] writeData, // Data to be written to data memory
+    output [31:0] addALUres, // Result of PC + 4
+    output [31:0] reg_readData1, // Data from first register port
+    output [31:0] reg_readData2, // Data from second register port
+    output [31:0] ALUresult // Result from main ALU
 );
 
-	wire [31:0] pc_in;
-	wire [31:0] branch_out;
-	wire [31:0] pc_out;
-	wire [31:0] inst;
+	wire [31:0] pc_in; // PC input
+	wire [31:0] branch_out; // Branch mux output
+	wire [31:0] pc_out; // PC output
+	wire [31:0] inst; // 32-bit instruction from instruction memory
 
 	wire [1:0] RegDst; //Mux for Register_WriteRegister_in
 	wire Branch; //AND with ALU_Zero_out to get PCSrc
@@ -84,32 +84,27 @@ module cpu
 	wire [2:0] ALUop; //for ALU control
 	wire MemWrite; //write data to data memory
 	wire ALUsrc; //goes to ALU control
-	wire RegWrite;
-	wire [1:0] Jump;
+	wire RegWrite; //Register write enable
+	wire [1:0] Jump; // Jump Mux control signal
 
-	wire [4:0] writeRegister;
-	//wire [31:0] writeData;
+	wire [4:0] writeRegister; // Write data address for register
 
-	wire [31:0] reg_readData1;
-	wire [31:0] reg_readData2;
+	wire [31:0] SEinst; //Output of sign extender
+	wire [31:0] ALU_in; //Input for ALU (output of ALUsrc mux)
+	wire ALUzero; // Output of ALU: if result is zero, ALUzero = 1
 
-	wire [31:0] SEinst;
-	wire [31:0] ALU_in;
-	//wire [31:0] ALUresult;
-	wire ALUzero;
+	wire [31:0] pc4_out; // Output of PC + 4
 
-	//wire [31:0] datamem_readData;
-	wire [31:0] pc4_out;
-	//wire [31:0] addALUres;
-	//wire PCSrc;
-
+    // Run PC
 	pc cpuPC(.clk(clk), 
 			 .pc_in(pc_in), 
 			 .pc_out(pc_out));
 
+    // Use PC output as input to instruction memory, recieve instruction
 	instMem cpuIM(.read_address(pc_out), 
 				  .instruction(inst));
 
+    // Select correct control signals based on instruction
 	control cpuControl(.instruction(inst[31:26]),
 					   .instruction_funct(inst[5:0]),
 					   .RegDst(RegDst), 
@@ -122,12 +117,14 @@ module cpu
 					   .ALUSrc(ALUsrc), 
 					   .RegWrite(RegWrite));
 
+    // Select between three addresses for the data to be written in register
 	mux3 #(5) mux5_inst_reg(.in1(inst[20:16]), 
 		                    .in0(inst[15:11]), 
 		                    .in2(5'd31), //reg[$31]
 		                    .sel(RegDst), 
 		                    .out(writeRegister));
 
+    // Register, reads and writes to appropriate addresses
 	register cpuRegister(.clk(clk), 
 						 .ra_addr(inst[25:21]), 
 						 .rb_addr(inst[20:16]), 
@@ -137,20 +134,25 @@ module cpu
 						 .ra(reg_readData1), 
 						 .rb(reg_readData2));
 
+    // Sign extends instruction
 	signExtend cpuSE(.seIn(inst[15:0]), 
 		             .seOut(SEinst));
 
+    // Selects between reg_readData2 and the sign-extended instruction
+    //      for input into the ALU
 	mux2 mux_reg_alu(.in0(reg_readData2), 
 		             .in1(SEinst), 
 		             .sel(ALUsrc), 
 		             .out(ALU_in));
 
+    // Main ALU, performs approptiate operation on data
 	alu cpuALU(.alucontrol(ALUop), 
 		       .a(reg_readData1), 
 		       .b(ALU_in), 
 		       .aluRes(ALUresult), 
 		       .zero(ALUzero));
 
+    // Data memory, written to and read from as instructed
 	datamemory cpu_dm(.clk(clk), 
 		              .readData(datamem_readData), 
 		              .address(ALUresult), 
@@ -158,6 +160,7 @@ module cpu
 		              .MemRead(MemRead), 
 		              .writeData(reg_readData2));
 
+    //
 	add_pc cpu_add_pc(.in(pc_out), 
 		              .out(pc4_out));
 

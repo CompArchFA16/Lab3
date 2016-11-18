@@ -82,6 +82,7 @@ endmodule
 //------------------------------------------------------------------------------
 
 module cputestbench
+#(parameter clktime = 1)
 (
 // Test bench driver signal connections
 input	   		begintest,	// Triggers start of testing
@@ -99,7 +100,7 @@ output reg 		dutpassed,	// Signal test result
     input [31:0] ALUresult
 );
 
-
+  
 
   // Initialize register driver signals
   initial begin
@@ -123,7 +124,7 @@ output reg 		dutpassed,	// Signal test result
   // Test Case 2: 
   //   Run second instruction: to pass, writeData = 4.
 
-  #100 clk=1;  #100 clk=0;  // Generate single clock pulse
+  #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
   // Verify expectations and report test result
   if(writeData != 4) begin
     dutpassed = 0;  // Set to 'false' on failure
@@ -133,7 +134,7 @@ output reg 		dutpassed,	// Signal test result
  // Test Case 3: 
   //   Run third instruction: to pass, writeData = 1.
 
-  #100 clk=1;  #100 clk=0;  // Generate single clock pulse
+  #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
   // Verify expectations and report test result
   if(writeData != 1) begin
     dutpassed = 0;  // Set to 'false' on failure
@@ -143,7 +144,7 @@ output reg 		dutpassed,	// Signal test result
  // Test Case 4: 
   //   Run fourth instruction: to pass, addALUres = 14098h.
 
-  #100 clk=1;  #100 clk=0;  // Generate single clock pulse
+  #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
   // Verify expectations and report test result
   if(addALUres != 32'h014098) begin
     dutpassed = 0;  // Set to 'false' on failure
@@ -154,7 +155,7 @@ output reg 		dutpassed,	// Signal test result
  // Test Case 5: 
   //   Run fifth instruction: to pass, addALUres = 16094.
 
-  #100 clk=1;  #100 clk=0;  // Generate single clock pulse
+  #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
   // Verify expectations and report test result
   if(addALUres != 32'h16094) begin
     dutpassed = 0;  // Set to 'false' on failure
@@ -164,7 +165,7 @@ output reg 		dutpassed,	// Signal test result
  // Test Case 6: 
   //   Run sixth instruction: to pass, reg_readData1 = 1.
 
-  #100 clk=1;  #100 clk=0;  // Generate single clock pulse
+  #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
   // Verify expectations and report test result
   if(reg_readData1 != 32'h1) begin
     dutpassed = 0;  // Set to 'false' on failure
@@ -174,7 +175,7 @@ output reg 		dutpassed,	// Signal test result
  // Test Case 7: 
   //   Run seventh instruction: to pass, reg_readData1 = 4.
 
-  #100 clk=1;  #100 clk=0;  // Generate single clock pulse
+  #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
   // Verify expectations and report test result
   if(reg_readData1 != 32'h0) begin
     dutpassed = 0;  // Set to 'false' on failure
@@ -184,7 +185,7 @@ output reg 		dutpassed,	// Signal test result
  // Test Case 8: 
   //   Run eigth instruction: to pass, writeData = 3ff8.
 
-  #100 clk=1;  #100 clk=0;  // Generate single clock pulse
+  #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
   // Verify expectations and report test result
   if(writeData != 32'h3ff8) begin
     dutpassed = 0;  // Set to 'false' on failure
@@ -194,7 +195,7 @@ output reg 		dutpassed,	// Signal test result
  // Test Case 9: 
   //   Run 9th instruction: to pass, reg_readData1 = 3ff8.
 
-  #100 clk=1;  #100 clk=0;  // Generate single clock pulse
+  #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
   // Verify expectations and report test result
   if(reg_readData1 != 32'h3ff8) begin
     dutpassed = 0;  // Set to 'false' on failure
@@ -204,7 +205,7 @@ output reg 		dutpassed,	// Signal test result
  // Test Case 10: 
   //   Run 10th instruction: to pass, reg_readData1 = 3ff4.
 
-  #100 clk=1;  #100 clk=0;  // Generate single clock pulse
+  #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
   // Verify expectations and report test result
   if(reg_readData1 != 32'h3ff4) begin
     dutpassed = 0;  // Set to 'false' on failure
@@ -214,7 +215,7 @@ output reg 		dutpassed,	// Signal test result
  // Test Case 11: 
   //   Run 11th instruction: to pass, reg_readData2 = 1.
 
-  #100 clk=1;  #100 clk=0;  // Generate single clock pulse
+  #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
   // Verify expectations and report test result
   if(reg_readData2 != 32'h1) begin
     dutpassed = 0;  // Set to 'false' on failure
@@ -224,7 +225,7 @@ output reg 		dutpassed,	// Signal test result
  // Test Case 12: 
   //   Run 12th instruction: to pass, datamem_readData = 4.
 
-  #100 clk=1;  #100 clk=0;  // Generate single clock pulse
+  #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
   // Verify expectations and report test result
   if(datamem_readData != 32'h4) begin
     dutpassed = 0;  // Set to 'false' on failure
@@ -234,7 +235,7 @@ output reg 		dutpassed,	// Signal test result
 // Test Case 13: 
   //   Run 13th instruction: to pass, datamem_readData = 1.
 
-  #100 clk=1;  #100 clk=0;  // Generate single clock pulse
+  #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
   // Verify expectations and report test result
   if(datamem_readData != 32'h1) begin
     dutpassed = 0;  // Set to 'false' on failure
@@ -244,7 +245,7 @@ output reg 		dutpassed,	// Signal test result
 // Test Case 14: 
   //   Run 14th instruction: to pass, addALUres = ffffa0c0.
 
-  #100 clk=1;  #100 clk=0;  // Generate single clock pulse
+  #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
   // Verify expectations and report test result
   if(addALUres != 32'hffffa0c0) begin
     dutpassed = 0;  // Set to 'false' on failure
@@ -254,7 +255,7 @@ output reg 		dutpassed,	// Signal test result
 // Test Case 15: 
   //   Run 15th instruction: to pass, ALUresult = 3ffc.
 
-  #100 clk=1;  #100 clk=0;  // Generate single clock pulse
+  #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
   // Verify expectations and report test result
   if(ALUresult != 32'h3ffc) begin
     dutpassed = 0;  // Set to 'false' on failure
@@ -264,7 +265,7 @@ output reg 		dutpassed,	// Signal test result
   // Test Case 16: 
   //   Run 16th instruction: to pass, reg_readData1 = 1c.
 
-  #100 clk=1;  #100 clk=0;  // Generate single clock pulse
+  #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
   // Verify expectations and report test result
   if(reg_readData1 != 32'h1c) begin
     dutpassed = 0;  // Set to 'false' on failure
@@ -275,7 +276,7 @@ output reg 		dutpassed,	// Signal test result
   // Test Case 17: 
   //   Run 17th instruction: to pass, reg_readData1 = 4.
 
-  #100 clk=1;  #100 clk=0;  // Generate single clock pulse
+  #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
   // Verify expectations and report test result
   if(reg_readData1 != 32'h4) begin
     dutpassed = 0;  // Set to 'false' on failure
@@ -285,7 +286,7 @@ output reg 		dutpassed,	// Signal test result
   // Test Case 18: 
   //   Run 18th instruction: to pass, addALUres = 100d4.
 
-  #100 clk=1;  #100 clk=0;  // Generate single clock pulse
+  #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
   // Verify expectations and report test result
   if(addALUres != 32'h100d4) begin
     dutpassed = 0;  // Set to 'false' on failure
@@ -295,7 +296,7 @@ output reg 		dutpassed,	// Signal test result
   // Test Case 19: 
   //   Run 19th instruction: to pass, addALUres = 70.
 
-  #100 clk=1;  #100 clk=0;  // Generate single clock pulse
+  #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
   // Verify expectations and report test result
   if(addALUres != 32'h70) begin
     dutpassed = 0;  // Set to 'false' on failure
@@ -305,7 +306,7 @@ output reg 		dutpassed,	// Signal test result
 // Test Case 20: 
   //   Run 20th instruction: to pass, writeData = 2.
 
-  #100 clk=1;  #100 clk=0;  // Generate single clock pulse
+  #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
   // Verify expectations and report test result
   if(writeData != 32'h2) begin
     dutpassed = 0;  // Set to 'false' on failure
@@ -315,7 +316,7 @@ output reg 		dutpassed,	// Signal test result
   // Test Case 21: 
   //   Run 21st instruction: to pass, addALUres = 100d4.
 
-  #100 clk=1;  #100 clk=0;  // Generate single clock pulse
+  #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
   // Verify expectations and report test result
   if(addALUres != 32'h100d4) begin
     dutpassed = 0;  // Set to 'false' on failure
@@ -325,7 +326,7 @@ output reg 		dutpassed,	// Signal test result
   // Test Case 22: 
   //   Run 22nd instruction: to pass, addALUres = 70.
 
-  #100 clk=1;  #100 clk=0;  // Generate single clock pulse
+  #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
   // Verify expectations and report test result
   if(addALUres != 32'h70) begin
     dutpassed = 0;  // Set to 'false' on failure
@@ -335,7 +336,7 @@ output reg 		dutpassed,	// Signal test result
   // Test Case 23: 
   //   Run 23rd instruction: to pass, writeData = 1.
 
-  #100 clk=1;  #100 clk=0;  // Generate single clock pulse
+  #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
   // Verify expectations and report test result
   if(writeData != 32'h1) begin
     dutpassed = 0;  // Set to 'false' on failure
@@ -345,7 +346,7 @@ output reg 		dutpassed,	// Signal test result
   // Test Case 24: 
   //   Run 24th instruction: to pass, addALUres = 100d4.
 
-  #100 clk=1;  #100 clk=0;  // Generate single clock pulse
+  #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
   // Verify expectations and report test result
   if(addALUres != 32'h100d4) begin
     dutpassed = 0;  // Set to 'false' on failure
@@ -355,7 +356,7 @@ output reg 		dutpassed,	// Signal test result
   // Test Case 25: 
   //   Run 25th instruction: to pass, reg_readData1 = 1c.
 
-  #100 clk=1;  #100 clk=0;  // Generate single clock pulse
+  #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
   // Verify expectations and report test result
   if(reg_readData1 != 32'h1c) begin
     dutpassed = 0;  // Set to 'false' on failure
@@ -365,7 +366,7 @@ output reg 		dutpassed,	// Signal test result
   // Test Case 26: 
   //   Run 26th instruction: to pass, reg_readData2 = 1.
 
-  #100 clk=1;  #100 clk=0;  // Generate single clock pulse
+  #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
   // Verify expectations and report test result
   if(reg_readData2 != 32'h1) begin
     dutpassed = 0;  // Set to 'false' on failure
@@ -375,7 +376,7 @@ output reg 		dutpassed,	// Signal test result
   // Test Case 27: 
   //   Run 27th instruction: to pass, addALUres = 74.
 
-  #100 clk=1;  #100 clk=0;  // Generate single clock pulse
+  #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
   // Verify expectations and report test result
   if(addALUres != 32'h74) begin
     dutpassed = 0;  // Set to 'false' on failure
@@ -386,7 +387,7 @@ output reg 		dutpassed,	// Signal test result
   // Test Case 28: 
   //   Run 28th instruction: to pass, addALUres = a4.
 
-  #100 clk=1;  #100 clk=0;  // Generate single clock pulse
+  #clktime clk=1;  #clktime clk=0;  // Generate single clock pulse
   // Verify expectations and report test result
   if(addALUres != 32'ha4) begin
     dutpassed = 0;  // Set to 'false' on failure
