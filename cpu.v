@@ -63,7 +63,13 @@ endmodule
 
 module cpu
 (
-	input clk
+	input clk,
+    output[31:0] datamem_readData,
+    output[31:0] writeData,
+    output [31:0] addALUres,
+    output [31:0] reg_readData1,
+    output [31:0] reg_readData2,
+    output [31:0] ALUresult
 );
 
 	wire [31:0] pc_in;
@@ -82,19 +88,19 @@ module cpu
 	wire [1:0] Jump;
 
 	wire [4:0] writeRegister;
-	wire [31:0] writeData;
+	//wire [31:0] writeData;
 
 	wire [31:0] reg_readData1;
 	wire [31:0] reg_readData2;
 
 	wire [31:0] SEinst;
 	wire [31:0] ALU_in;
-	wire [31:0] ALUresult;
+	//wire [31:0] ALUresult;
 	wire ALUzero;
 
-	wire [31:0] datamem_readData;
+	//wire [31:0] datamem_readData;
 	wire [31:0] pc4_out;
-	wire [31:0] addALUres;
+	//wire [31:0] addALUres;
 	//wire PCSrc;
 
 	pc cpuPC(.clk(clk), 

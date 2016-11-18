@@ -8,7 +8,7 @@
 //`include "instMem.v"
 //`include "pc.v"
 //`include "register.v"
-`include "signExtend.v"
+//`include "signExtend.v"
 //`include "control.v"
 //`include "datamemory.v"
 

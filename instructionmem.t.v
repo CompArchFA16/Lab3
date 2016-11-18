@@ -5,7 +5,7 @@
 //`include "alu.v"
 //`include "alucontrol.v"
 //`include "cpu.v"
-`include "instMem.v"
+//`include "instMem.v"
 //`include "pc.v"
 //`include "register.v"
 //`include "signExtend.v"
@@ -18,8 +18,7 @@ module instructionmemtestbenchharness
     parameter depth = 10,
     parameter width         = 32);
 
-  wire  clk;    // Clock (Positive Edge Triggered)
-  wire [31:0]	PC;	// program counter
+  wire [31:0]	read_address;	// program counter
   wire [31:0] instruction;	// instruction
 
 
@@ -28,8 +27,7 @@ module instructionmemtestbenchharness
 
 instMem instMemtest
 (
-  .clk(clk),
-  .PC(PC),
+  .read_address(read_address),
   .instruction(instruction)
 );
 
@@ -39,8 +37,7 @@ instMem instMemtest
     .begintest(begintest),
     .endtest(endtest), 
     .dutpassed(dutpassed),
-    .clk(clk),
-    .PC(PC),
+  .read_address(read_address),
     .instruction(instruction)
   );
 
@@ -79,14 +76,13 @@ output reg 		dutpassed,	// Signal test result
 
 // ALU DUT connections
   output reg  clk,    // Clock (Positive Edge Triggered)
-  output reg [31:0] PC, // program counter
+  output reg [31:0] read_address, // program counter
   input [31:0] instruction  // instruction
 );
 
   // Initialize instruction driver signals
   initial begin
-    PC=32'd0; 
-    clk=0;
+    read_address=32'd0; 
   end
 
   // Once 'begintest' is asserted, start running test cases
@@ -98,11 +94,10 @@ output reg 		dutpassed,	// Signal test result
   // Test Case 1: 
   //   PC = 0. To pass, instruction = 32'h2008000a, 
   //   which is instruction memory at 0. 
-    PC=32'd0; 
-  #5 clk=1; #5 clk=0;	// Generate single clock pulse
+    read_address=32'd0; 
   #10
   // Verify expectations and report test result
-  if(instruction != 32'h2008000a) begin
+  if(instruction != 32'h381d3ffc) begin
     dutpassed = 0;	// Set to 'false' on failure
     $display("Test Case 1: PC = 0 Failed");
   end
@@ -110,10 +105,9 @@ output reg 		dutpassed,	// Signal test result
   // Test Case 2: 
   //   PC = 4. To pass, instruction = 32'h2008000b, 
   //   which is instruction memory at 4. 
-    PC=32'd4; 
-  #5 clk=1; #5 clk=0;
+    read_address=32'd4; 
   #10
-  if(instruction != 32'h2008000b) begin
+  if(instruction != 32'h38080004) begin
     dutpassed = 0;
     $display("Test Case 2: PC = 4 Failed");
   end
@@ -121,10 +115,9 @@ output reg 		dutpassed,	// Signal test result
   // Test Case 3: 
   //   PC = 8. To pass, instruction = 32'h2008000c, 
   //   which is instruction memory at 8. 
-    PC=32'd8; 
-  #5 clk=1; #5 clk=0;
+    read_address=32'd8; 
   #10
-  if(instruction != 32'h2008000c) begin
+  if(instruction != 32'h38090001) begin
     dutpassed = 0;
     $display("Test Case 3: PC = 8 Failed");
   end

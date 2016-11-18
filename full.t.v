@@ -13,15 +13,16 @@
 //`include "datamemory.v"
 `include "alu.t.v"
 `include "datamem.t.v"
-//`include "instructionmem.t.v"
+`include "instructionmem.t.v"
 `include "signextend.t.v"
-`include "control.t.v"
+//`include "control.t.v"
+`include "cpu.t.v"
 
 module fulltestbenchharness();
   alutestbenchharness alu(); //tests alu and alucontrol
   datamemtestbenchharness datamem(); //tests data memory
-  //instructionmemtestbenchharness inst();
+  instructionmemtestbenchharness inst();
   setestbenchharness se(); //tests signextend
-  controltestbenchharness control();
+  //controltestbenchharness control();
 
 endmodule

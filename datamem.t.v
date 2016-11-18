@@ -10,7 +10,7 @@
 //`include "register.v"
 //`include "signExtend.v"
 //`include "control.v"
-`include "datamemory.v"
+//`include "datamemory.v"
 
 module datamemtestbenchharness
 #(  parameter addresswidth  = 32,

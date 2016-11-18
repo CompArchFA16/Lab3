@@ -9,7 +9,7 @@
 //`include "pc.v"
 //`include "register.v"
 //`include "signExtend.v"
-`include "control.v"
+//`include "control.v"
 //`include "datamemory.v"
 
 module controltestbenchharness();
@@ -142,7 +142,7 @@ output reg 		dutpassed,	// Signal test result
       (Jump != 2'b00) |
       (ALUOp != 3'b001)) begin
     dutpassed = 0;  // Set to 'false' on failure
-    $display("Data Mem: Test Case 1 Failed");
+    $display("Control: Test Case 1 Failed");
   end
 
   // Test Case 2: 
@@ -161,7 +161,7 @@ output reg 		dutpassed,	// Signal test result
       (Jump != 2'b00) |
       (ALUOp != 3'b010)) begin
     dutpassed = 0;  // Set to 'false' on failure
-    $display("Data Mem: Test Case 2 Failed");
+    $display("Control: Test Case 2 Failed");
   end
 
 
@@ -181,7 +181,7 @@ output reg 		dutpassed,	// Signal test result
       (Jump != 2'b00) |
       (ALUOp != 3'b100)) begin
     dutpassed = 0;  // Set to 'false' on failure
-    $display("Data Mem: Test Case 3 Failed");
+    $display("Control: Test Case 3 Failed");
   end
 
 // If it does those ones fine, it's almost certainly sending the signals we told it to.

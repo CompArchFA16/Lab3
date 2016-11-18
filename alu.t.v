@@ -4,8 +4,8 @@
 //    then verifying that it works as intended.
 //------------------------------------------------------------------------------
 //`include "register.v"
-`include "alu.v"
-`include "alucontrol.v"
+//`include "alu.v"
+//`include "alucontrol.v"
 //`include "cpu.v"
 //`include "instMem.v"
 //`include "pc.v"
