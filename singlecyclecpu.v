@@ -32,11 +32,15 @@ wire [4:0] A2;
 wire [4:0] Rt;
 wire [4:0] Rd;
 wire [15:0] Imm;
-InstrFetchUnit iFetch(InstrOut, Op, Funct, A1, A2, Rt, Rd, Imm);
+wire [25:0] JumpAddr;
+InstrFetchUnit iFetch(InstrOut, Op, Funct, A1, A2, Rt, Rd, Imm, JumpAddr);
 
 wire RegDst; //set this with control unit
 wire [4:0] WriteReg;
-mux2to15bits muxrtrd(Rt, Rd, RegDst, WriteReg);
+wire [4:0] rtrdout;
+wire JALselect; // set with control unit
+mux2to15bits muxrtrd(Rt, Rd, RegDst, rtrdout);
+mux2to15bits muxrtrd31(rtrdout, 5'b11111, JALselect, WriteReg); // Saving to reg 31 for JAL
 
 wire [31:0] ReadData1;
 wire [31:0] ReadData2;
@@ -61,8 +65,14 @@ ALU alu(ALUresult, carryout, overflow, zero, ReadData1, ALUsrcB, ALUop);
 wire PCsrc;
 wire branch; //set this with control unit
 and andgate(PCsrc, branch, zero);
+wire [31:0] pcbtwnmux;
+wire [31:0] jumpAddrforpc;
+wire JumpSelect; // set this with control unit
+wire selectRegorJump; // set this with control unit
 
-mux32to1by1small muxpcinput(nextPC, (nextPC + seImm), PCsrc, PCin);
+mux32to1by1small muxpcbranchinput(nextPC, (nextPC + seImm), PCsrc, pcbtwnmux);
+mux32to1by1small muxjumpaddr({6'b000000, JumpAddr}, ReadData1, selectRegorJump, jumpAddrforpc);
+mux32to1by1small muxpcjumpinput(pcbtwnmux, jumpAddrforpc, JumpSelect, PCin);
 
 wire MemWrite; //set this with control unit
 wire [31:0] Dataout;
