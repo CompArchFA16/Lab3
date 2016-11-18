@@ -69,10 +69,12 @@ wire [31:0] pcbtwnmux;
 wire [31:0] jumpAddrforpc;
 wire JumpSelect; // set this with control unit
 wire selectRegorJump; // set this with control unit
+wire startPC; 
 
 mux32to1by1small muxpcbranchinput(nextPC, (nextPC + seImm), PCsrc, pcbtwnmux);
 mux32to1by1small muxjumpaddr({6'b000000, JumpAddr}, ReadData1, selectRegorJump, jumpAddrforpc);
-mux32to1by1small muxpcjumpinput(pcbtwnmux, jumpAddrforpc, JumpSelect, PCin);
+mux32to1by1small muxpcjumpinput(pcbtwnmux, jumpAddrforpc, JumpSelect, PCinput);
+mux32to1by1small muxpcstart(PCinput, 32b'00000000000000000000000000000000, startPC,PCin);
 
 wire MemWrite; //set this with control unit
 wire [31:0] Dataout;

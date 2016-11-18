@@ -19,7 +19,8 @@ output reg Branch,
 output reg Jump,
 output reg RegDst,
 output reg JALselect,
-output reg selectRegorJump
+output reg selectRegorJump,
+output reg selstart
 );
 
 // Encodings for Operations
@@ -38,14 +39,16 @@ localparam sub = 6'h22;
 localparam slt = 6'h2a;
 
 // ALU things
-localparam ADD  3'd0;
-localparam SUB  3'd1;
-localparam XOR  3'd2;
-localparam SLT  3'd3;
-localparam AND  3'd4;
-localparam NAND 3'd5;
-localparam NOR  3'd6;
-localparam OR   3'd7;
+localparam ADD = 3'd0;
+localparam SUB = 3'd1;
+localparam XOR = 3'd2;
+localparam SLT = 3'd3;
+localparam AND = 3'd4;
+localparam NAND = 3'd5;
+localparam NOR = 3'd6;
+localparam OR =  3'd7;
+
+//TO DO: have it set PC to 0 with putting selstart high once at beginning. 
 
 always @(posedge clk) begin
     case (Op)
@@ -61,7 +64,7 @@ always @(posedge clk) begin
             JALselect <= 0; // not 31
             selectRegorJump <= 0; // doesn't matter, not jumping
         end
-        storeword: begin // read from register file and write to data memory
+        storeWord: begin // read from register file and write to data memory
             RegDst <= 0; // doesnt matter
             Branch <= 0;
             Jump <= 0;
@@ -73,7 +76,7 @@ always @(posedge clk) begin
             JALselect <= 0; // not 31
             selectRegorJump <= 0; // doesn't matter, not jumping
         end
-        jump: begin 
+        jump: begin
             RegDst <= 0; // doesnt matter
             Branch <= 0;
             Jump <= 1;
@@ -85,7 +88,7 @@ always @(posedge clk) begin
             JALselect <= 0; // not 31
             selectRegorJump <= 0; // jump address
         end
-        jumplink: begin // todo: have a pc+8 to write data, perhaps with mux on write data
+        jumpLink: begin // todo: have a pc+8 to write data, perhaps with mux on write data
             RegDst <= 0; // doesnt matter
             Branch <= 0;
             Jump <= 1;
