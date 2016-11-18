@@ -19,35 +19,51 @@
 module alutestbenchharness();
 
   wire [31:0]	aluRes;	// alu result output
-  wire zero;	// alu output (if output is zero = 1)
-  wire [31:0]	a, b;	// the two 31-bit inputs to be operated on
-  //wire	clk;		// Clock (Positive Edge Triggered)
+  wire        zero;	  // alu output (if output is zero = 1)
+  wire [31:0]	a, b;	  // the two 31-bit inputs to be operated on
+ 
+  wire        clk;                // Clock (Positive Edge Triggered)
+  wire [5:0]  instruction;       //instruction[31:26]
+  wire [5:0]  instruction_funct;  //instruction[5:0]
 
-  wire [1:0] ALUop; // 2-bit control signal for alucontrol
-  wire [5:0] instruction; // 6-bit instruction input to alucontrol
-  wire [2:0] ALUcontrol; // 3-bit alu control input, output of alucontrol
+  wire  [1:0] RegDst;             //Mux for Register_WriteRegister_in
+  wire        Branch;             //AND with ALU_Zero_out to get PCSrc
+  wire        MemRead;            //read data from data memory
+  wire  [1:0] MemtoReg;           //Mux for selecting between DataMemory_ReadData_out
+  wire  [2:0] ALUOp;              //for ALU control
+  wire        MemWrite;           //write data to data memory
+  wire        ALUSrc;             //goes to ALU control
+  wire        RegWrite;           //Register write signal
+  wire  [1:0] Jump;               //Jump signal
 
-  reg		begintest;	// Set High to begin testing alu
-  wire		dutpassed;	// Indicates whether alu passed tests
+  reg		      begintest;	// Set High to begin testing alu
+  wire		    dutpassed;	// Indicates whether alu passed tests
 
-alucontrol ALUcontroltest
+
+
+control ALUcontroltest
 (
-  //.clk(clk),
-  .ALUop(ALUop),
+  .clk(clk),
   .instruction(instruction),
-  .ALUcontrol(ALUcontrol)
+  .instruction_funct(instruction_funct),
+  .RegDst(RegDst),
+  .Branch(Branch),
+  .MemRead(MemRead),
+  .MemtoReg(MemtoReg),
+  .ALUOp(ALUOp),
+  .MemWrite(MemWrite),
+  .ALUSrc(ALUSrc),
+  .RegWrite(RegWrite),
+  .Jump(Jump)
   );
 
 alu ALUtest
 (
   .aluRes(aluRes),
   .zero(zero),
-  .alucontrol(ALUcontrol),
+  .alucontrol(ALUOp),
   .a(a),
   .b(b)
-  //,
-//  .clk(clk
-//)
 );
 
 
@@ -57,14 +73,24 @@ alu ALUtest
     .begintest(begintest),
     .endtest(endtest),
     .dutpassed(dutpassed),
+
     .aluRes(aluRes),
     .zero(zero),
-    .ALUcontrol(ALUcontrol),
     .a(a),
     .b(b),
-    // .clk(clk),
-    .ALUop(ALUop),
-    .instruction(instruction)
+
+    .clk(clk),
+    .instruction(instruction),
+    .instruction_funct(instruction_funct),
+    .RegDst(RegDst),
+    .Branch(Branch),
+    .MemRead(MemRead),
+    .MemtoReg(MemtoReg),
+    .ALUOp(ALUOp),
+    .MemWrite(MemWrite),
+    .ALUSrc(ALUSrc),
+    .RegWrite(RegWrite),
+    .Jump(Jump)
   );
 
   // Test harness asserts 'begintest' for 1000 time steps, starting at time 10
@@ -85,10 +111,10 @@ endmodule
 
 //------------------------------------------------------------------------------
 // ALU test bench
-//   Generates signals to drive alu and passes them back up one
+//   Generates signals to drive control, uses control signals to drive alu, and passes them back up one
 //   layer to the test harness.
 //
-//   Once 'begintest' is asserted, begin testing the alu.
+//   Once 'begintest' is asserted, begin testing the control and alu.
 //   Once your test is conclusive, set 'dutpassed' appropriately and then
 //   raise 'endtest'.
 //------------------------------------------------------------------------------
@@ -96,24 +122,34 @@ endmodule
 module alutestbench
 (
 // Test bench driver signal connections
-input	   		begintest,	// Triggers start of testing
-output reg 		endtest,	// Raise once test completes
+input	   		  begintest,	// Triggers start of testing
+output reg 		endtest,	  // Raise once test completes
 output reg 		dutpassed,	// Signal test result
 
 // ALU DUT connections
-  input [31:0] aluRes,
-  input zero,
-  input [2:0] ALUcontrol,
-  output reg [31:0] a, b,
-  // output reg clk,
-  output reg [1:0] ALUop,
-  output reg [5:0] instruction
+  input [31:0]      aluRes,      // alu result output
+  input             zero,        // alu output (if output is zero = 1)
+  output reg [31:0] a, b,        // the two 31-bit inputs to be operated on
+ 
+  output reg        clk,                // Clock (Positive Edge Triggered)
+  output reg [5:0]  instruction,        //instruction[31:26]
+  output reg [5:0]  instruction_funct,  //instruction[5:0]
+
+  input  [1:0] RegDst,             //Mux for Register_WriteRegister_in
+  input        Branch,             //AND with ALU_Zero_out to get PCSrc
+  input        MemRead,            //read data from data memory
+  input  [1:0] MemtoReg,           //Mux for selecting between DataMemory_ReadData_out
+  input  [2:0] ALUOp,              //for ALU control
+  input        MemWrite,           //write data to data memory
+  input        ALUSrc,             //goes to ALU control
+  input        RegWrite,           //Register write signal
+  input  [1:0] Jump                //Jump signal
 );
 
   // Initialize register driver signals
   initial begin
-    instruction=6'b00_1110;
-    ALUop = 2'b0;
+    instruction_funct=6'b100000;
+    instruction = 6'b000000;
     a=32'd0;
     b=32'd0;
     // clk=0;
@@ -128,13 +164,13 @@ output reg 		dutpassed,	// Signal test result
   // Test Case 1:
   //   Add 'a' and 'b': a = 30, b = 1.
   //   To pass, aluRes = 31.
-    ALUop = 2'b00; //add, sub, or slt signal
-    instruction=6'b10_0000; //add instruction
+    instruction_funct=6'b100000;
+    instruction = 6'b000000;
     a=32'd30;
     b=32'd1;
-    #100
-  // #5 clk=1; #5 clk=0;	// Generate two clock pulses
-  // #5 clk=1; #5 clk=0;
+    #10
+  //#5 clk=1; #5 clk=0;	// Generate two clock pulses
+  //#5 clk=1; #5 clk=0;
   // Verify expectations and report test result
   if((aluRes != 31) || (zero != 0)) begin
     dutpassed = 0;	// Set to 'false' on failure
@@ -144,8 +180,8 @@ output reg 		dutpassed,	// Signal test result
   // Test Case 2:
   //   Subtract 'b' from 'a', a = 45, b = 5.
   //   To pass, aluRes = 40, zero = 0.
-    ALUop = 2'b00; //add, sub, or slt signal
-    instruction = 6'b10_0010; //subtraction instruction
+    instruction_funct=6'b100010;
+    instruction = 6'b000000;
     a=32'd45;
     b=32'd5;
     #100
@@ -159,8 +195,8 @@ output reg 		dutpassed,	// Signal test result
   // Test Case 3:
   //   Select-less-than a and b. a = 5, b = 6.
   //   To pass, aluRes = 1.
-    ALUop = 2'b00; //add, sub, or slt signal
-    instruction = 6'b10_1010; //slt instruction
+    instruction_funct=6'b101010;
+    instruction = 6'b000000;
     a=32'd5;
     b=32'd6;
   // #5 clk=1; #5 clk=0; // Generate two clock pulses
@@ -174,8 +210,8 @@ output reg 		dutpassed,	// Signal test result
   // Test Case 4:
   //   Xori a and b. a = 5, b = 6.
   //   To pass, aluRes = 3
-    ALUop = 2'b10; //xori signal
-    instruction = 6'b00_1110; //xori instruction
+    instruction_funct=6'b00_1110;
+    instruction = 6'b001110;
     a=32'd5;
     b=32'd6;
   // #5 clk=1; #5 clk=0; // Generate two clock pulses
@@ -186,9 +222,9 @@ output reg 		dutpassed,	// Signal test result
     $display("ALU: Test Case 4: Xori Failed");
   end
 
-    ALUop = 2'b00;
-    instruction = 6'b00_0000; //non-ALU instruction
-    a=32'd5;
+    instruction_funct=6'b101010;
+    instruction = 6'b000000;
+    a=32'd7;
     b=32'd6;
   // #5 clk=1; #5 clk=0; // Generate two clock pulses
   // #5 clk=1; #5 clk=0;
@@ -196,9 +232,7 @@ output reg 		dutpassed,	// Signal test result
   if((aluRes != 0) || (zero != 1)) begin
     dutpassed = 0;
     $display("ALU: Test Case 5: zeros Failed");
-    $display(ALUcontrol);
-    $display(aluRes);
-    $display(zero);
+
   end
 
   // All done!  Wait a moment and signal test completion.

@@ -90,11 +90,11 @@ module cpu
 
 	wire [4:0]  writeRegister; // Write data address for register
 
-	wire [31:0] SEinst;  //Output of sign extender
-	wire [31:0] ALU_in;  //Input for ALU (output of ALUsrc mux)
-	wire        ALUzero; // Output of ALU: if result is zero, ALUzero = 1
+	wire [31:0] SEinst;  	//Output of sign extender
+	wire [31:0] ALU_in;  	//Input for ALU (output of ALUsrc mux)
+	wire        ALUzero; 	// Output of ALU: if result is zero, ALUzero = 1
 
-	wire [31:0] pc4_out; // Output of PC + 4
+	wire [31:0] pc4_out; 	// Output of PC + 4
 
     // Run PC
 	pc cpuPC(.clk(clk), 

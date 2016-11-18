@@ -8,10 +8,9 @@ module alu(
   input [31:0] a, b
 );
 
-  //I don't think we need to deal with cin/cout
-reg [31:0] aluRes_reg;
+	reg [31:0] aluRes_reg;
 
-always @* begin //NOTE: You are describing combo logic, since there is no clock signal
+always @* begin 
 	//add
 	if (alucontrol == 3'b001) begin
 		aluRes_reg <= a + b;
@@ -37,7 +36,7 @@ always @* begin //NOTE: You are describing combo logic, since there is no clock 
 	end
 
 end
-	assign zero = ~|aluRes_reg;
-	assign aluRes = aluRes_reg;
+	assign zero = ~|aluRes_reg; // If aluRes = 32'b0, zero is true
+	assign aluRes = aluRes_reg;	// Set aluRes for output
 
 endmodule
