@@ -5,14 +5,15 @@
 `include "utils.v"
 
 module alu
+#(parameter n = 32)
 (
-	output[n-1:0]   result,
-	output          carryout,
-	output          zero,
-	output          overflow,
-	input[n-1:0]    operandA,
-	input[n-1:0]    operandB,
-	input[2:0]      command,
+	output reg [n-1:0]   result,
+	output reg carryout,
+	output zero,
+	output overflow,
+	input [n-1:0]    a,
+	input [n-1:0]    b,
+	input [2:0]      command
 );
 
 // FLAGS
@@ -20,7 +21,7 @@ assign overflow = ({carryout,result[31]} == 2'b01);
 assign zero = ~|result;
 
 always @* begin
-	case (ALUcommand)
+	case (command)
 		`C_ADD: begin
 			{carryout,result} <= a + b;
 		end
@@ -51,4 +52,7 @@ always @* begin
 		end
 	endcase
 end
+
+endmodule
+
 `endif
