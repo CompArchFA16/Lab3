@@ -24,8 +24,8 @@ module memory_test();
         clk=0; enable=1; addr=32'h0000000A; dataIn=32'hFFFFFFFF;
         #10 clk=1; #10 clk = 0;
         $display("Data Out: %b Addr: %b", dataOut, addr);
-        clk=0; enable=0; addr=32'h0000000A; dataIn=32'h00000000;
-        #10 clk=1; #10 clk = 0;
-        $display("Data Out: %b Addr: %b", dataOut, addr);
+        //clk=0; enable=0; addr=32'h0000000A; dataIn=32'h00000000;
+        //#10 clk=1; #10 clk = 0;
+        //$display("Data Out: %b Addr: %b", dataOut, addr);
     end
 endmodule

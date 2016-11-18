@@ -24,8 +24,13 @@ module Data_memory
   always @(posedge clk) begin
     if (regWE) begin
       mem[Addr] <= DataIn;
-      $writememh("Dmem.dat", mem);
     end
+  end
+
+  always @(negedge clk) begin
+      if (regWE) begin
+          $writememh("Dmem.dat", mem);
+      end
   end
 
   initial begin
