@@ -135,13 +135,13 @@ module control_unit (
       // EX: If (A<B) Set result set to 1. If not, set to 0.
       // MEM:
       // WB: Result is written to rd in RegFile
-        regWrite_ID   <= 0;
-        memToReg_ID   <= 1; //To write the result (either 0 or 1) to RegFile[rd]
+        regWrite_ID   <= 1;
+        memToReg_ID   <= 0;
         memWrite_ID   <= 0;
         branch_ID     <= 0;
         aluControl_ID <= `ALU_CMD_SLT;
         aluSrc_ID     <= 0;
-        regDst_ID     <= 0;
+        regDst_ID     <= 1;
       end
     endcase
   end

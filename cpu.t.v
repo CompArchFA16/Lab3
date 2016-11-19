@@ -261,15 +261,55 @@ module testCPU ();
     //    else
     //      $d = 0;
 
-    // rS = 5'b0;
-    // rT = 5'b1;
-    // expected_rD = 16'b1;
-    // instruction = { `CMD_slt, rS, rT, rD };
-    // executeProgram();
+    // Load our test data.
+    writeToMem(32'hC1, 32'h2);
+    writeToMem(32'hC2, 32'h3);
 
-    // if (rD !== expected_rD) begin
-      // dutPassed = 0;
-    // end
+    writeInstructions (16, {
+      { `CMD_lw, `R_ZERO, `R_S2, 16'hC1 },
+      noop, noop, noop, noop,
+      { `CMD_lw, `R_ZERO, `R_S3, 16'hC2 },
+      noop, noop, noop, noop,
+      { `CMD_slt, `R_S2, `R_S3, `R_S4, 11'b0 },
+      noop, noop, noop, noop,
+      { `CMD_sw, `R_ZERO, `R_S4, 16'hC3 }
+    });
+
+    executeProgram(16);
+
+    testToMemAddress = 32'hC3;
+    clkOnce();
+    if (dataMemOut !== 32'b1) begin
+      dutPassed = 0;
+      $display("*** FAIL: Set on less than (signed) -> 2 < 3");
+      $display("Actual data memory output: %h", dataMemOut);
+    end
+
+    writeToMem(32'hC1, 32'h4);
+    writeToMem(32'hC2, 32'h3);
+
+    executeProgram(16);
+
+    testToMemAddress = 32'hC3;
+    clkOnce();
+    if (dataMemOut !== 32'b0) begin
+      dutPassed = 0;
+      $display("*** FAIL: Set on less than (signed) -> 4 > 3");
+      $display("Actual data memory output: %h", dataMemOut);
+    end
+
+    writeToMem(32'hC1, 32'hfffffffe);
+    writeToMem(32'hC2, 32'hffffffff);
+
+    executeProgram(16);
+
+    testToMemAddress = 32'hC3;
+    clkOnce();
+    if (dataMemOut !== 32'b1) begin
+      dutPassed = 0;
+      $display("*** FAIL: Set on less than (signed) -> -2 < -1");
+      $display("Actual data memory output: %h", dataMemOut);
+    end
 
     $display(">>> TEST cpu ....... ", dutPassed);
     $finish;
