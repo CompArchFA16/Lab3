@@ -6,7 +6,7 @@ module controlUnit (
   output reg memToReg_ID,
   output reg memWrite_ID,
   output reg branch_ID,
-  output reg aluControl_ID,
+  output reg [2:0] aluControl_ID,
   output reg aluSrc_ID,
   output reg regDst_ID,
 

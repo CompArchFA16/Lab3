@@ -87,12 +87,8 @@ module testCPU ();
   reg [15:0] imm;
   reg [31:0] instruction;
 
-  task completeInstructionCycle;
-    begin
-      // TODO: Update this time to the correct length of our instruction cycle.
-      #10;
-    end
-  endtask
+  task clkOnce;          begin #2;  end endtask
+  task waitAFullCPULoad; begin #10; end endtask
 
   task insertToMemory;
     input [31:0] address;
@@ -102,9 +98,9 @@ module testCPU ();
       testToMemData <= data;
       testToMemAddress <= address;
       testToMemWriteEnable <= 1'b1;
-      #2; // Wait for a clock cycle.
-      isTesting <= 1'b0; // This means that the CPU is back in control.
+      clkOnce();
       testToMemWriteEnable <= 1'b0;
+      isTesting <= 1'b0;
     end
   endtask
 
@@ -118,32 +114,35 @@ module testCPU ();
     $dumpvars;
     dutPassed = 1;
 
+    // Offset our test to be on the negedge. This way, our changes are picked up
+    // by the next posedge of the clk.
+    #1;
+
     // LW ======================================================================
     // RTL:
     //   PC = PC + 4;
     //   $t = MEM[$s + offset];
 
-    insertToMemory(32'd500, 32'd42);
-
-    rS = `R_ZERO; // datamem address to load from
-    rT = `R_S1; // register to load into <- value lives here
+    // Load our test data.
+    insertToMemory(32'hAB, 32'h42);
 
     resetPC = 1;
-    insertToMemory(32'd0, { `CMD_lw, rS, rT, 16'd500 });
-    insertToMemory(32'd4, { `CMD_add, `R_ZERO, `R_ZERO, `R_ZERO });
-    insertToMemory(32'd8, { `CMD_add, `R_ZERO, `R_ZERO, `R_ZERO });
-    insertToMemory(32'd12, { `CMD_add, `R_ZERO, `R_ZERO, `R_ZERO });
-    insertToMemory(32'd16, { `CMD_add, `R_ZERO, `R_ZERO, `R_ZERO });
-    insertToMemory(32'd20, { `CMD_sw, rS, rT, 15'd501 });
+    insertToMemory(32'd0,  { `CMD_add, `R_ZERO, `R_ZERO, 16'b0  }); // To offset our resetPC.
+    insertToMemory(32'd4,  { `CMD_lw,  `R_ZERO, `R_S1,   16'hAB });
+    insertToMemory(32'd8,  { `CMD_add, `R_ZERO, `R_ZERO, 16'b0  });
+    insertToMemory(32'd12, { `CMD_add, `R_ZERO, `R_ZERO, 16'b0  });
+    insertToMemory(32'd16, { `CMD_add, `R_ZERO, `R_ZERO, 16'b0  });
+    insertToMemory(32'd20, { `CMD_add, `R_ZERO, `R_ZERO, 16'b0  });
+    insertToMemory(32'd24, { `CMD_sw,  `R_ZERO, `R_S1,   16'hAB });
     resetPC = 0;
 
-    completeInstructionCycle();
-    completeInstructionCycle();
+    waitAFullCPULoad();
+    waitAFullCPULoad();
 
     isTesting = 1;
     testToMemAddress = 31'd501;
-    #2;
-    if (dataMemOut !== 32'd42) begin
+    clkOnce();
+    if (dataMemOut !== 32'h42) begin
       dutPassed = 0;
       $display("Store after a load failed.");
       $display("Actual data memory output: %d", dataMemOut);
@@ -156,7 +155,7 @@ module testCPU ();
     //   DataMem[Reg[rS] + imm] = Reg[rT]
 
     // instruction = { `CMD_sw, rS, rT, 16'b0 };
-    // completeInstructionCycle();
+    // waitAFullCPULoad();
 
     // if (dataMemOut !== 32'd3) begin
       // dutPassed = 0;
@@ -169,7 +168,7 @@ module testCPU ();
 
     // jumpTarget = 26'd203;
     // instruction = { `CMD_j, jumpTarget };
-    // completeInstructionCycle();
+    // waitAFullCPULoad();
 
     // if (pc !== {4'b0, 26'd203, 2'b0}) begin
     //   dutPassed = 0;
@@ -181,7 +180,7 @@ module testCPU ();
     //   PC = $s;
 
     // instruction = { `CMD_jr, rS, 21'b0 };
-    // completeInstructionCycle();
+    // waitAFullCPULoad();
 
     // TODO: Match to the actual register value.
     // if (pc !== {4'b0, 28'b0}) begin
@@ -196,7 +195,7 @@ module testCPU ();
 
     // jumpTarget = 26'd214;
     // instruction = { `CMD_jal, jumpTarget };
-    // completeInstructionCycle();
+    // waitAFullCPULoad();
 
     // if (pc !== {4'b0, 26'd214, 2'b0}) begin
     //   dutPassed = 0;
@@ -216,7 +215,7 @@ module testCPU ();
     // rT = `R_S1;
     // imm = 16'b10;
     // insertToMemory({ `CMD_bne, rS, rT, imm });
-    // completeInstructionCycle();
+    // waitAFullCPULoad();
 
     //pc = 0 --> 4
     //pc = 0 --> 14
@@ -235,7 +234,7 @@ module testCPU ();
     // expected_rT = 16'b1000100010100000;
 
     // instruction = {`CMD_xori, rS, rT, imm};
-    // completeInstructionCycle();
+    // waitAFullCPULoad();
 
     // if (rT !== expected_rT) begin
       // dutPassed = 0;
@@ -251,7 +250,7 @@ module testCPU ();
     // rT = 5'b1;
     // expected_rD = 5'b1;
     // instruction = { `CMD_add, rS, rT, rD };
-    // completeInstructionCycle();
+    // waitAFullCPULoad();
 
     // if (rD !== expected_rD) begin
       // dutPassed = 0;
@@ -269,7 +268,7 @@ module testCPU ();
     // rT = 5'd1;
     // rD = 5'd2;
     // instruction = { `CMD_sub, rD, rS, rT };
-    // completeInstructionCycle();
+    // waitAFullCPULoad();
 
     // TODO: Read from rD and check value.
 
@@ -287,7 +286,7 @@ module testCPU ();
     // rT = 5'b1;
     // expected_rD = 16'b1;
     // instruction = { `CMD_slt, rS, rT, rD };
-    // completeInstructionCycle();
+    // waitAFullCPULoad();
 
     // if (rD !== expected_rD) begin
       // dutPassed = 0;

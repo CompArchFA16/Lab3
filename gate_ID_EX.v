@@ -18,7 +18,7 @@ module gate_ID_EX (
   input             memToReg_ID,
   input             memWrite_ID,
   input             branch_ID,
-  input             aluControl_ID,
+  input      [2:0]  aluControl_ID,
   input             aluSrc_ID,
   input             regDst_ID,
   input      [31:0] readData1Out_ID,

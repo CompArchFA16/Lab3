@@ -94,7 +94,7 @@ module CPU (
   wire memToReg_ID;
   wire memWrite_ID;
   wire branch_ID;
-  wire aluControl_ID;
+  wire [2:0] aluControl_ID;
   wire aluSrc_ID;
   wire regDst_ID;
 
