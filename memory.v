@@ -1,15 +1,19 @@
+// Module to access instruction memory and output a single instruction
+
 module Instr_memory
 (
   input[31:0] Addr,
   output [31:0] DataOut
 );
 
-  reg [31:0] mem[0:10];
+  reg [31:0] mem[0:1023]; // Generate array to store data from file
 
-  initial $readmemh("Imem.dat", mem);
+  initial $readmemh("fullMem.dat", mem); // Read memory from file and store in array
 
-  assign DataOut = mem[Addr];
+  assign DataOut = mem[Addr]; // Output instruction at address Addr
 endmodule
+
+// Module to access and modify data memory
 
 module Data_memory
 (
@@ -19,19 +23,24 @@ module Data_memory
   output[31:0]  DataOut
 );
 
-  reg [31:0] mem[0:10];
+  reg [31:0] mem[0:1023]; // Generate array to store data from file
 
-  always @(posedge clk) begin
-    if (regWE) begin
+  always @(posedge clk) begin // Update array on posedge clock
+    if (regWE) begin // Check for write enable
       mem[Addr] <= DataIn;
-      $writememh("Dmem.dat", mem);
     end
   end
 
+  always @(negedge clk) begin // Update file on negedge clock
+      if (regWE) begin
+          $writememh("fullMem.dat", mem); // Write to file
+      end
+  end
+
   initial begin
-      $readmemh("Dmem.dat", mem);
+      $readmemh("fullMem.dat", mem); // Initially read file
   end
  
-      assign DataOut = mem[Addr];
+      assign DataOut = mem[Addr]; // Ouptu data at address Addr
 endmodule
 
