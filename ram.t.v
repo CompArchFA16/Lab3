@@ -44,7 +44,7 @@ module testRAM ();
       dutPassed = 0;
     end
 
-    $display("dutPassed: %b", dutPassed);
+    $display(">>> TEST ram ....... %b", dutPassed);
     $finish;
   end
 endmodule

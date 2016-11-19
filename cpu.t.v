@@ -111,17 +111,22 @@ module testCPU ();
   initial begin
 
     $dumpfile("cpu.vcd");
-    $dumpvars;
+    $dumpvars(3);
     dutPassed = 1;
 
     // Offset our test to be on the negedge. This way, our changes are picked up
     // by the next posedge of the clk.
     #1;
 
-    // LW ======================================================================
-    // RTL:
+    // LW & SW =================================================================
+    // LW: Loads into a register a value from memory.
+    // LW RTL:
     //   PC = PC + 4;
-    //   $t = MEM[$s + offset];
+    //   $t = MEM[Reg[$s] + offset];
+    // SW: Stores from a register a value to memory.
+    // SW RTL:
+    //   PC = PC + 4;
+    //   DataMem[Reg[$s] + offset] = Reg[$t];
 
     // Load our test data.
     insertToMemory(32'hAB, 32'h42);
@@ -148,18 +153,6 @@ module testCPU ();
       $display("Actual data memory output: %h", dataMemOut);
     end
     isTesting = 0;
-
-    // SW ======================================================================
-    // RTL:
-    //   PC = PC + 4
-    //   DataMem[Reg[rS] + imm] = Reg[rT]
-
-    // instruction = { `CMD_sw, rS, rT, 16'b0 };
-    // waitAFullCPULoad();
-
-    // if (dataMemOut !== 32'd3) begin
-      // dutPassed = 0;
-    // end
 
     // J =======================================================================
     // Jumps to the calculated address.
@@ -292,7 +285,7 @@ module testCPU ();
       // dutPassed = 0;
     // end
 
-    $display("Has CPU tests passed? %b", dutPassed);
+    $display(">>> TEST cpu ....... ", dutPassed);
     $finish;
   end
 endmodule
