@@ -33,9 +33,7 @@ Our main test of functionality was running the sieves algorithm which generates 
 
 ## Performance/Area Analysis
 
-vivado analysis goes here.
-
-It's single cycle so it's slow. We use instruction memory and data memory separately so it's big.
+Overall, our CPU will be slow and large for what it can do. Since it's single cycle it can only be clocked as fast as its slowest operation. We determined this to be load word because it sequentially uses all parts of the CPU. We also choose to implement memory in two separate blocks: instruction memory and data memory. This makes the design slighly larger. All of our components are reused from previous assignments, so we chose not to do analisys on them. 
 
 ## Work Plan Reflections
 
