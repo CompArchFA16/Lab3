@@ -197,16 +197,6 @@ module testCPU ();
     //   PC = PC + 4;
     //   $d = $s + $t;
 
-    // rS = 5'b0;
-    // rT = 5'b1;
-    // expected_rD = 5'b1;
-    // instruction = { `CMD_add, rS, rT, rD };
-    // executeProgram();
-
-    // if (rD !== expected_rD) begin
-      // dutPassed = 0;
-    // end
-
     // Load our test data.
     writeToMem(32'hF1, 32'h3);
     writeToMem(32'hF2, 32'h4);
@@ -221,8 +211,6 @@ module testCPU ();
       { `CMD_sw, `R_ZERO, `R_S2, 16'hF3 }
     });
 
-    $dumpon;
-
     executeProgram(16);
 
     testToMemAddress = 32'hF3;
@@ -233,23 +221,35 @@ module testCPU ();
       $display("Actual data memory output: %h", dataMemOut);
     end
 
-    $dumpoff;
-
     // SUB =====================================================================
     // Subtracts two registers and stores the result in a register.
     // RTL:
     //   PC = PC + 4;
     //   $d = $s - $t;
 
-    // TODO: Load values first into Reg[rS] and Reg[rD].
+    // Load our test data.
+    writeToMem(32'hF1, 32'h4);
+    writeToMem(32'hF2, 32'h9);
 
-    // rS = 5'd0;
-    // rT = 5'd1;
-    // rD = 5'd2;
-    // instruction = { `CMD_sub, rD, rS, rT };
-    // executeProgram();
+    writeInstructions (16, {
+      { `CMD_lw, `R_ZERO, `R_S0, 16'hF1 },
+      noop, noop, noop, noop,
+      { `CMD_lw, `R_ZERO, `R_S1, 16'hF2 },
+      noop, noop, noop, noop,
+      { `CMD_sub, `R_S0, `R_S1, `R_S2, 11'b0 },
+      noop, noop, noop, noop,
+      { `CMD_sw, `R_ZERO, `R_S2, 16'hF3 }
+    });
 
-    // TODO: Read from rD and check value.
+    executeProgram(16);
+
+    testToMemAddress = 32'hF3;
+    clkOnce();
+    if (dataMemOut !== 32'hfffffffb) begin // -5.
+      dutPassed = 0;
+      $display("*** FAIL: Subtraction.");
+      $display("Actual data memory output: %h", dataMemOut);
+    end
 
     // SLT =====================================================================
     // If the value at $s is less than the value at $t, then the value at $d should
