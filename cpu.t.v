@@ -17,9 +17,23 @@
 module testcpu();
 
     reg clk; 
-
+    reg dutpassed;
 
     cpu dut(clk);
+
+    always begin
+    #15000 clk = ~clk;
+    //#6 peripheralClkEdge= ~peripheralClkEdge;
+    end
+
+    initial begin
+        dutpassed = 1;
+
+
+
+
+        display("dutpassed: %b",  dutpassed);
+    end
 
     // initial begin
     // end
