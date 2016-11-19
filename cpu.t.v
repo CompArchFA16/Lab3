@@ -104,9 +104,9 @@ module testCPU ();
     writeToMem(32'hAB, 32'h42);
 
     writeInstructions (6, {
-      { `CMD_lw,  `R_ZERO, `R_S1,   16'hAB },
+      { `CMD_lw, `R_ZERO, `R_S1, 16'hAB },
       noop, noop, noop, noop,
-      { `CMD_sw,  `R_ZERO, `R_S1,   16'hAC }
+      { `CMD_sw, `R_ZERO, `R_S1, 16'hAC }
     });
 
     waitTillComplete(6);
@@ -216,6 +216,32 @@ module testCPU ();
       // dutPassed = 0;
     // end
 
+    // Load our test data.
+    writeToMem(32'hF1, 32'h3);
+    writeToMem(32'hF2, 32'h4);
+
+    writeInstructions (16, {
+      { `CMD_lw, `R_ZERO, `R_S0, 16'hF1 },
+      noop, noop, noop, noop,
+      { `CMD_lw, `R_ZERO, `R_S1, 16'hF2 },
+      noop, noop, noop, noop,
+      { `CMD_lw, `R_S0, `R_S1, `R_S2, 11'b0 },
+      noop, noop, noop, noop,
+      { `CMD_sw, `R_ZERO, `R_S2, 16'hF3 }
+    });
+
+    waitTillComplete(16);
+
+    isTesting = 1;
+    testToMemAddress = 32'hF3;
+    clkOnce();
+    if (dataMemOut !== 32'h8) begin
+      dutPassed = 0;
+      $display("Addition failed.");
+      $display("Actual data memory output: %h", dataMemOut);
+    end
+    isTesting = 0;
+
     // SUB =====================================================================
     // Subtracts two registers and stores the result in a register.
     // RTL:
@@ -285,19 +311,15 @@ module testCPU ();
 
   task writeInstructions;
     input [31:0] count;
-    input [(32*32)-1:0] data;
+    input [(32**2)-1:0] data;
     integer i;
     reg [31:0] instruction;
     begin
       resetPC = 1;
       writeToMem(0, noop); // To offset our resetPC.
       for (i = 0; i < count + 4; i = i + 1) begin
-        instruction = data[(32*(count-i))-1 -: 32];
-        if (i < count) begin
-          writeToMem(4 * (i + 1), instruction);
-        end else begin
-          writeToMem(4 * (i + 1), noop); // To padd out with no-ops.
-        end
+        instruction = i < count ? data[(32*(count-i))-1 -: 32] : noop;
+        writeToMem(4 * (i + 1), instruction);
       end
       resetPC = 0;
     end
