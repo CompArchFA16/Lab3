@@ -180,16 +180,25 @@ module testCPU ();
     // RTL:
     //  $d = $s ^ ZE(i)
 
-    // imm =         16'b0000100000100001;
-    // rS =          16'b1000000010000001;
-    // expected_rT = 16'b1000100010100000;
+    writeToMem(32'hC4, 32'b10101010101010101010101010101010);
 
-    // instruction = {`CMD_xori, rS, rT, imm};
-    // executeProgram();
+    writeInstructions (11, {
+      { `CMD_lw, `R_ZERO, `R_S0, 16'hC4 },
+      noop, noop, noop, noop,
+      { `CMD_xori, `R_S0, `R_S1, 16'b1111110101010101 },
+      noop, noop, noop, noop,
+      { `CMD_sw, `R_ZERO, `R_S1, 16'hF3 }
+    });
 
-    // if (rT !== expected_rT) begin
-      // dutPassed = 0;
-    // end
+    executeProgram(11);
+
+    testToMemAddress = 32'hF3;
+    clkOnce();
+    if (dataMemOut !== 32'b10101010101010110101011111111111) begin
+      dutPassed = 0;
+      $display("*** FAIL: XORI");
+      $display("Actual data memory output: %b", dataMemOut);
+    end
 
     // ADD =====================================================================
     // Adds the values of the two registers and stores the result in a register.
@@ -261,15 +270,55 @@ module testCPU ();
     //    else
     //      $d = 0;
 
-    // rS = 5'b0;
-    // rT = 5'b1;
-    // expected_rD = 16'b1;
-    // instruction = { `CMD_slt, rS, rT, rD };
-    // executeProgram();
+    // Load our test data.
+    writeToMem(32'hC1, 32'h2);
+    writeToMem(32'hC2, 32'h3);
 
-    // if (rD !== expected_rD) begin
-      // dutPassed = 0;
-    // end
+    writeInstructions (16, {
+      { `CMD_lw, `R_ZERO, `R_S2, 16'hC1 },
+      noop, noop, noop, noop,
+      { `CMD_lw, `R_ZERO, `R_S3, 16'hC2 },
+      noop, noop, noop, noop,
+      { `CMD_slt, `R_S2, `R_S3, `R_S4, 11'b0 },
+      noop, noop, noop, noop,
+      { `CMD_sw, `R_ZERO, `R_S4, 16'hC3 }
+    });
+
+    executeProgram(16);
+
+    testToMemAddress = 32'hC3;
+    clkOnce();
+    if (dataMemOut !== 32'b1) begin
+      dutPassed = 0;
+      $display("*** FAIL: Set on less than (signed) -> 2 < 3");
+      $display("Actual data memory output: %h", dataMemOut);
+    end
+
+    writeToMem(32'hC1, 32'h4);
+    writeToMem(32'hC2, 32'h3);
+
+    executeProgram(16);
+
+    testToMemAddress = 32'hC3;
+    clkOnce();
+    if (dataMemOut !== 32'b0) begin
+      dutPassed = 0;
+      $display("*** FAIL: Set on less than (signed) -> 4 > 3");
+      $display("Actual data memory output: %h", dataMemOut);
+    end
+
+    writeToMem(32'hC1, 32'hfffffffe);
+    writeToMem(32'hC2, 32'hffffffff);
+
+    executeProgram(16);
+
+    testToMemAddress = 32'hC3;
+    clkOnce();
+    if (dataMemOut !== 32'b1) begin
+      dutPassed = 0;
+      $display("*** FAIL: Set on less than (signed) -> -2 < -1");
+      $display("Actual data memory output: %h", dataMemOut);
+    end
 
     $display(">>> TEST cpu ....... ", dutPassed);
     $finish;
