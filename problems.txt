@@ -1,0 +1,17 @@
+problems and to do
+
+As of 11/18/2016:
+Add (for example) will continuously add for all of the phase. 
+Fix: Want Write enable on reg file to be high for 1 clock cycle at the end of the single cycle's phase (which we have is 5 clock cycles)
+but like, subtract doesn't do that?
+
+BIGGGG Problem: Selects for mux's aren't "arriving" in time because we have a 1 clock cycle delay between decoding instruction and setting control outputs. !!!!!
+Note: If we fix above problem, add's time delay issue is solved in this problem
+
+Branch on not equal does NOT seem to have the same control because when something is not equal, it just continues going through the following instructions instead of conditionally jumping back
+
+need assembly codes
+
+need full test cases
+
+need report
