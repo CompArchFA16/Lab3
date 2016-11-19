@@ -6,11 +6,11 @@
 //   1 synchronous, positive edge triggered write port
 //------------------------------------------------------------------------------
 
-`include "decoders.v" // Import all the modules I have written for this lab
-`include "mux32to1by32.v" 
-`include "register.v"
-`include "register32.v"
-`include "register32zero.v" 
+`include "tomreg/decoders.v" // Import all the modules I have written for this lab
+`include "tomreg/mux32to1by32.v" 
+`include "tomreg/register.v"
+`include "tomreg/register32.v"
+`include "tomreg/register32zero.v" 
 
 module regfile
 (

@@ -4,7 +4,7 @@
 `include "pc.v"
 `include "memory.v"
 `include "instrFetch.v"
-`include "regfile.v"
+`include "tomreg/regfile.v"
 `include "singlecyclectrl.v"
 //`include "instrdecode.v"
 `include "mux.v"

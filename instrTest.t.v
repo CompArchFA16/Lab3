@@ -12,7 +12,7 @@ module memory_test();
     initial begin
         $dumpfile("refer.vcd");
         $dumpvars();
-        clk=0; enable=0; addr=32'h00000001; dataIn=32'h00000000;
+        clk=0; enable=0; addr=32'h00000049; dataIn=32'h00000000;
         #10 clk=1; #10 clk = 0;
         $display("Data Out: %b Addr: %b", dataOut, addr);
         clk=0; enable=0; addr=32'h0000000A; dataIn=32'h00000000;
