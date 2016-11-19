@@ -124,7 +124,7 @@ module CPU (
 
   wire [31:0] signExtendOut;
 
-  signExtend the_signExtend (
+  sign_extend the_sign_extend (
     .out(signExtendOut),
     .in(instruction_ID[15:0])
   );

@@ -1,6 +1,4 @@
-// TODO: Potentially revisit.
-
-module signExtend (
+module sign_extend (
   output reg [31:0] out,
   input [15:0] in
 );
