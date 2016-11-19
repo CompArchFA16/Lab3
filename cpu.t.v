@@ -100,8 +100,6 @@ module testCPU ();
     //   PC = PC + 4;
     //   DataMem[Reg[$s] + offset] = Reg[$t];
 
-    $dumpon;
-
     // Load our test data.
     writeToMem(32'hAB, 32'h42);
 
@@ -111,7 +109,7 @@ module testCPU ();
       { `CMD_sw, `R_ZERO, `R_S1, 16'hAC }
     });
 
-    waitTillComplete(6);
+    executeProgram(6);
 
     testToMemAddress = 32'hAC;
     clkOnce();
@@ -128,7 +126,7 @@ module testCPU ();
 
     // jumpTarget = 26'd203;
     // instruction = { `CMD_j, jumpTarget };
-    // waitTillComplete();
+    // executeProgram();
 
     // if (pc !== {4'b0, 26'd203, 2'b0}) begin
     //   dutPassed = 0;
@@ -140,7 +138,7 @@ module testCPU ();
     //   PC = $s;
 
     // instruction = { `CMD_jr, rS, 21'b0 };
-    // waitTillComplete();
+    // executeProgram();
 
     // TODO: Match to the actual register value.
     // if (pc !== {4'b0, 28'b0}) begin
@@ -155,7 +153,7 @@ module testCPU ();
 
     // jumpTarget = 26'd214;
     // instruction = { `CMD_jal, jumpTarget };
-    // waitTillComplete();
+    // executeProgram();
 
     // if (pc !== {4'b0, 26'd214, 2'b0}) begin
     //   dutPassed = 0;
@@ -175,7 +173,7 @@ module testCPU ();
     // rT = `R_S1;
     // imm = 16'b10;
     // writeToMem({ `CMD_bne, rS, rT, imm });
-    // waitTillComplete();
+    // executeProgram();
 
     //pc = 0 --> 4
     //pc = 0 --> 14
@@ -194,7 +192,7 @@ module testCPU ();
     // expected_rT = 16'b1000100010100000;
 
     // instruction = {`CMD_xori, rS, rT, imm};
-    // waitTillComplete();
+    // executeProgram();
 
     // if (rT !== expected_rT) begin
       // dutPassed = 0;
@@ -210,13 +208,11 @@ module testCPU ();
     // rT = 5'b1;
     // expected_rD = 5'b1;
     // instruction = { `CMD_add, rS, rT, rD };
-    // waitTillComplete();
+    // executeProgram();
 
     // if (rD !== expected_rD) begin
       // dutPassed = 0;
     // end
-
-    // $dumpon;
 
     // Load our test data.
     writeToMem(32'hF1, 32'h3);
@@ -227,12 +223,14 @@ module testCPU ();
       noop, noop, noop, noop,
       { `CMD_lw, `R_ZERO, `R_S1, 16'hF2 },
       noop, noop, noop, noop,
-      { `CMD_lw, `R_S0, `R_S1, `R_S2, 11'b0 },
+      { `CMD_add, `R_S0, `R_S1, `R_S2, 11'b0 },
       noop, noop, noop, noop,
       { `CMD_sw, `R_ZERO, `R_S2, 16'hF3 }
     });
 
-    waitTillComplete(16);
+    $dumpon;
+
+    executeProgram(16);
 
     testToMemAddress = 32'hF3;
     clkOnce();
@@ -256,7 +254,7 @@ module testCPU ();
     // rT = 5'd1;
     // rD = 5'd2;
     // instruction = { `CMD_sub, rD, rS, rT };
-    // waitTillComplete();
+    // executeProgram();
 
     // TODO: Read from rD and check value.
 
@@ -274,7 +272,7 @@ module testCPU ();
     // rT = 5'b1;
     // expected_rD = 16'b1;
     // instruction = { `CMD_slt, rS, rT, rD };
-    // waitTillComplete();
+    // executeProgram();
 
     // if (rD !== expected_rD) begin
       // dutPassed = 0;
@@ -289,7 +287,7 @@ module testCPU ();
   reg [31:0] noop = { `CMD_add, `R_ZERO, `R_ZERO, 16'b0 };
 
   task clkOnce;          begin #2;  end endtask
-  task waitTillComplete;
+  task executeProgram;
     input [31:0] count;
     integer i;
     begin

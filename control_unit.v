@@ -1,7 +1,7 @@
 `include "opcodes.v"
 `include "alu/alu_commands.v"
 
-module controlUnit (
+module control_unit (
   output reg regWrite_ID,
   output reg memToReg_ID,
   output reg memWrite_ID,

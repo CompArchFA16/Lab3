@@ -4,7 +4,7 @@
 `include "mux_2.v"
 `include "four_adder.v"
 `include "sign_extend.v"
-`include "shift_two.v"
+`include "left_2_shifter.v"
 
 // Pipeline gates.
 `include "gate_IF_ID.v"
@@ -96,7 +96,7 @@ module CPU (
   wire aluSrc_ID;
   wire regDst_ID;
 
-  controlUnit the_controlUnit (
+  control_unit the_control_unit (
     .regWrite_ID(regWrite_ID),
     .memToReg_ID(memToReg_ID),
     .memWrite_ID(memWrite_ID),
@@ -188,7 +188,7 @@ module CPU (
 
   wire [31:0] shiftOut;
 
-  shiftTwo the_shifting_of_two (
+  left_2_shifter the_left_2_shifter (
     .out(shiftOut),
     .in(signImm_EX)
   );
