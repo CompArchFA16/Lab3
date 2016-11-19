@@ -8,7 +8,7 @@ module singlecyclectrl
 input [5:0] Op,
 input [5:0] Funct,
 input clk,
-output PCenable,
+output reg PCenable = 1,
 output reg RegWrite,
 output reg ALUSrc,
 output reg MemWrite,
@@ -31,6 +31,7 @@ localparam jumpLink = 6'h3;
 localparam branchNotEq = 5'h5;
 localparam xOrI = 6'he;
 localparam functionalCode = 6'h0;
+localparam done = 6'h3f;
 
 // Encodings for Functions
 localparam jumpReg = 6'h8;
@@ -54,6 +55,20 @@ localparam OR =  3'd7;
 
 always @(posedge clk) begin
     case (Op)
+	done: begin // read from data memory and write to register file
+	    $finish;
+	    PCenable <= 0; // stop pc
+            RegDst <= 0; // doesnt matter
+            Branch <= 0;
+            Jump <= 0;
+            MemtoReg <= 0; // doesnt matter
+            ALUOp <= ADD; // doesnt matter
+            MemWrite <= 0; // not writing to data mem
+            ALUSrc <= 0; // doesnt matter
+            RegWrite <= 0; // dont write
+            JALselect <= 0; // not 31
+            selectRegorJump <= 0; // doesn't matter, not jumping
+        end
         loadWord: begin // read from data memory and write to register file
             RegDst <= 0; // want to write to rt
             Branch <= 0;

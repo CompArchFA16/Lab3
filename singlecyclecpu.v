@@ -21,12 +21,12 @@ singlecyclectrl ctrlunit(Op, Funct, clk, PCenable, RegWrite, ALUsrc, MemWrite, A
 
 wire PCenable; //should be controlled by control unit
 wire [31:0] PCin;
-wire [31:0] PCaddr ;
+wire [31:0] PCaddr;
 wire [31:0] nextPC;
 wire slower; 
 
 slowclk slow(clk, slower);
-pc peecee(slower, PCin, PCaddr, nextPC);
+pc peecee(slower, PCenable, PCin, PCaddr, nextPC);
 
 wire [31:0] InstrOut;
 Instr_memory iMem(PCaddr, InstrOut);
