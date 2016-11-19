@@ -10,9 +10,9 @@ module testCPU ();
 
   // INIT ======================================================================
 
-  reg clk;
-
+  reg clk       = 0;
   reg isTesting = 1;
+  reg dutPassed = 1;
 
   wire [31:0] instructionAddress;
   wire [31:0] instructionMemOut;
@@ -72,14 +72,7 @@ module testCPU ();
     .writeEnable(toggleToMemWriteEnable)
   );
 
-  // HELPERS ===================================================================
-
-  reg dutPassed = 1;
-
-  // Start the clock.
-  initial clk = 0;
   always #1 clk = !clk;
-
   initial begin
 
     $dumpfile("cpu.vcd");
@@ -234,7 +227,7 @@ module testCPU ();
 
     testToMemAddress = 32'hF3;
     clkOnce();
-    if (dataMemOut !== 32'h8) begin
+    if (dataMemOut !== 32'h7) begin
       dutPassed = 0;
       $display("*** FAIL: Addition.");
       $display("Actual data memory output: %h", dataMemOut);

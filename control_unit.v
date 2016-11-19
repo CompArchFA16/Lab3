@@ -112,13 +112,13 @@ module control_unit (
       // EX: A+B is written to Result register
       // MEM:
       // WB: Result is written to rd in RegFile
-        regWrite_ID   <= 0;
-        memToReg_ID   <= 1; //To write result to RegFile[rd]
+        regWrite_ID   <= 1;
+        memToReg_ID   <= 0;
         memWrite_ID   <= 0;
         branch_ID     <= 0;
         aluControl_ID <= `ALU_CMD_ADD;
         aluSrc_ID     <= 0;
-        regDst_ID     <= 0;
+        regDst_ID     <= 1;
       end
       `CMD_sub: begin
         // TODO: David
