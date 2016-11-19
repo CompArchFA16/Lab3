@@ -2,7 +2,7 @@
 `include "gates.v"
 `include "dff.v"
 `include "mux_2.v"
-`include "addFour.v"
+`include "four_adder.v"
 `include "sign_extend.v"
 `include "shift_two.v"
 
@@ -62,9 +62,9 @@ module CPU (
   assign instructionAddress = pc_IF;
   assign instruction_IF = instruction;
 
-  addFour addFour (
-    .pcPlus4F(pcPlus4_IF),
-    .pc(pc_IF)
+  four_adder the_four_adder (
+    .out(pcPlus4_IF),
+    .in(pc_IF)
   );
 
   // ID - Instruction Decode ===================================================
