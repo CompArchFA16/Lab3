@@ -11,8 +11,8 @@ module testCPU ();
   // INIT ======================================================================
 
   reg clk;
-  reg resetPC;
-  reg isTesting;
+
+  reg isTesting = 1;
 
   wire [31:0] instructionAddress;
   wire [31:0] instructionMemOut;
@@ -30,7 +30,7 @@ module testCPU ();
     .clk(clk),
     .instruction(instructionMemOut),
     .dataIn(dataMemOut),
-    .resetPC(resetPC)
+    .resetPC(isTesting)
   );
 
   reg [31:0] testToMemAddress;
@@ -74,7 +74,7 @@ module testCPU ();
 
   // HELPERS ===================================================================
 
-  reg dutPassed;
+  reg dutPassed = 1;
 
   // Start the clock.
   initial clk = 0;
@@ -84,7 +84,7 @@ module testCPU ();
 
     $dumpfile("cpu.vcd");
     $dumpvars(3);
-    dutPassed = 1;
+    $dumpoff;
 
     // Offset our test to be on the negedge. This way, our changes are picked up
     // by the next posedge of the clk.
@@ -100,6 +100,8 @@ module testCPU ();
     //   PC = PC + 4;
     //   DataMem[Reg[$s] + offset] = Reg[$t];
 
+    $dumpon;
+
     // Load our test data.
     writeToMem(32'hAB, 32'h42);
 
@@ -111,15 +113,13 @@ module testCPU ();
 
     waitTillComplete(6);
 
-    isTesting = 1;
     testToMemAddress = 32'hAC;
     clkOnce();
     if (dataMemOut !== 32'h42) begin
       dutPassed = 0;
-      $display("Store after a load failed.");
+      $display("*** FAIL: Storing after a load.");
       $display("Actual data memory output: %h", dataMemOut);
     end
-    isTesting = 0;
 
     // J =======================================================================
     // Jumps to the calculated address.
@@ -216,6 +216,8 @@ module testCPU ();
       // dutPassed = 0;
     // end
 
+    // $dumpon;
+
     // Load our test data.
     writeToMem(32'hF1, 32'h3);
     writeToMem(32'hF2, 32'h4);
@@ -232,15 +234,15 @@ module testCPU ();
 
     waitTillComplete(16);
 
-    isTesting = 1;
     testToMemAddress = 32'hF3;
     clkOnce();
     if (dataMemOut !== 32'h8) begin
       dutPassed = 0;
-      $display("Addition failed.");
+      $display("*** FAIL: Addition.");
       $display("Actual data memory output: %h", dataMemOut);
     end
-    isTesting = 0;
+
+    $dumpoff;
 
     // SUB =====================================================================
     // Subtracts two registers and stores the result in a register.
@@ -291,7 +293,9 @@ module testCPU ();
     input [31:0] count;
     integer i;
     begin
+      isTesting <= 0;
       for (i = 0; i < count + 4; i = i + 1) begin #2; end
+      isTesting <= 1;
     end
   endtask
 
@@ -299,13 +303,11 @@ module testCPU ();
     input [31:0] address;
     input [31:0] data;
     begin
-      isTesting <= 1'b1;
       testToMemData <= data;
       testToMemAddress <= address;
       testToMemWriteEnable <= 1'b1;
       clkOnce();
       testToMemWriteEnable <= 1'b0;
-      isTesting <= 1'b0;
     end
   endtask
 
@@ -313,15 +315,10 @@ module testCPU ();
     input [31:0] count;
     input [(32**2)-1:0] data;
     integer i;
-    reg [31:0] instruction;
     begin
-      resetPC = 1;
-      writeToMem(0, noop); // To offset our resetPC.
       for (i = 0; i < count + 4; i = i + 1) begin
-        instruction = i < count ? data[(32*(count-i))-1 -: 32] : noop;
-        writeToMem(4 * (i + 1), instruction);
+        writeToMem(4 * i, i < count ? data[(32*(count-i))-1 -: 32] : noop);
       end
-      resetPC = 0;
     end
   endtask
 endmodule
