@@ -180,16 +180,25 @@ module testCPU ();
     // RTL:
     //  $d = $s ^ ZE(i)
 
-    // imm =         16'b0000100000100001;
-    // rS =          16'b1000000010000001;
-    // expected_rT = 16'b1000100010100000;
+    writeToMem(32'hC4, 32'b10101010101010101010101010101010);
 
-    // instruction = {`CMD_xori, rS, rT, imm};
-    // executeProgram();
+    writeInstructions (11, {
+      { `CMD_lw, `R_ZERO, `R_S0, 16'hC4 },
+      noop, noop, noop, noop,
+      { `CMD_xori, `R_S0, `R_S1, 16'b1111110101010101 },
+      noop, noop, noop, noop,
+      { `CMD_sw, `R_ZERO, `R_S1, 16'hF3 }
+    });
 
-    // if (rT !== expected_rT) begin
-      // dutPassed = 0;
-    // end
+    executeProgram(11);
+
+    testToMemAddress = 32'hF3;
+    clkOnce();
+    if (dataMemOut !== 32'b10101010101010110101011111111111) begin
+      dutPassed = 0;
+      $display("*** FAIL: XORI");
+      $display("Actual data memory output: %b", dataMemOut);
+    end
 
     // ADD =====================================================================
     // Adds the values of the two registers and stores the result in a register.

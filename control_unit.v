@@ -104,7 +104,7 @@ module control_unit (
         branch_ID     <= 0;
         aluControl_ID <= `ALU_CMD_XOR;
         aluSrc_ID     <= 1;
-        regDst_ID     <= 1;
+        regDst_ID     <= 0;
       end
       `CMD_add: begin
       // IF: From memory at address PC, write to IR. Update PC.
