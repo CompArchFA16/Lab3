@@ -121,14 +121,13 @@ module control_unit (
         regDst_ID     <= 1;
       end
       `CMD_sub: begin
-        // TODO: David
         regWrite_ID   <= 1;
         memToReg_ID   <= 0;
         memWrite_ID   <= 0;
         branch_ID     <= 0;
         aluControl_ID <= `ALU_CMD_SUB;
         aluSrc_ID     <= 0;
-        regDst_ID     <= 0;
+        regDst_ID     <= 1;
       end
       `CMD_slt: begin
       // IF: From memory at address PC, write to IR. Update PC.
