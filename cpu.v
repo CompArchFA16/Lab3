@@ -2,7 +2,7 @@
 `include "gates.v"
 `include "dff.v"
 `include "mux_2.v"
-`include "addFour.v"
+`include "four_adder.v"
 `include "sign_extend.v"
 `include "shift_two.v"
 
@@ -21,12 +21,16 @@
 `include "alu/alu.v"
 `define _regfileAsLibrary
 `include "regfile/regfile.v"
-`include "ram.v"
 
 module CPU (
-  output [31:0] pc,
+  output [31:0] instructionAddress,
+  output [31:0] dataMemAddress,
+  output [31:0] dataOut,
+  output        toMemWriteEnable,
   input         clk,
-  input  [31:0] instruction
+  input  [31:0] instruction,
+  input  [31:0] dataIn,
+  input         resetPC
 );
 
   // IF - Instruction Fetch ====================================================
@@ -51,22 +55,16 @@ module CPU (
   dff #(32) pcDFF (
     .out(pc_IF),
     .clk(clk),
-    .in(prePC)
+    .in(prePC),
+    .reset(resetPC)
   );
 
-  // TODO: Deprecate into the same memory.
-  RAM instruction_memory (
-    .dataOut(instruction_IF),
-    .clk(clk),
-    .address(pc_IF),
-    .writeEnable(1'b0),
-    .dataIn(32'b0)
-  );
+  assign instructionAddress = pc_IF;
+  assign instruction_IF = instruction;
 
-  addFour addFour (
-    .pcPlus4F(pcPlus4_IF),
-    .clk(clk),
-    .pc(pc_IF)
+  four_adder the_four_adder (
+    .out(pcPlus4_IF),
+    .in(pc_IF)
   );
 
   // ID - Instruction Decode ===================================================
@@ -94,7 +92,7 @@ module CPU (
   wire memToReg_ID;
   wire memWrite_ID;
   wire branch_ID;
-  wire aluControl_ID;
+  wire [2:0] aluControl_ID;
   wire aluSrc_ID;
   wire regDst_ID;
 
@@ -128,7 +126,6 @@ module CPU (
 
   signExtend the_signExtend (
     .out(signExtendOut),
-    .clk(clk),
     .in(instruction_ID[15:0])
   );
 
@@ -193,7 +190,6 @@ module CPU (
 
   shiftTwo the_shifting_of_two (
     .out(shiftOut),
-    .clk(clk),
     .in(signImm_EX)
   );
 
@@ -237,7 +233,7 @@ module CPU (
     .result(pcBranch_EX),
     .operandA(shiftOut),
     .operandB(pcPlus4_EX),
-    .command(3'b100) // TODO: Use the correct command.
+    .command(`ALU_CMD_ADD)
   );
 
   // MEM - Memory Access =======================================================
@@ -245,24 +241,24 @@ module CPU (
   // Controls.
   wire regWrite_MEM;
   wire memToReg_MEM;
-  wire memWrite_MEM;
   wire branch_MEM;
 
   // Data.
 	wire        zero_MEM;
-	wire [31:0] aluOut_MEM;
-	wire [31:0] writeData_MEM;
 	wire [4:0]  writeReg_MEM;
+  wire [31:0] aluOut_MEM;
 
-	gate_EX_MEM gate_EX_MEM (
+  assign dataMemAddress = aluOut_MEM;
+
+	gate_EX_MEM the_gate_EX_MEM (
 		.regWrite_MEM(regWrite_MEM),
 		.memToReg_MEM(memToReg_MEM),
-		.memWrite_MEM(memWrite_MEM),
+		.memWrite_MEM(toMemWriteEnable),
 		.branch_MEM(branch_MEM),
 
     .zero_MEM(zero_MEM),
     .aluOut_MEM(aluOut_MEM),
-    .writeData_MEM(writeData_MEM),
+    .writeData_MEM(dataOut),
     .writeReg_MEM(writeReg_MEM),
     .pcBranch_MEM(pcBranch_MEM),
 
@@ -282,16 +278,6 @@ module CPU (
 
   `AND (pcSource, branch_MEM, zero_MEM);
 
-  wire [31:0] readData_MEM;
-
-  RAM data_memory (
-    .dataOut(readData_MEM),
-    .clk(clk),
-    .address(aluOut_MEM),
-    .writeEnable(memWrite_MEM),
-    .dataIn(writeData_MEM)
-  );
-
   // WB - Register Write Back ==================================================
 
   // Controls.
@@ -301,18 +287,17 @@ module CPU (
   wire [31:0] aluOut_WB;
   wire [31:0] readData_WB;
 
-  gate_MEM_WB my_gate_MEM_WB (
+  gate_MEM_WB the_gate_MEM_WB (
     .regWrite_WB(regWrite_WB),
     .memToReg_WB(memToReg_WB),
     .aluOut_WB(aluOut_WB),
     .readData_WB(readData_WB),
     .writeReg_WB(writeReg_WB),
     .clk(clk),
-    
     .regWrite_MEM(regWrite_MEM),
     .memToReg_MEM(memToReg_MEM),
     .aluOut_MEM(aluOut_MEM),
-    .readData_MEM(readData_MEM),
+    .readData_MEM(dataIn),
     .writeReg_MEM(writeReg_MEM)
   );
 
