@@ -8,7 +8,7 @@ module singlecyclectrl
 input [5:0] Op,
 input [5:0] Funct,
 input clk,
-output reg PCenable,
+output PCenable,
 output reg RegWrite,
 output reg ALUSrc,
 output reg MemWrite,
@@ -20,7 +20,7 @@ output reg Jump,
 output reg RegDst,
 output reg JALselect,
 output reg selectRegorJump,
-output reg selstart
+output selstart
 );
 
 // Encodings for Operations
@@ -49,6 +49,8 @@ localparam NOR = 3'd6;
 localparam OR =  3'd7;
 
 //TO DO: have it set PC to 0 with putting selstart high once at beginning. 
+//assign selstart = 32'b00000000000000000000000000000000;
+//assign PCenable = 1;
 
 always @(posedge clk) begin
     case (Op)
