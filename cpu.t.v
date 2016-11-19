@@ -133,19 +133,19 @@ module testCPU ();
     insertToMemory(32'd12, { `CMD_add, `R_ZERO, `R_ZERO, 16'b0  });
     insertToMemory(32'd16, { `CMD_add, `R_ZERO, `R_ZERO, 16'b0  });
     insertToMemory(32'd20, { `CMD_add, `R_ZERO, `R_ZERO, 16'b0  });
-    insertToMemory(32'd24, { `CMD_sw,  `R_ZERO, `R_S1,   16'hAB });
+    insertToMemory(32'd24, { `CMD_sw,  `R_ZERO, `R_S1,   16'hAC });
     resetPC = 0;
 
     waitAFullCPULoad();
     waitAFullCPULoad();
 
     isTesting = 1;
-    testToMemAddress = 31'd501;
+    testToMemAddress = 32'hAC;
     clkOnce();
     if (dataMemOut !== 32'h42) begin
       dutPassed = 0;
       $display("Store after a load failed.");
-      $display("Actual data memory output: %d", dataMemOut);
+      $display("Actual data memory output: %h", dataMemOut);
     end
     isTesting = 0;
 
