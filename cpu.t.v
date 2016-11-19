@@ -76,34 +76,6 @@ module testCPU ();
 
   reg dutPassed;
 
-  // Registers.
-  reg [4:0] rS;
-  reg [4:0] rT;
-  reg [4:0] rD;
-  reg [4:0] expected_rT;
-  reg [4:0] expected_rD;
-
-  reg [25:0] jumpTarget;
-  reg [15:0] imm;
-  reg [31:0] instruction;
-
-  task clkOnce;          begin #2;  end endtask
-  task waitAFullCPULoad; begin #10; end endtask
-
-  task insertToMemory;
-    input [31:0] address;
-    input [31:0] data;
-    begin
-      isTesting <= 1'b1;
-      testToMemData <= data;
-      testToMemAddress <= address;
-      testToMemWriteEnable <= 1'b1;
-      clkOnce();
-      testToMemWriteEnable <= 1'b0;
-      isTesting <= 1'b0;
-    end
-  endtask
-
   // Start the clock.
   initial clk = 0;
   always #1 clk = !clk;
@@ -129,20 +101,18 @@ module testCPU ();
     //   DataMem[Reg[$s] + offset] = Reg[$t];
 
     // Load our test data.
-    insertToMemory(32'hAB, 32'h42);
+    writeToMem(32'hAB, 32'h42);
 
-    resetPC = 1;
-    insertToMemory(32'd0,  { `CMD_add, `R_ZERO, `R_ZERO, 16'b0  }); // To offset our resetPC.
-    insertToMemory(32'd4,  { `CMD_lw,  `R_ZERO, `R_S1,   16'hAB });
-    insertToMemory(32'd8,  { `CMD_add, `R_ZERO, `R_ZERO, 16'b0  });
-    insertToMemory(32'd12, { `CMD_add, `R_ZERO, `R_ZERO, 16'b0  });
-    insertToMemory(32'd16, { `CMD_add, `R_ZERO, `R_ZERO, 16'b0  });
-    insertToMemory(32'd20, { `CMD_add, `R_ZERO, `R_ZERO, 16'b0  });
-    insertToMemory(32'd24, { `CMD_sw,  `R_ZERO, `R_S1,   16'hAC });
-    resetPC = 0;
+    writeInstructions (6, {
+      { `CMD_lw,  `R_ZERO, `R_S1,   16'hAB },
+      { `CMD_add, `R_ZERO, `R_ZERO, 16'b0  },
+      { `CMD_add, `R_ZERO, `R_ZERO, 16'b0  },
+      { `CMD_add, `R_ZERO, `R_ZERO, 16'b0  },
+      { `CMD_add, `R_ZERO, `R_ZERO, 16'b0  },
+      { `CMD_sw,  `R_ZERO, `R_S1,   16'hAC }
+    });
 
-    waitAFullCPULoad();
-    waitAFullCPULoad();
+    waitTillComplete(6);
 
     isTesting = 1;
     testToMemAddress = 32'hAC;
@@ -161,7 +131,7 @@ module testCPU ();
 
     // jumpTarget = 26'd203;
     // instruction = { `CMD_j, jumpTarget };
-    // waitAFullCPULoad();
+    // waitTillComplete();
 
     // if (pc !== {4'b0, 26'd203, 2'b0}) begin
     //   dutPassed = 0;
@@ -173,7 +143,7 @@ module testCPU ();
     //   PC = $s;
 
     // instruction = { `CMD_jr, rS, 21'b0 };
-    // waitAFullCPULoad();
+    // waitTillComplete();
 
     // TODO: Match to the actual register value.
     // if (pc !== {4'b0, 28'b0}) begin
@@ -188,7 +158,7 @@ module testCPU ();
 
     // jumpTarget = 26'd214;
     // instruction = { `CMD_jal, jumpTarget };
-    // waitAFullCPULoad();
+    // waitTillComplete();
 
     // if (pc !== {4'b0, 26'd214, 2'b0}) begin
     //   dutPassed = 0;
@@ -207,8 +177,8 @@ module testCPU ();
     // rS = `R_S0;
     // rT = `R_S1;
     // imm = 16'b10;
-    // insertToMemory({ `CMD_bne, rS, rT, imm });
-    // waitAFullCPULoad();
+    // writeToMem({ `CMD_bne, rS, rT, imm });
+    // waitTillComplete();
 
     //pc = 0 --> 4
     //pc = 0 --> 14
@@ -227,7 +197,7 @@ module testCPU ();
     // expected_rT = 16'b1000100010100000;
 
     // instruction = {`CMD_xori, rS, rT, imm};
-    // waitAFullCPULoad();
+    // waitTillComplete();
 
     // if (rT !== expected_rT) begin
       // dutPassed = 0;
@@ -243,7 +213,7 @@ module testCPU ();
     // rT = 5'b1;
     // expected_rD = 5'b1;
     // instruction = { `CMD_add, rS, rT, rD };
-    // waitAFullCPULoad();
+    // waitTillComplete();
 
     // if (rD !== expected_rD) begin
       // dutPassed = 0;
@@ -261,7 +231,7 @@ module testCPU ();
     // rT = 5'd1;
     // rD = 5'd2;
     // instruction = { `CMD_sub, rD, rS, rT };
-    // waitAFullCPULoad();
+    // waitTillComplete();
 
     // TODO: Read from rD and check value.
 
@@ -279,7 +249,7 @@ module testCPU ();
     // rT = 5'b1;
     // expected_rD = 16'b1;
     // instruction = { `CMD_slt, rS, rT, rD };
-    // waitAFullCPULoad();
+    // waitTillComplete();
 
     // if (rD !== expected_rD) begin
       // dutPassed = 0;
@@ -288,4 +258,49 @@ module testCPU ();
     $display(">>> TEST cpu ....... ", dutPassed);
     $finish;
   end
+
+  // HELPER METHODS ============================================================
+
+  task clkOnce;          begin #2;  end endtask
+  task waitTillComplete;
+    input [31:0] count;
+    integer i;
+    begin
+      for (i = 0; i < count + 4; i = i + 1) begin #2; end
+    end
+  endtask
+
+  task writeToMem;
+    input [31:0] address;
+    input [31:0] data;
+    begin
+      isTesting <= 1'b1;
+      testToMemData <= data;
+      testToMemAddress <= address;
+      testToMemWriteEnable <= 1'b1;
+      clkOnce();
+      testToMemWriteEnable <= 1'b0;
+      isTesting <= 1'b0;
+    end
+  endtask
+
+  task writeInstructions;
+    input [31:0] count;
+    input [(32*32)-1:0] data;
+    integer i;
+    reg [31:0] instruction;
+    begin
+      resetPC = 1;
+      writeToMem(0, { `CMD_add, `R_ZERO, `R_ZERO, 16'b0 }); // To offset our resetPC.
+      for (i = 0; i < count + 4; i = i + 1) begin
+        instruction = data[(32*(count-i))-1 -: 32];
+        if (i < count) begin
+          writeToMem(4 * (i + 1), instruction);
+        end else begin
+          writeToMem(4 * (i + 1), instruction); // To padd out with no-ops.
+        end
+      end
+      resetPC = 0;
+    end
+  endtask
 endmodule
