@@ -1,0 +1,29 @@
+Assembly tests submitted by each team will go here
+
+After submitting your test program, you may use any of these programs written by your peers to test your processor.
+
+
+In addition to your actual test assembly code, write a short README with:
+ - Expected results of the test
+ - Any memory layout requirements (e.g. `.data` section)
+ - Any instructions used outside the basic required subset (ok to use, but try to submit at least one test program everyone can run)
+
+Submit the test program and README by submitting a pull request to the main course repository. Code should be in `/asmtest/<your-team-name>/` (you may use subfolders if you submit multiple tests).
+
+This test program uses all the instructions in the MIPS-subsets:
+LW, SW, J, JR, JAL, BNE, XORI, ADD, SUB, SLT
+
+Expected result of the test
+$t0 = 3
+$t1 = 3
+$t2 = 5
+$t3 = 3
+$t4 = 1
+$t5 = 1
+
+Memory Layout Requirement
+No other data memory needed for this  program
+
+Instruction used outside the basic required subset 
+None
+
