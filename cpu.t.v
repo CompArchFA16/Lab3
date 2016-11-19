@@ -105,10 +105,7 @@ module testCPU ();
 
     writeInstructions (6, {
       { `CMD_lw,  `R_ZERO, `R_S1,   16'hAB },
-      { `CMD_add, `R_ZERO, `R_ZERO, 16'b0  },
-      { `CMD_add, `R_ZERO, `R_ZERO, 16'b0  },
-      { `CMD_add, `R_ZERO, `R_ZERO, 16'b0  },
-      { `CMD_add, `R_ZERO, `R_ZERO, 16'b0  },
+      noop, noop, noop, noop,
       { `CMD_sw,  `R_ZERO, `R_S1,   16'hAC }
     });
 
@@ -206,8 +203,8 @@ module testCPU ();
     // ADD =====================================================================
     // Adds the values of the two registers and stores the result in a register.
     // RTL:
-    //    PC = PC + 4;
-    //    $d = $s + $t;
+    //   PC = PC + 4;
+    //   $d = $s + $t;
 
     // rS = 5'b0;
     // rT = 5'b1;
@@ -261,6 +258,8 @@ module testCPU ();
 
   // HELPER METHODS ============================================================
 
+  reg [31:0] noop = { `CMD_add, `R_ZERO, `R_ZERO, 16'b0 };
+
   task clkOnce;          begin #2;  end endtask
   task waitTillComplete;
     input [31:0] count;
@@ -291,13 +290,13 @@ module testCPU ();
     reg [31:0] instruction;
     begin
       resetPC = 1;
-      writeToMem(0, { `CMD_add, `R_ZERO, `R_ZERO, 16'b0 }); // To offset our resetPC.
+      writeToMem(0, noop); // To offset our resetPC.
       for (i = 0; i < count + 4; i = i + 1) begin
         instruction = data[(32*(count-i))-1 -: 32];
         if (i < count) begin
           writeToMem(4 * (i + 1), instruction);
         end else begin
-          writeToMem(4 * (i + 1), instruction); // To padd out with no-ops.
+          writeToMem(4 * (i + 1), noop); // To padd out with no-ops.
         end
       end
       resetPC = 0;
