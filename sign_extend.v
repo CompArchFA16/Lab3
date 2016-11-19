@@ -4,7 +4,7 @@ module signExtend (
   output reg [31:0] out,
   input [15:0] in
 );
-  always @ (in[15]) begin
+  always @ (in) begin
     if (in[15] === 1'b0) begin
       out <= { 16'b0, in };
     end

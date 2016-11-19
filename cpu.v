@@ -59,9 +59,7 @@ module CPU (
     .reset(resetPC)
   );
 
-  // TODO: Control this depending on instruction or data fetch.
   assign instructionAddress = pc_IF;
-  assign toMemWriteEnable = 0;
   assign instruction_IF = instruction;
 
   addFour addFour (
