@@ -12,13 +12,15 @@ output reg [31:0]   nextaddr = 32'b00000000000000000000000000000000
 );
 
     always @(posedge clk) begin
-	        if (addr == 32'b00000000000000000000000000001010) begin
-                addr = 32'b00000000000000000000000000000000;
+	        if (nextaddr == 32'b00000000000000000000000000001010) begin
+                nextaddr = 32'b00000000000000000000000000000000;
+                addr = 32'b00000000000000000000000000001010;
 	        end
 	        else begin
-	        addr <= pcinput;
+	        addr <= nextaddr;
 	        nextaddr <= pcinput+1;
 	        end
+
     end
 
 endmodule

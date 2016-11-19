@@ -19,8 +19,8 @@ mux32to1by1small muxpcbranchinput(nextaddr, (nextaddr + seImm), PCsrc, pcbtwnmux
 mux32to1by1small muxpcjumpinput(pcbtwnmux, jumpAddrforpc, JumpSelect, pcinput);
 
 initial begin
- // $dumpfile("pc.vcd");
- // $dumpvars();
+ $dumpfile("pc.vcd");
+ $dumpvars();
 PCsrc = 0; JumpSelect = 0;
 dutpassed = 0;
 $display("Output: %b %b", clk, addr);
@@ -64,8 +64,28 @@ clk = 1; #100
 $display("Output: %b %b", clk, addr);
 clk = 0; #100
 $display("Output: %b %b", clk, addr);
+clk = 1; #100
+$display("Output: %b %b", clk, addr);
+clk = 0; #100
+$display("Output: %b %b", clk, addr);
+clk = 1; #100
+$display("Output: %b %b", clk, addr);
+clk = 0; #100
+$display("Output: %b %b", clk, addr);
+clk = 1; #100
+$display("Output: %b %b", clk, addr);
+clk = 0; #100
+$display("Output: %b %b", clk, addr);
+clk = 1; #100
+$display("Output: %b %b", clk, addr);
+clk = 0; #100
+$display("Output: %b %b", clk, addr);
+clk = 1; #100
+$display("Output: %b %b", clk, addr);
+clk = 0; #100
+$display("Output: %b %b", clk, addr);
 
-if (addr == 32'b00000000000000000000000000001001) begin
+if (addr == 32'b00000000000000000000000000000011) begin
     dutpassed = 1;
 end
 $display("DUT passed: %b", dutpassed);
