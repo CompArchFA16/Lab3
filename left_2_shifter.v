@@ -1,4 +1,4 @@
-module shiftTwo (
+module left_2_shifter (
   output [31:0] out,
   input [31:0] in
 );

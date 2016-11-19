@@ -10,9 +10,9 @@ module testCPU ();
 
   // INIT ======================================================================
 
-  reg clk;
-  reg resetPC;
-  reg isTesting;
+  reg clk       = 0;
+  reg isTesting = 1;
+  reg dutPassed = 1;
 
   wire [31:0] instructionAddress;
   wire [31:0] instructionMemOut;
@@ -30,7 +30,7 @@ module testCPU ();
     .clk(clk),
     .instruction(instructionMemOut),
     .dataIn(dataMemOut),
-    .resetPC(resetPC)
+    .resetPC(isTesting)
   );
 
   reg [31:0] testToMemAddress;
@@ -72,94 +72,45 @@ module testCPU ();
     .writeEnable(toggleToMemWriteEnable)
   );
 
-  // HELPERS ===================================================================
-
-  reg dutPassed;
-
-  // Registers.
-  reg [4:0] rS;
-  reg [4:0] rT;
-  reg [4:0] rD;
-  reg [4:0] expected_rT;
-  reg [4:0] expected_rD;
-
-  reg [25:0] jumpTarget;
-  reg [15:0] imm;
-  reg [31:0] instruction;
-
-  task clkOnce;          begin #2;  end endtask
-  task waitAFullCPULoad; begin #10; end endtask
-
-  task insertToMemory;
-    input [31:0] address;
-    input [31:0] data;
-    begin
-      isTesting <= 1'b1;
-      testToMemData <= data;
-      testToMemAddress <= address;
-      testToMemWriteEnable <= 1'b1;
-      clkOnce();
-      testToMemWriteEnable <= 1'b0;
-      isTesting <= 1'b0;
-    end
-  endtask
-
-  // Start the clock.
-  initial clk = 0;
   always #1 clk = !clk;
-
   initial begin
 
     $dumpfile("cpu.vcd");
-    $dumpvars;
-    dutPassed = 1;
+    $dumpvars(3);
+    $dumpoff;
 
     // Offset our test to be on the negedge. This way, our changes are picked up
     // by the next posedge of the clk.
     #1;
 
-    // LW ======================================================================
-    // RTL:
+    // LW & SW =================================================================
+    // LW: Loads into a register a value from memory.
+    // LW RTL:
     //   PC = PC + 4;
-    //   $t = MEM[$s + offset];
+    //   $t = MEM[Reg[$s] + offset];
+    // SW: Stores from a register a value to memory.
+    // SW RTL:
+    //   PC = PC + 4;
+    //   DataMem[Reg[$s] + offset] = Reg[$t];
 
     // Load our test data.
-    insertToMemory(32'hAB, 32'h42);
+    writeToMem(32'hAB, 32'h42);
 
-    resetPC = 1;
-    insertToMemory(32'd0,  { `CMD_add, `R_ZERO, `R_ZERO, 16'b0  }); // To offset our resetPC.
-    insertToMemory(32'd4,  { `CMD_lw,  `R_ZERO, `R_S1,   16'hAB });
-    insertToMemory(32'd8,  { `CMD_add, `R_ZERO, `R_ZERO, 16'b0  });
-    insertToMemory(32'd12, { `CMD_add, `R_ZERO, `R_ZERO, 16'b0  });
-    insertToMemory(32'd16, { `CMD_add, `R_ZERO, `R_ZERO, 16'b0  });
-    insertToMemory(32'd20, { `CMD_add, `R_ZERO, `R_ZERO, 16'b0  });
-    insertToMemory(32'd24, { `CMD_sw,  `R_ZERO, `R_S1,   16'hAC });
-    resetPC = 0;
+    writeInstructions (6, {
+      { `CMD_lw, `R_ZERO, `R_S1, 16'hAB },
+      noop, noop, noop, noop,
+      { `CMD_sw, `R_ZERO, `R_S1, 16'hAC }
+    });
 
-    waitAFullCPULoad();
-    waitAFullCPULoad();
+    executeProgram(6);
 
-    isTesting = 1;
     testToMemAddress = 32'hAC;
     clkOnce();
     if (dataMemOut !== 32'h42) begin
       dutPassed = 0;
-      $display("Store after a load failed.");
+      $display("*** FAIL: Storing after a load.");
       $display("Actual data memory output: %h", dataMemOut);
     end
-    isTesting = 0;
-
-    // SW ======================================================================
-    // RTL:
-    //   PC = PC + 4
-    //   DataMem[Reg[rS] + imm] = Reg[rT]
-
-    // instruction = { `CMD_sw, rS, rT, 16'b0 };
-    // waitAFullCPULoad();
-
-    // if (dataMemOut !== 32'd3) begin
-      // dutPassed = 0;
-    // end
 
     // J =======================================================================
     // Jumps to the calculated address.
@@ -168,7 +119,7 @@ module testCPU ();
 
     // jumpTarget = 26'd203;
     // instruction = { `CMD_j, jumpTarget };
-    // waitAFullCPULoad();
+    // executeProgram();
 
     // if (pc !== {4'b0, 26'd203, 2'b0}) begin
     //   dutPassed = 0;
@@ -180,7 +131,7 @@ module testCPU ();
     //   PC = $s;
 
     // instruction = { `CMD_jr, rS, 21'b0 };
-    // waitAFullCPULoad();
+    // executeProgram();
 
     // TODO: Match to the actual register value.
     // if (pc !== {4'b0, 28'b0}) begin
@@ -195,7 +146,7 @@ module testCPU ();
 
     // jumpTarget = 26'd214;
     // instruction = { `CMD_jal, jumpTarget };
-    // waitAFullCPULoad();
+    // executeProgram();
 
     // if (pc !== {4'b0, 26'd214, 2'b0}) begin
     //   dutPassed = 0;
@@ -214,8 +165,8 @@ module testCPU ();
     // rS = `R_S0;
     // rT = `R_S1;
     // imm = 16'b10;
-    // insertToMemory({ `CMD_bne, rS, rT, imm });
-    // waitAFullCPULoad();
+    // writeToMem({ `CMD_bne, rS, rT, imm });
+    // executeProgram();
 
     //pc = 0 --> 4
     //pc = 0 --> 14
@@ -234,7 +185,7 @@ module testCPU ();
     // expected_rT = 16'b1000100010100000;
 
     // instruction = {`CMD_xori, rS, rT, imm};
-    // waitAFullCPULoad();
+    // executeProgram();
 
     // if (rT !== expected_rT) begin
       // dutPassed = 0;
@@ -243,18 +194,46 @@ module testCPU ();
     // ADD =====================================================================
     // Adds the values of the two registers and stores the result in a register.
     // RTL:
-    //    PC = PC + 4;
-    //    $d = $s + $t;
+    //   PC = PC + 4;
+    //   $d = $s + $t;
 
     // rS = 5'b0;
     // rT = 5'b1;
     // expected_rD = 5'b1;
     // instruction = { `CMD_add, rS, rT, rD };
-    // waitAFullCPULoad();
+    // executeProgram();
 
     // if (rD !== expected_rD) begin
       // dutPassed = 0;
     // end
+
+    // Load our test data.
+    writeToMem(32'hF1, 32'h3);
+    writeToMem(32'hF2, 32'h4);
+
+    writeInstructions (16, {
+      { `CMD_lw, `R_ZERO, `R_S0, 16'hF1 },
+      noop, noop, noop, noop,
+      { `CMD_lw, `R_ZERO, `R_S1, 16'hF2 },
+      noop, noop, noop, noop,
+      { `CMD_add, `R_S0, `R_S1, `R_S2, 11'b0 },
+      noop, noop, noop, noop,
+      { `CMD_sw, `R_ZERO, `R_S2, 16'hF3 }
+    });
+
+    $dumpon;
+
+    executeProgram(16);
+
+    testToMemAddress = 32'hF3;
+    clkOnce();
+    if (dataMemOut !== 32'h7) begin
+      dutPassed = 0;
+      $display("*** FAIL: Addition.");
+      $display("Actual data memory output: %h", dataMemOut);
+    end
+
+    $dumpoff;
 
     // SUB =====================================================================
     // Subtracts two registers and stores the result in a register.
@@ -268,7 +247,7 @@ module testCPU ();
     // rT = 5'd1;
     // rD = 5'd2;
     // instruction = { `CMD_sub, rD, rS, rT };
-    // waitAFullCPULoad();
+    // executeProgram();
 
     // TODO: Read from rD and check value.
 
@@ -286,13 +265,51 @@ module testCPU ();
     // rT = 5'b1;
     // expected_rD = 16'b1;
     // instruction = { `CMD_slt, rS, rT, rD };
-    // waitAFullCPULoad();
+    // executeProgram();
 
     // if (rD !== expected_rD) begin
       // dutPassed = 0;
     // end
 
-    $display("Has CPU tests passed? %b", dutPassed);
+    $display(">>> TEST cpu ....... ", dutPassed);
     $finish;
   end
+
+  // HELPER METHODS ============================================================
+
+  reg [31:0] noop = { `CMD_add, `R_ZERO, `R_ZERO, 16'b0 };
+
+  task clkOnce;          begin #2;  end endtask
+  task executeProgram;
+    input [31:0] count;
+    integer i;
+    begin
+      isTesting <= 0;
+      for (i = 0; i < count + 4; i = i + 1) begin #2; end
+      isTesting <= 1;
+    end
+  endtask
+
+  task writeToMem;
+    input [31:0] address;
+    input [31:0] data;
+    begin
+      testToMemData <= data;
+      testToMemAddress <= address;
+      testToMemWriteEnable <= 1'b1;
+      clkOnce();
+      testToMemWriteEnable <= 1'b0;
+    end
+  endtask
+
+  task writeInstructions;
+    input [31:0] count;
+    input [(32**2)-1:0] data;
+    integer i;
+    begin
+      for (i = 0; i < count + 4; i = i + 1) begin
+        writeToMem(4 * i, i < count ? data[(32*(count-i))-1 -: 32] : noop);
+      end
+    end
+  endtask
 endmodule

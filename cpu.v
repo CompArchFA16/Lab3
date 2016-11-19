@@ -2,9 +2,9 @@
 `include "gates.v"
 `include "dff.v"
 `include "mux_2.v"
-`include "four_adder.v"
+`include "adder.v"
 `include "sign_extend.v"
-`include "shift_two.v"
+`include "left_2_shifter.v"
 
 // Pipeline gates.
 `include "gate_IF_ID.v"
@@ -45,14 +45,14 @@ module CPU (
   wire [31:0] pcPlus4_IF;
   wire [31:0] instruction_IF;
 
-  mux_2 #(32) pcChoice (
+  mux_2 #(32) mux_pc_src (
     .out(prePC),
     .address(pcSource),
     .input0(pcPlus4_IF),
     .input1(pcBranch_MEM)
   );
 
-  dff #(32) pcDFF (
+  dff #(32) pc_dff (
     .out(pc_IF),
     .clk(clk),
     .in(prePC),
@@ -62,9 +62,10 @@ module CPU (
   assign instructionAddress = pc_IF;
   assign instruction_IF = instruction;
 
-  four_adder the_four_adder (
+  adder adder_4 (
     .out(pcPlus4_IF),
-    .in(pc_IF)
+    .left(pc_IF),
+    .right(32'h4)
   );
 
   // ID - Instruction Decode ===================================================
@@ -96,7 +97,7 @@ module CPU (
   wire aluSrc_ID;
   wire regDst_ID;
 
-  controlUnit the_controlUnit (
+  control_unit the_control_unit (
     .regWrite_ID(regWrite_ID),
     .memToReg_ID(memToReg_ID),
     .memWrite_ID(memWrite_ID),
@@ -124,7 +125,7 @@ module CPU (
 
   wire [31:0] signExtendOut;
 
-  signExtend the_signExtend (
+  sign_extend the_sign_extend (
     .out(signExtendOut),
     .in(instruction_ID[15:0])
   );
@@ -188,7 +189,7 @@ module CPU (
 
   wire [31:0] shiftOut;
 
-  shiftTwo the_shifting_of_two (
+  left_2_shifter the_left_2_shifter (
     .out(shiftOut),
     .in(signImm_EX)
   );
@@ -196,7 +197,7 @@ module CPU (
   wire [4:0] writeReg_EX;
 
   //The leftmost mux in the EX phase.
-  mux_2 #(5) the_mux (
+  mux_2 #(5) mux_reg_dst (
     .out(writeReg_EX),
     .address(regDst_EX),
     .input0(rT_EX),
@@ -206,7 +207,7 @@ module CPU (
   wire [31:0] srcB_EX;
 
   // The right-er mux in the EX phase.
-  mux_2 #(32) alu_src_mux (
+  mux_2 #(32) mux_alu_src (
     .out(srcB_EX),
     .address(aluSrc_EX),
     .input0(readData2_EX),
@@ -228,12 +229,10 @@ module CPU (
   wire [31:0] pcBranch_EX;
 
   // The bottom-most ALU in the EX phase which does addition.
-  // TODO: Having an ALU over here is so overkill.
-  ALU full_adder (
-    .result(pcBranch_EX),
-    .operandA(shiftOut),
-    .operandB(pcPlus4_EX),
-    .command(`ALU_CMD_ADD)
+  adder adder_pc_branch (
+    .out(pcBranch_EX),
+    .left(shiftOut),
+    .right(pcPlus4_EX)
   );
 
   // MEM - Memory Access =======================================================
@@ -301,7 +300,7 @@ module CPU (
     .writeReg_MEM(writeReg_MEM)
   );
 
-  mux_2 #(32) memToRegMux (
+  mux_2 #(32) mux_mem_to_reg (
     .out(result_WB),
     .address(memToReg_WB),
     .input0(aluOut_WB),
