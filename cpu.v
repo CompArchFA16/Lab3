@@ -52,12 +52,6 @@ module CPU (
     .input1(pcBranch_MEM)
   );
 
-  jump_unit the_jump_unit (
-    .pcOut(pre_PC_post_jump),
-    .pcOriginal(prePC),
-    .instruction(instruction)
-  );
-
   dff #(32) pc_dff (
     .out(instruction_addr),
     .clk(clk),
@@ -73,13 +67,12 @@ module CPU (
 
   // ID - Instruction Decode ===================================================
 
+  wire regWrite_WB;
+
   wire [31:0] instruction_ID;
   wire [31:0] pcPlus4_ID;
-
   wire [4:0]  writeReg_WB;
   wire [31:0] result_WB;
-
-  wire regWrite_WB;
 
   gate_IF_ID the_gate_IF_ID (
     .instruction_ID(instruction_ID),
@@ -124,6 +117,14 @@ module CPU (
     .ReadRegister2(instruction_ID[20:16]),
     .WriteRegister(writeReg_WB),
     .RegWrite(regWrite_WB)
+  );
+
+  jump_unit the_jump_unit (
+    .pc_out(pre_PC_post_jump),
+    .pc_original(prePC),
+    .pc_from_regfile(readData1Out),
+    .instruction_IF(instruction),
+    .instruction_ID(instruction_ID)
   );
 
   wire [31:0] signExtendOut;
