@@ -108,23 +108,33 @@ module CPU (
   wire [31:0] readData1Out;
   wire [31:0] readData2Out;
 
+  wire [31:0] reg_write_data;
+  wire [4:0]  reg_write_register;
+  wire        reg_write_enable;
+
   regfile the_regfile (
     .ReadData1(readData1Out),
     .ReadData2(readData2Out),
     .Clk(clk),
-    .WriteData(result_WB),
+    .WriteData(reg_write_data),
     .ReadRegister1(instruction_ID[25:21]),
     .ReadRegister2(instruction_ID[20:16]),
-    .WriteRegister(writeReg_WB),
-    .RegWrite(regWrite_WB)
+    .WriteRegister(reg_write_register),
+    .RegWrite(reg_write_enable)
   );
 
   jump_unit the_jump_unit (
     .pc_out(pre_PC_post_jump),
+    .regfile_data_in_post_jal(reg_write_data),
+    .regfile_addr_post_jal(reg_write_register),
+    .regfile_we_post_jal(reg_write_enable),
     .pc_original(prePC),
     .pc_from_regfile(readData1Out),
     .instruction_IF(instruction),
-    .instruction_ID(instruction_ID)
+    .instruction_ID(instruction_ID),
+    .regfile_data_in(result_WB),
+    .regfile_addr(writeReg_WB),
+    .regfile_we(regWrite_WB)
   );
 
   wire [31:0] signExtendOut;
