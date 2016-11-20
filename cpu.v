@@ -1,9 +1,8 @@
 module cpu
 (
-	input clk
+	input clk,
+	input start
 );
-
-
 
 // initiate the program counter
 	wire[31:0] MuxtoPc;		// wire going from mux to pc
@@ -16,14 +15,13 @@ module cpu
 // PC input mux here
 	wire[31:0] branch_signal;
 	wire[1:0] PcMuxCmd; // command signal to the pc input mux
-	
+
 // instruction memory
 	wire[31:0] IMout;		// wire leaving Instruction memory
-	wire[4:0] WriteRegAddress;	// the wire from the mux to the write data address
 	wire[31:0] DataMuxtoReg;// output from data memory mux to regfile write data
-	wire[1:0] WrAddressRegMux; // control signal for wr address reg mux 	control signal	
+	wire[1:0] WrAddressRegMux; // control signal for wr address reg mux 	control signal
 
-// regfile 
+// regfile
 	wire WrEn_Reg;			// regfile write enable							control signal
 	wire[31:0] ReadData1;	// data 1 from regfile
 	wire[31:0] ReadData2;	// data 2 from regfile
@@ -50,31 +48,31 @@ module cpu
 // mux after data memory
 	wire[4:0] Reg_Wr_Addr_mux_out;	// address that we will write to after muxing in reg
 	wire[1:0] RegDataSrcMux;	// control signal for mux after data memory
-	
+
 // need branching shifter and alu
 	wire[31:0] shifted_imm;
 	wire unused11, unused12, unused13;
 
-	
-	// DO THE AND GATE TOMORROW 
+
+	// DO THE AND GATE TOMORROW
 	wire nzero;
 	wire branch_com;
 	// do the lookup table for control signals
-	register32_negedge ProgramCounter(PctoIM, MuxtoPc, 1, clk); // the program counter
+	register32_negedge ProgramCounter(PctoIM, MuxtoPc, 1, clk, start); // the program counter
 
 	ALU plus4(PCplus4, unused1, unused2, unused3, PctoIM, 4'b0100, 3'd0);
 
-	mux_3_input_32 PC_input_mux(MuxtoPc, PcMuxCmd, jump_signal, branch_signal, PCplus4);
+	mux_3_input_32 PC_input_mux(MuxtoPc, PcMuxCmd, PCplus4, branch_signal, jump_signal);
 
-	instructionmemory InstructionMemory(IMout, PctoIM);
+	instructionmemory InstructionMemory(PctoIM, IMout);
 
 	mux_3_input_5 write_address_reg_mux(Reg_Wr_Addr_mux_out, WrAddressRegMux, IMout[20:16], IMout[15:11], 5'd31);
 
-	regfile RegisterFile(ReadData1, ReadData2, DataMuxtoReg, IMout[25:21], IMout[20:16], WriteRegAddress, WrEn_Reg, clk);
+	regfile RegisterFile(ReadData1, ReadData2, DataMuxtoReg, IMout[25:21], IMout[20:16], Reg_Wr_Addr_mux_out, WrEn_Reg, clk);
 
 	jump_shifter JumpShift(JumpData, IMout[25:0], PCplus4[31:28]);
 
-	mux_2_input_32 jumpMux(jump_signal, Jump_R, ReadData1, JumpData);
+	mux_2_input_32 jumpMux(jump_signal, Jump_R, JumpData, ReadData1);
 
 	ALU JalAlu(JalAluOut, unused8, unused9, unused10, PCplus4, 4'b0100, 3'd0);
 

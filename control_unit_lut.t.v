@@ -48,7 +48,7 @@ module testlut();
 
         #2
         // I type command testing
-        funct = 6'd38; #1                //xor
+        funct = 6'd14; #1                //xor
 
         controlUnitCommand = 6'd05; #2 //bne
         if((ALU_input != 1'b1)||(Branch != 1'b1)
@@ -109,14 +109,14 @@ module testlut();
         else begin
             $display("Test Case 5 Passed");
         end
-        
+
 
         // R type testing
-        controlUnitCommand = 6'd00; #2 //r type
+        controlUnitCommand = 6'd00; //r type
 
-        
+
         // R type funct testing
-        funct = 6'd38; #2                //xor
+        funct = 6'd14; #2                //xor
         if((ALU_input != 1'b1)||(Branch != 1'b0)
             ||(Jump != 1'b0)||(Jump_Target_Mux!=1'b0)||(Reg_Data_Src_Mux!=2'b01)
             ||(WrAddr_Reg_Mux!=2'b01)||(WrEn_DM!=1'b0)||(WrEn_Reg!=1'b1)
@@ -138,7 +138,7 @@ module testlut();
         end
         else begin
             $display("Test Case 7 Passed");
-        end        
+        end
 
         funct = 6'd34; #2                //sub
         if((ALU_input != 1'b1)||(Branch != 1'b0)
@@ -150,9 +150,9 @@ module testlut();
         end
         else begin
             $display("Test Case 8 Passed");
-        end        
+        end
 
-        funct = 6'd42; #2                //slt  
+        funct = 6'd42; #2                //slt
         if((ALU_input != 1'b1)||(Branch != 1'b0)
             ||(Jump != 1'b0)||(Jump_Target_Mux!=1'b0)||(Reg_Data_Src_Mux!=2'b01)
             ||(WrAddr_Reg_Mux!=2'b01)||(WrEn_DM!=1'b0)||(WrEn_Reg!=1'b1)
@@ -162,9 +162,9 @@ module testlut();
         end
         else begin
             $display("Test Case 9 Passed");
-        end        
+        end
 
-        funct = 6'd8;  #2                //jr   
+        funct = 6'd8;  #2                //jr
         if((ALU_input != 1'b0)||(Branch != 1'b0)
             ||(Jump != 1'b1)||(Jump_Target_Mux!=1'b1)||(Reg_Data_Src_Mux!=2'b00)
             ||(WrAddr_Reg_Mux!=2'b00)||(WrEn_DM!=1'b0)||(WrEn_Reg!=1'b0)) begin
@@ -173,9 +173,8 @@ module testlut();
         end
         else begin
             $display("Test Case 10 Passed");
-        end        
+        end
         $finish;
     end
 
 endmodule
-

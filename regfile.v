@@ -118,19 +118,22 @@ endmodule
 
 // 32-bit D Flip-Flop with enable
 //   Positive edge triggered
-module register32_negedge 
+module register32_negedge
 //negedge same thing for pc to go on offset clk edge
 (
 output reg[31:0]  q,
 input[31:0]       d,
 input wrenable,
-input clk
+input clk,
+input start
 );
+  always @(negedge clk) begin
+      if(wrenable) begin
+          q = d;
+      end
+  end
 
-    always @(negedge clk) begin
-        if(wrenable) begin
-            q = d;
-        end
-    end
-
+  always @(posedge start) begin
+    q = 0;
+  end
 endmodule

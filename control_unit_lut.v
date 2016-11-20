@@ -13,7 +13,7 @@
 `define R_type   6'd0
 // R type functs
 `define JR_c       6'd8
-`define XOR_c      6'd38
+`define XOR_c      6'd14
 `define ADD_c      6'd32
 `define SUB_c      6'd34
 `define SLT_c      6'd42
@@ -64,10 +64,10 @@ module LUTcaller // Converts the commands to a more convenient format
     wire  Jump_Target_Mux2;
     wire       Branch2;
 
-    controlUnitLUT  lut_ctrl(WrEn_Reg1, WrEn_DM1, WrAddr_Reg_Mux1, ALU_input1, ALUcommand1, 
+    controlUnitLUT  lut_ctrl(WrEn_Reg1, WrEn_DM1, WrAddr_Reg_Mux1, ALU_input1, ALUcommand1,
                             Reg_Data_Src_Mux1, JumpR1, Jump_Target_Mux1, Branch1, controlUnitCommand, funct);
 
-    R_type_LUT      R_ctrl(WrEn_Reg2, WrEn_DM2, WrAddr_Reg_Mux2, ALU_input2, ALUcommand2, 
+    R_type_LUT      R_ctrl(WrEn_Reg2, WrEn_DM2, WrAddr_Reg_Mux2, ALU_input2, ALUcommand2,
                             Reg_Data_Src_Mux2, JumpR2, Jump_Target_Mux2, Branch2, funct);
 
     always@* begin
@@ -80,7 +80,7 @@ module LUTcaller // Converts the commands to a more convenient format
             Reg_Data_Src_Mux <= Reg_Data_Src_Mux2;
             JumpR <= JumpR2;
             Jump_Target_Mux <= Jump_Target_Mux2;
-            Branch <= Branch2;     
+            Branch <= Branch2;
         end
         else begin
             WrEn_Reg <= WrEn_Reg1;
@@ -91,7 +91,7 @@ module LUTcaller // Converts the commands to a more convenient format
             Reg_Data_Src_Mux <= Reg_Data_Src_Mux1;
             JumpR <= JumpR1;
             Jump_Target_Mux <= Jump_Target_Mux1;
-            Branch <= Branch1;      
+            Branch <= Branch1;
         end
     end
 
@@ -120,6 +120,7 @@ module controlUnitLUT // Converts the commands to a more convenient format
             `SW:       begin WrEn_Reg = 0; WrEn_DM = 1; WrAddr_Reg_Mux = 0;    ALU_input = 0; ALUcommand = `ADD;    Reg_Data_Src_Mux = 0;      JumpR = 0; Jump_Target_Mux = 0; Branch = 0; end
             `J:        begin WrEn_Reg = 0; WrEn_DM = 0; WrAddr_Reg_Mux = 0;    ALU_input = 0; ALUcommand = `ADD;    Reg_Data_Src_Mux = 0;      JumpR = 0; Jump_Target_Mux = 1; Branch = 0; end
             `JAL:      begin WrEn_Reg = 1; WrEn_DM = 0; WrAddr_Reg_Mux = 2'd2; ALU_input = 0; ALUcommand = `ADD;    Reg_Data_Src_Mux = 2'd2;   JumpR = 0; Jump_Target_Mux = 1; Branch = 0; end
+            `XOR_c:     begin WrEn_Reg = 1; WrEn_DM = 0; WrAddr_Reg_Mux = 1; ALU_input = 1; ALUcommand = `XOR;    Reg_Data_Src_Mux = 1;      JumpR = 0; Jump_Target_Mux = 0; Branch = 0; end
        endcase
     end
 endmodule
@@ -141,7 +142,6 @@ module R_type_LUT // Converts the commands to a more convenient format
     always @(funct) begin
       case (funct)
             `JR_c:      begin WrEn_Reg = 0; WrEn_DM = 0; WrAddr_Reg_Mux = 0; ALU_input = 0; ALUcommand = 6'd0;    Reg_Data_Src_Mux = 0;      JumpR = 1; Jump_Target_Mux = 1; Branch = 0; end
-            `XOR_c:     begin WrEn_Reg = 1; WrEn_DM = 0; WrAddr_Reg_Mux = 1; ALU_input = 1; ALUcommand = `XOR;    Reg_Data_Src_Mux = 1;      JumpR = 0; Jump_Target_Mux = 0; Branch = 0; end
             `ADD_c:     begin WrEn_Reg = 1; WrEn_DM = 0; WrAddr_Reg_Mux = 1; ALU_input = 1; ALUcommand = `ADD;    Reg_Data_Src_Mux = 1;      JumpR = 0; Jump_Target_Mux = 0; Branch = 0; end
             `SUB_c:     begin WrEn_Reg = 1; WrEn_DM = 0; WrAddr_Reg_Mux = 1; ALU_input = 1; ALUcommand = `SUB;    Reg_Data_Src_Mux = 1;      JumpR = 0; Jump_Target_Mux = 0; Branch = 0; end
             `SLT_c:     begin WrEn_Reg = 1; WrEn_DM = 0; WrAddr_Reg_Mux = 1; ALU_input = 1; ALUcommand = `SLT;    Reg_Data_Src_Mux = 1;      JumpR = 0; Jump_Target_Mux = 0; Branch = 0; end

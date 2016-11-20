@@ -16,27 +16,29 @@
 
 module testcpu();
 
-    reg clk; 
+    reg clk;
+    reg start = 0;
     reg dutpassed;
 
-    cpu dut(clk);
+    cpu dut(clk, start);
 
     always begin
-    #15000 clk = ~clk;
-    //#6 peripheralClkEdge= ~peripheralClkEdge;
+        #15000 clk = ~clk;
+        if (~start) start = 1;
     end
 
     initial begin
+        $dumpfile("cpu.vcd");
+        $dumpvars;
+
+        clk = 1;
+
+        #700000
+
         dutpassed = 1;
+        $display("dutpassed: %b",  dutpassed);
 
-
-
-
-        display("dutpassed: %b",  dutpassed);
+        $finish;
     end
 
-    // initial begin
-    // end
-
 endmodule
-

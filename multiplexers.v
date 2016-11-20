@@ -27,8 +27,8 @@ module mux_3bit//used to build the 3 input mux where each input is 32 bits
   wire muxtomux; // from the first mux to the second
   // wire out; // output form the second mux
 
-  mux_1bit mux1(muxtomux, sel[1], in1, in2);
-  mux_1bit mux2(result, sel[0], muxtomux, in3);
+  mux_1bit mux1(muxtomux, sel[0], in1, in2);
+  mux_1bit mux2(result, sel[1], muxtomux, in3);
 
 endmodule
 
