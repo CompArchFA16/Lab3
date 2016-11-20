@@ -14,7 +14,7 @@ module testCPU ();
   reg isTesting = 1;
   reg dutPassed = 1;
 
-  wire [31:0] instructionAddress;
+  wire [31:0] instruction_addr;
   wire [31:0] instructionMemOut;
   wire [31:0] dataMemOut;
 
@@ -23,7 +23,7 @@ module testCPU ();
   wire        cpuToMemWriteEnable;
 
   CPU dut (
-    .instructionAddress(instructionAddress),
+    .instruction_addr(instruction_addr),
     .dataMemAddress(cpuToMemAddress),
     .dataOut(cpuToMemData),
     .toMemWriteEnable(cpuToMemWriteEnable),
@@ -66,7 +66,7 @@ module testCPU ();
     .readData1(instructionMemOut),
     .readData2(dataMemOut),
     .clk(clk),
-    .address1(instructionAddress),
+    .address1(instruction_addr),
     .address2(toggleToMemAddress),
     .dataIn(toggleToMemData),
     .writeEnable(toggleToMemWriteEnable)
@@ -124,6 +124,28 @@ module testCPU ();
     // if (pc !== {4'b0, 26'd203, 2'b0}) begin
     //   dutPassed = 0;
     // end
+
+    writeToMem(32'hAA, 32'h3);
+    writeToMem(32'hAB, 32'h4); // If you get this value, you didn't jump.
+
+    writeInstructions (12, {
+      { `CMD_lw, `R_ZERO, `R_S0, 16'hAA },
+      noop, noop, noop, noop,
+      { `CMD_j, 26'hB },
+      { `CMD_lw, `R_ZERO, `R_S0, 16'hAB },
+      noop, noop, noop, noop,
+      { `CMD_sw, `R_ZERO, `R_S0, 16'hAC }
+    });
+
+    executeProgram(7);
+
+    testToMemAddress = 32'hAC;
+    clkOnce();
+    if (dataMemOut !== 32'h3) begin
+      dutPassed = 0;
+      $display("*** FAIL: Jump.");
+      $display("Actual data memory output: %h", dataMemOut);
+    end
 
     // JR ======================================================================
     // Jump to the address contained in register $s.
@@ -353,7 +375,7 @@ module testCPU ();
 
   task writeInstructions;
     input [31:0] count;
-    input [(32**2)-1:0] data;
+    input [(32**3)-1:0] data;
     integer i;
     begin
       for (i = 0; i < count + 4; i = i + 1) begin

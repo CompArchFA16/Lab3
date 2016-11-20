@@ -15,6 +15,7 @@
 // Controls.
 `include "opcodes.v"
 `include "control_unit.v"
+`include "jump_unit.v"
 
 // Large components.
 `define _aluAsLibrary
@@ -23,7 +24,7 @@
 `include "regfile/regfile.v"
 
 module CPU (
-  output [31:0] instructionAddress,
+  output [31:0] instruction_addr,
   output [31:0] dataMemAddress,
   output [31:0] dataOut,
   output        toMemWriteEnable,
@@ -41,9 +42,8 @@ module CPU (
   // Data.
   wire [31:0] pcBranch_MEM;
   wire [31:0] prePC;
-  wire [31:0] pc_IF;
   wire [31:0] pcPlus4_IF;
-  wire [31:0] instruction_IF;
+  wire [31:0] pre_PC_post_jump;
 
   mux_2 #(32) mux_pc_src (
     .out(prePC),
@@ -52,19 +52,22 @@ module CPU (
     .input1(pcBranch_MEM)
   );
 
+  jump_unit the_jump_unit (
+    .pcOut(pre_PC_post_jump),
+    .pcOriginal(prePC),
+    .instruction(instruction)
+  );
+
   dff #(32) pc_dff (
-    .out(pc_IF),
+    .out(instruction_addr),
     .clk(clk),
-    .in(prePC),
+    .in(pre_PC_post_jump),
     .reset(resetPC)
   );
 
-  assign instructionAddress = pc_IF;
-  assign instruction_IF = instruction;
-
   adder adder_4 (
     .out(pcPlus4_IF),
-    .left(pc_IF),
+    .left(instruction_addr),
     .right(32'h4)
   );
 
@@ -84,7 +87,7 @@ module CPU (
 
     .clk(clk),
 
-    .instruction_IF(instruction_IF),
+    .instruction_IF(instruction),
     .pcPlus4_IF(pcPlus4_IF)
   );
 
