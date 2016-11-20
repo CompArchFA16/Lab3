@@ -8,25 +8,35 @@ module alu
 #(parameter n = 32)
 (
 	output reg [n-1:0]   result,
-	output reg carryout,
+	output carryout,
 	output zero,
 	output overflow,
-	input signed [n-1:0]    a,
-	input signed [n-1:0]    b,
+	input [n-1:0]    a,
+	input [n-1:0]    b,
 	input [2:0]      command
 );
 
+integer i;
+reg [n:0] carryouts;
+wire [n-1:0] _b = ~b;
 // FLAGS
-assign overflow = (carryout ^ result[31]);
 assign zero = ~|result;
+assign overflow = carryouts[n] ^ carryouts[n-1];
+assign carryout = carryouts[n];
 
 always @* begin
 	case (command)
 		`C_ADD: begin
-			{carryout,result} <= a + b;
-		end
+			carryouts[0] = 1'b0;
+			for(i=0; i<n; i=i+1) begin
+				{carryouts[i+1], result[i]} <= a[i] + b[i] + carryouts[i];
+			end
+			end
 		`C_SUB: begin
-			{carryout,result} <= a - b;
+			carryouts[0] = 1'b1;
+			for(i=0; i<n; i=i+1) begin
+				{carryouts[i+1], result[i]} <= a[i] + _b[i] + carryouts[i];
+			end
 		end
 		`C_SLT:  begin
 			result <= (a < b);

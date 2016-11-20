@@ -2,11 +2,21 @@
 `define __ALU_T_V__
 `include "alu.v"
 
+// sets a,b to given value
 `define TEST(aValue,bValue) operandA= aValue; operandB  = bValue; #10000
-`define CHECK(exp) $display("%d & %d & %d & %d & %b &  %b  &  %b & %s", operandA, operandB, command, result, carryout, zero, overflow, ((result == exp)? "PASS" : "FAIL"))
+
+// checks that result matches expected value
+`define CHECK(exp) fail = fail | (result != exp); $display("%d & %d & %d & %d & %b &  %b  &  %b & %s", operandA, operandB, command, result, carryout, zero, overflow, ((result == exp)? "PASS" : "FAIL"))
+
+// checks the output flag of the alu
 `define CHECKFLAGS(res,co,zr,of) flags = {result == res, carryout == co, zr == zero, overflow == of}; \
+fail = fail | (flags != 4'b1111); \
 $display("%d & %d & %d & %d & %b &  %b  &  %b & %s", operandA, operandB, command, result, carryout, zero, overflow, ((result == res)? ((flags == 4'b1111)? "PASS": "FAILED FLAGS") : "FAIL"))
+
+// combines test macro and check macro
 `define TESTCHECK(a,b,res) `TEST(a,b); `CHECK(res)
+
+// combines test macro and checkflags macro
 `define TESTFLAGS(a,b,res, co, zr, of) `TEST(a,b); `CHECKFLAGS(res, co, zr, of)
 
 module alu_test();
@@ -14,6 +24,7 @@ wire signed [31:0] result;
 wire carryout;
 wire zero;
 wire overflow;
+reg fail = 0;
 reg signed [31:0] operandA;
 reg signed [31:0] operandB;
 reg [31:0]      command;
@@ -155,6 +166,8 @@ initial begin
 		endcase
 		#10000;
 	end
+
+	$display("ALU Module %s!", fail? "FAILED" : "PASSED");
 
 end
 
