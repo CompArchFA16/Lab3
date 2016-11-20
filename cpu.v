@@ -30,7 +30,6 @@ module cpu
 	wire[31:0] JumpData; // jump address
 	wire[31:0] jump_signal; // signal from jump mux to pc mux;
 	wire Jump_R; 			// command signal to choose jump or jump register
-	wire[31:0] JalAluOut;
 	wire unused8, unused9, unused10;
 
 // sign extend immediate 16
@@ -74,18 +73,17 @@ module cpu
 
 	mux_2_input_32 jumpMux(jump_signal, Jump_R, JumpData, ReadData1);
 
-	ALU JalAlu(JalAluOut, unused8, unused9, unused10, PCplus4, 4'b0100, 3'd0);
-
 	signextend signXtend(extended, IMout[15:0]);
 
-	mux_2_input_32 alu_mux(muxtoalu, alu_input, ReadData2, extended);
+	mux_2_input_32 alu_mux(muxtoalu, alu_input, extended, ReadData2);
 
 	ALU BigAlu(AluOutput, unused5, zero, unused7, ReadData1, muxtoalu, alu_com);
 
 	datamemory Data_Memory(clk, WrEn_DM, AluOutput, ReadData2, DataMemOut); // address size probelms!
 
-	mux_3_input_32 DM_mux(DataMuxtoReg, RegDataSrcMux, AluOutput, DataMemOut, JalAluOut);
+	mux_3_input_32 DM_mux(DataMuxtoReg, RegDataSrcMux, DataMemOut, AluOutput, PCplus4);
 
+	shifter immShifter(shifted_imm, extended);
 	ALU branchAlu(branch_signal, unused11, unused12, unused13, shifted_imm, PCplus4, 3'd0);
 
 	not invert_zero(nzero, zero);

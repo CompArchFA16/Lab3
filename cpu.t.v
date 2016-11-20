@@ -33,7 +33,7 @@ module testcpu();
 
         clk = 1;
 
-        #700000
+        #900000
 
         dutpassed = 1;
         $display("dutpassed: %b",  dutpassed);

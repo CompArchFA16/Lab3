@@ -13,7 +13,8 @@ module datamemory
   output[31:0]  DataOut
 );
 
-  reg [31:0] mem[1023:0];
+  reg [31:0] mem[16'hffff:16'h1000];
+  reg dataOutReg;
 
   always @(posedge clk) begin
     if (regWE) begin
