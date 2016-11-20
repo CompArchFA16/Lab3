@@ -107,13 +107,13 @@ module control_unit (
         regDst_ID     <= 1;
       end
       default: begin
-      regWrite_ID   <= 0;
-      memToReg_ID   <= 0;
-      memWrite_ID   <= 0;
-      branch_ID     <= 0;
-      aluControl_ID <= `ALU_CMD_ADD;
-      aluSrc_ID     <= 0;
-      regDst_ID     <= 0;
+        regWrite_ID   <= 0;
+        memToReg_ID   <= 0;
+        memWrite_ID   <= 0;
+        branch_ID     <= 0;
+        aluControl_ID <= `ALU_CMD_ADD;
+        aluSrc_ID     <= 0;
+        regDst_ID     <= 0;
       end
     endcase
   end
