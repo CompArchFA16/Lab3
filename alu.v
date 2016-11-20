@@ -13,7 +13,7 @@ module alu
 	output overflow,
 	input signed [n-1:0]    a,
 	input signed [n-1:0]    b,
-	input [5:0]      command
+	input [2:0]      command
 );
 
 // FLAGS

@@ -18,12 +18,12 @@
 `define O_JAL 6'h3
 `define O_BNE 6'h5
 `define O_XORI 6'b001110
+`define O_ADDI 6'h8
 
-// FUNCTO
+// FUNCT
 `define O_ADD 6'h20
 `define O_SUB 6'h22
 `define O_SLT 6'h2a
 `define O_JR 6'h08
-`define O_ADDI 6'h8
 
 `endif

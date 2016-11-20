@@ -56,8 +56,7 @@ wire [4:0] rf_wadr;
 
 // ALU
 wire [31:0] operandA, operandB;
-wire [5:0] alucontrol_large;
-wire [2:0] alucontrol;
+wire [2:0] aluop;
 wire [31:0] opb_imm, opb_mem; // candidate for operand B
 
 // DATA MEMORY
@@ -96,8 +95,6 @@ mux #(.WIDTH(32), .CHANNELS(2)) m1(operandA, {pc4, ds}, sel_bne); // when sel_bn
 wire [31:0] alu_res;
 //mux #(.WIDTH(6), .CHANNELS(2)) m5(alucontrol_large,{funct, {4'b0000,sel_aluop}}, (sel_aluop == 2'b10) ); // choose funct when sel_aluop == 2'b10
 
-assign alucontrol = alucontrol_large[2:0];
-
 wire carryout, zero, overflow;
 
 alu a(alu_res, carryout, zero, overflow, operandA, operandB, aluop);
@@ -106,7 +103,7 @@ alu a(alu_res, carryout, zero, overflow, operandA, operandB, aluop);
 assign dm_adr = alu_res; // alias
 assign dm_din = dt; // happens to be the only one used
 
-datamemory dm(clk, dm_wen, dm_din, dm_din, dm_dout);
+datamemory dm(clk, dm_wen, dm_din, dm_adr, dm_dout);
 
 mux #(.WIDTH(32), .CHANNELS(4)) m6(next_pc, {branchaddress,jumpaddress,ds,pc4}, sel_pc);
 

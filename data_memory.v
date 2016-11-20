@@ -9,7 +9,7 @@ module datamemory
     input [31:0]   address,
     output [31:0]  dataOut
 );
-    reg [31:0] memory [2**10-1:0];
+    reg [31:0] memory [(1<<8)-1:0];
 
     initial begin
 		  // read memory layout ...

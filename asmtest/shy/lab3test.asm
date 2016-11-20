@@ -1,4 +1,5 @@
 start:
+	xori $sp $zero 0x00ff # initialize stack pointer
     j main
 
 addsubslt:
