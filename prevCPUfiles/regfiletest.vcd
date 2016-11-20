@@ -1,0 +1,3050 @@
+$date
+	Fri Nov 18 20:49:54 2016
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module hw4testbenchharness $end
+$var wire 1 ! Clk $end
+$var wire 32 " ReadData1 [31:0] $end
+$var wire 32 # ReadData2 [31:0] $end
+$var wire 5 $ ReadRegister1 [4:0] $end
+$var wire 5 % ReadRegister2 [4:0] $end
+$var wire 1 & RegWrite $end
+$var wire 32 ' WriteData [31:0] $end
+$var wire 5 ( WriteRegister [4:0] $end
+$var wire 1 ) dutpassed $end
+$var wire 1 * endtest $end
+$var reg 1 + begintest $end
+$scope module DUT $end
+$var wire 1 ! Clk $end
+$var wire 32 , ReadData1 [31:0] $end
+$var wire 32 - ReadData2 [31:0] $end
+$var wire 5 . ReadRegister1 [4:0] $end
+$var wire 5 / ReadRegister2 [4:0] $end
+$var wire 1 & RegWrite $end
+$var wire 32 0 WriteData [31:0] $end
+$var wire 5 1 WriteRegister [4:0] $end
+$var wire 32 2 decout [31:0] $end
+$var wire 32 3 reg0 [31:0] $end
+$var wire 32 4 reg1 [31:0] $end
+$var wire 32 5 reg10 [31:0] $end
+$var wire 32 6 reg11 [31:0] $end
+$var wire 32 7 reg12 [31:0] $end
+$var wire 32 8 reg13 [31:0] $end
+$var wire 32 9 reg14 [31:0] $end
+$var wire 32 : reg15 [31:0] $end
+$var wire 32 ; reg16 [31:0] $end
+$var wire 32 < reg17 [31:0] $end
+$var wire 32 = reg18 [31:0] $end
+$var wire 32 > reg19 [31:0] $end
+$var wire 32 ? reg2 [31:0] $end
+$var wire 32 @ reg20 [31:0] $end
+$var wire 32 A reg21 [31:0] $end
+$var wire 32 B reg22 [31:0] $end
+$var wire 32 C reg23 [31:0] $end
+$var wire 32 D reg24 [31:0] $end
+$var wire 32 E reg25 [31:0] $end
+$var wire 32 F reg26 [31:0] $end
+$var wire 32 G reg27 [31:0] $end
+$var wire 32 H reg28 [31:0] $end
+$var wire 32 I reg29 [31:0] $end
+$var wire 32 J reg3 [31:0] $end
+$var wire 32 K reg30 [31:0] $end
+$var wire 32 L reg31 [31:0] $end
+$var wire 32 M reg4 [31:0] $end
+$var wire 32 N reg5 [31:0] $end
+$var wire 32 O reg6 [31:0] $end
+$var wire 32 P reg7 [31:0] $end
+$var wire 32 Q reg8 [31:0] $end
+$var wire 32 R reg9 [31:0] $end
+$scope module decoder $end
+$var wire 5 S address [4:0] $end
+$var wire 1 & enable $end
+$var wire 32 T out [31:0] $end
+$upscope $end
+$scope module zeroreg $end
+$var wire 1 ! clk $end
+$var wire 32 U d [31:0] $end
+$var wire 1 V wrenable $end
+$var reg 32 W q [31:0] $end
+$upscope $end
+$scope module onereg $end
+$var wire 1 ! clk $end
+$var wire 32 X d [31:0] $end
+$var wire 1 Y wrenable $end
+$var reg 32 Z q [31:0] $end
+$scope begin Allbits[0] $end
+$upscope $end
+$scope begin Allbits[1] $end
+$upscope $end
+$scope begin Allbits[2] $end
+$upscope $end
+$scope begin Allbits[3] $end
+$upscope $end
+$scope begin Allbits[4] $end
+$upscope $end
+$scope begin Allbits[5] $end
+$upscope $end
+$scope begin Allbits[6] $end
+$upscope $end
+$scope begin Allbits[7] $end
+$upscope $end
+$scope begin Allbits[8] $end
+$upscope $end
+$scope begin Allbits[9] $end
+$upscope $end
+$scope begin Allbits[10] $end
+$upscope $end
+$scope begin Allbits[11] $end
+$upscope $end
+$scope begin Allbits[12] $end
+$upscope $end
+$scope begin Allbits[13] $end
+$upscope $end
+$scope begin Allbits[14] $end
+$upscope $end
+$scope begin Allbits[15] $end
+$upscope $end
+$scope begin Allbits[16] $end
+$upscope $end
+$scope begin Allbits[17] $end
+$upscope $end
+$scope begin Allbits[18] $end
+$upscope $end
+$scope begin Allbits[19] $end
+$upscope $end
+$scope begin Allbits[20] $end
+$upscope $end
+$scope begin Allbits[21] $end
+$upscope $end
+$scope begin Allbits[22] $end
+$upscope $end
+$scope begin Allbits[23] $end
+$upscope $end
+$scope begin Allbits[24] $end
+$upscope $end
+$scope begin Allbits[25] $end
+$upscope $end
+$scope begin Allbits[26] $end
+$upscope $end
+$scope begin Allbits[27] $end
+$upscope $end
+$scope begin Allbits[28] $end
+$upscope $end
+$scope begin Allbits[29] $end
+$upscope $end
+$scope begin Allbits[30] $end
+$upscope $end
+$scope begin Allbits[31] $end
+$upscope $end
+$upscope $end
+$scope module tworeg $end
+$var wire 1 ! clk $end
+$var wire 32 [ d [31:0] $end
+$var wire 1 \ wrenable $end
+$var reg 32 ] q [31:0] $end
+$scope begin Allbits[0] $end
+$upscope $end
+$scope begin Allbits[1] $end
+$upscope $end
+$scope begin Allbits[2] $end
+$upscope $end
+$scope begin Allbits[3] $end
+$upscope $end
+$scope begin Allbits[4] $end
+$upscope $end
+$scope begin Allbits[5] $end
+$upscope $end
+$scope begin Allbits[6] $end
+$upscope $end
+$scope begin Allbits[7] $end
+$upscope $end
+$scope begin Allbits[8] $end
+$upscope $end
+$scope begin Allbits[9] $end
+$upscope $end
+$scope begin Allbits[10] $end
+$upscope $end
+$scope begin Allbits[11] $end
+$upscope $end
+$scope begin Allbits[12] $end
+$upscope $end
+$scope begin Allbits[13] $end
+$upscope $end
+$scope begin Allbits[14] $end
+$upscope $end
+$scope begin Allbits[15] $end
+$upscope $end
+$scope begin Allbits[16] $end
+$upscope $end
+$scope begin Allbits[17] $end
+$upscope $end
+$scope begin Allbits[18] $end
+$upscope $end
+$scope begin Allbits[19] $end
+$upscope $end
+$scope begin Allbits[20] $end
+$upscope $end
+$scope begin Allbits[21] $end
+$upscope $end
+$scope begin Allbits[22] $end
+$upscope $end
+$scope begin Allbits[23] $end
+$upscope $end
+$scope begin Allbits[24] $end
+$upscope $end
+$scope begin Allbits[25] $end
+$upscope $end
+$scope begin Allbits[26] $end
+$upscope $end
+$scope begin Allbits[27] $end
+$upscope $end
+$scope begin Allbits[28] $end
+$upscope $end
+$scope begin Allbits[29] $end
+$upscope $end
+$scope begin Allbits[30] $end
+$upscope $end
+$scope begin Allbits[31] $end
+$upscope $end
+$upscope $end
+$scope module threereg $end
+$var wire 1 ! clk $end
+$var wire 32 ^ d [31:0] $end
+$var wire 1 _ wrenable $end
+$var reg 32 ` q [31:0] $end
+$scope begin Allbits[0] $end
+$upscope $end
+$scope begin Allbits[1] $end
+$upscope $end
+$scope begin Allbits[2] $end
+$upscope $end
+$scope begin Allbits[3] $end
+$upscope $end
+$scope begin Allbits[4] $end
+$upscope $end
+$scope begin Allbits[5] $end
+$upscope $end
+$scope begin Allbits[6] $end
+$upscope $end
+$scope begin Allbits[7] $end
+$upscope $end
+$scope begin Allbits[8] $end
+$upscope $end
+$scope begin Allbits[9] $end
+$upscope $end
+$scope begin Allbits[10] $end
+$upscope $end
+$scope begin Allbits[11] $end
+$upscope $end
+$scope begin Allbits[12] $end
+$upscope $end
+$scope begin Allbits[13] $end
+$upscope $end
+$scope begin Allbits[14] $end
+$upscope $end
+$scope begin Allbits[15] $end
+$upscope $end
+$scope begin Allbits[16] $end
+$upscope $end
+$scope begin Allbits[17] $end
+$upscope $end
+$scope begin Allbits[18] $end
+$upscope $end
+$scope begin Allbits[19] $end
+$upscope $end
+$scope begin Allbits[20] $end
+$upscope $end
+$scope begin Allbits[21] $end
+$upscope $end
+$scope begin Allbits[22] $end
+$upscope $end
+$scope begin Allbits[23] $end
+$upscope $end
+$scope begin Allbits[24] $end
+$upscope $end
+$scope begin Allbits[25] $end
+$upscope $end
+$scope begin Allbits[26] $end
+$upscope $end
+$scope begin Allbits[27] $end
+$upscope $end
+$scope begin Allbits[28] $end
+$upscope $end
+$scope begin Allbits[29] $end
+$upscope $end
+$scope begin Allbits[30] $end
+$upscope $end
+$scope begin Allbits[31] $end
+$upscope $end
+$upscope $end
+$scope module fourreg $end
+$var wire 1 ! clk $end
+$var wire 32 a d [31:0] $end
+$var wire 1 b wrenable $end
+$var reg 32 c q [31:0] $end
+$scope begin Allbits[0] $end
+$upscope $end
+$scope begin Allbits[1] $end
+$upscope $end
+$scope begin Allbits[2] $end
+$upscope $end
+$scope begin Allbits[3] $end
+$upscope $end
+$scope begin Allbits[4] $end
+$upscope $end
+$scope begin Allbits[5] $end
+$upscope $end
+$scope begin Allbits[6] $end
+$upscope $end
+$scope begin Allbits[7] $end
+$upscope $end
+$scope begin Allbits[8] $end
+$upscope $end
+$scope begin Allbits[9] $end
+$upscope $end
+$scope begin Allbits[10] $end
+$upscope $end
+$scope begin Allbits[11] $end
+$upscope $end
+$scope begin Allbits[12] $end
+$upscope $end
+$scope begin Allbits[13] $end
+$upscope $end
+$scope begin Allbits[14] $end
+$upscope $end
+$scope begin Allbits[15] $end
+$upscope $end
+$scope begin Allbits[16] $end
+$upscope $end
+$scope begin Allbits[17] $end
+$upscope $end
+$scope begin Allbits[18] $end
+$upscope $end
+$scope begin Allbits[19] $end
+$upscope $end
+$scope begin Allbits[20] $end
+$upscope $end
+$scope begin Allbits[21] $end
+$upscope $end
+$scope begin Allbits[22] $end
+$upscope $end
+$scope begin Allbits[23] $end
+$upscope $end
+$scope begin Allbits[24] $end
+$upscope $end
+$scope begin Allbits[25] $end
+$upscope $end
+$scope begin Allbits[26] $end
+$upscope $end
+$scope begin Allbits[27] $end
+$upscope $end
+$scope begin Allbits[28] $end
+$upscope $end
+$scope begin Allbits[29] $end
+$upscope $end
+$scope begin Allbits[30] $end
+$upscope $end
+$scope begin Allbits[31] $end
+$upscope $end
+$upscope $end
+$scope module fivereg $end
+$var wire 1 ! clk $end
+$var wire 32 d d [31:0] $end
+$var wire 1 e wrenable $end
+$var reg 32 f q [31:0] $end
+$scope begin Allbits[0] $end
+$upscope $end
+$scope begin Allbits[1] $end
+$upscope $end
+$scope begin Allbits[2] $end
+$upscope $end
+$scope begin Allbits[3] $end
+$upscope $end
+$scope begin Allbits[4] $end
+$upscope $end
+$scope begin Allbits[5] $end
+$upscope $end
+$scope begin Allbits[6] $end
+$upscope $end
+$scope begin Allbits[7] $end
+$upscope $end
+$scope begin Allbits[8] $end
+$upscope $end
+$scope begin Allbits[9] $end
+$upscope $end
+$scope begin Allbits[10] $end
+$upscope $end
+$scope begin Allbits[11] $end
+$upscope $end
+$scope begin Allbits[12] $end
+$upscope $end
+$scope begin Allbits[13] $end
+$upscope $end
+$scope begin Allbits[14] $end
+$upscope $end
+$scope begin Allbits[15] $end
+$upscope $end
+$scope begin Allbits[16] $end
+$upscope $end
+$scope begin Allbits[17] $end
+$upscope $end
+$scope begin Allbits[18] $end
+$upscope $end
+$scope begin Allbits[19] $end
+$upscope $end
+$scope begin Allbits[20] $end
+$upscope $end
+$scope begin Allbits[21] $end
+$upscope $end
+$scope begin Allbits[22] $end
+$upscope $end
+$scope begin Allbits[23] $end
+$upscope $end
+$scope begin Allbits[24] $end
+$upscope $end
+$scope begin Allbits[25] $end
+$upscope $end
+$scope begin Allbits[26] $end
+$upscope $end
+$scope begin Allbits[27] $end
+$upscope $end
+$scope begin Allbits[28] $end
+$upscope $end
+$scope begin Allbits[29] $end
+$upscope $end
+$scope begin Allbits[30] $end
+$upscope $end
+$scope begin Allbits[31] $end
+$upscope $end
+$upscope $end
+$scope module sixreg $end
+$var wire 1 ! clk $end
+$var wire 32 g d [31:0] $end
+$var wire 1 h wrenable $end
+$var reg 32 i q [31:0] $end
+$scope begin Allbits[0] $end
+$upscope $end
+$scope begin Allbits[1] $end
+$upscope $end
+$scope begin Allbits[2] $end
+$upscope $end
+$scope begin Allbits[3] $end
+$upscope $end
+$scope begin Allbits[4] $end
+$upscope $end
+$scope begin Allbits[5] $end
+$upscope $end
+$scope begin Allbits[6] $end
+$upscope $end
+$scope begin Allbits[7] $end
+$upscope $end
+$scope begin Allbits[8] $end
+$upscope $end
+$scope begin Allbits[9] $end
+$upscope $end
+$scope begin Allbits[10] $end
+$upscope $end
+$scope begin Allbits[11] $end
+$upscope $end
+$scope begin Allbits[12] $end
+$upscope $end
+$scope begin Allbits[13] $end
+$upscope $end
+$scope begin Allbits[14] $end
+$upscope $end
+$scope begin Allbits[15] $end
+$upscope $end
+$scope begin Allbits[16] $end
+$upscope $end
+$scope begin Allbits[17] $end
+$upscope $end
+$scope begin Allbits[18] $end
+$upscope $end
+$scope begin Allbits[19] $end
+$upscope $end
+$scope begin Allbits[20] $end
+$upscope $end
+$scope begin Allbits[21] $end
+$upscope $end
+$scope begin Allbits[22] $end
+$upscope $end
+$scope begin Allbits[23] $end
+$upscope $end
+$scope begin Allbits[24] $end
+$upscope $end
+$scope begin Allbits[25] $end
+$upscope $end
+$scope begin Allbits[26] $end
+$upscope $end
+$scope begin Allbits[27] $end
+$upscope $end
+$scope begin Allbits[28] $end
+$upscope $end
+$scope begin Allbits[29] $end
+$upscope $end
+$scope begin Allbits[30] $end
+$upscope $end
+$scope begin Allbits[31] $end
+$upscope $end
+$upscope $end
+$scope module sevenreg $end
+$var wire 1 ! clk $end
+$var wire 32 j d [31:0] $end
+$var wire 1 k wrenable $end
+$var reg 32 l q [31:0] $end
+$scope begin Allbits[0] $end
+$upscope $end
+$scope begin Allbits[1] $end
+$upscope $end
+$scope begin Allbits[2] $end
+$upscope $end
+$scope begin Allbits[3] $end
+$upscope $end
+$scope begin Allbits[4] $end
+$upscope $end
+$scope begin Allbits[5] $end
+$upscope $end
+$scope begin Allbits[6] $end
+$upscope $end
+$scope begin Allbits[7] $end
+$upscope $end
+$scope begin Allbits[8] $end
+$upscope $end
+$scope begin Allbits[9] $end
+$upscope $end
+$scope begin Allbits[10] $end
+$upscope $end
+$scope begin Allbits[11] $end
+$upscope $end
+$scope begin Allbits[12] $end
+$upscope $end
+$scope begin Allbits[13] $end
+$upscope $end
+$scope begin Allbits[14] $end
+$upscope $end
+$scope begin Allbits[15] $end
+$upscope $end
+$scope begin Allbits[16] $end
+$upscope $end
+$scope begin Allbits[17] $end
+$upscope $end
+$scope begin Allbits[18] $end
+$upscope $end
+$scope begin Allbits[19] $end
+$upscope $end
+$scope begin Allbits[20] $end
+$upscope $end
+$scope begin Allbits[21] $end
+$upscope $end
+$scope begin Allbits[22] $end
+$upscope $end
+$scope begin Allbits[23] $end
+$upscope $end
+$scope begin Allbits[24] $end
+$upscope $end
+$scope begin Allbits[25] $end
+$upscope $end
+$scope begin Allbits[26] $end
+$upscope $end
+$scope begin Allbits[27] $end
+$upscope $end
+$scope begin Allbits[28] $end
+$upscope $end
+$scope begin Allbits[29] $end
+$upscope $end
+$scope begin Allbits[30] $end
+$upscope $end
+$scope begin Allbits[31] $end
+$upscope $end
+$upscope $end
+$scope module eightreg $end
+$var wire 1 ! clk $end
+$var wire 32 m d [31:0] $end
+$var wire 1 n wrenable $end
+$var reg 32 o q [31:0] $end
+$scope begin Allbits[0] $end
+$upscope $end
+$scope begin Allbits[1] $end
+$upscope $end
+$scope begin Allbits[2] $end
+$upscope $end
+$scope begin Allbits[3] $end
+$upscope $end
+$scope begin Allbits[4] $end
+$upscope $end
+$scope begin Allbits[5] $end
+$upscope $end
+$scope begin Allbits[6] $end
+$upscope $end
+$scope begin Allbits[7] $end
+$upscope $end
+$scope begin Allbits[8] $end
+$upscope $end
+$scope begin Allbits[9] $end
+$upscope $end
+$scope begin Allbits[10] $end
+$upscope $end
+$scope begin Allbits[11] $end
+$upscope $end
+$scope begin Allbits[12] $end
+$upscope $end
+$scope begin Allbits[13] $end
+$upscope $end
+$scope begin Allbits[14] $end
+$upscope $end
+$scope begin Allbits[15] $end
+$upscope $end
+$scope begin Allbits[16] $end
+$upscope $end
+$scope begin Allbits[17] $end
+$upscope $end
+$scope begin Allbits[18] $end
+$upscope $end
+$scope begin Allbits[19] $end
+$upscope $end
+$scope begin Allbits[20] $end
+$upscope $end
+$scope begin Allbits[21] $end
+$upscope $end
+$scope begin Allbits[22] $end
+$upscope $end
+$scope begin Allbits[23] $end
+$upscope $end
+$scope begin Allbits[24] $end
+$upscope $end
+$scope begin Allbits[25] $end
+$upscope $end
+$scope begin Allbits[26] $end
+$upscope $end
+$scope begin Allbits[27] $end
+$upscope $end
+$scope begin Allbits[28] $end
+$upscope $end
+$scope begin Allbits[29] $end
+$upscope $end
+$scope begin Allbits[30] $end
+$upscope $end
+$scope begin Allbits[31] $end
+$upscope $end
+$upscope $end
+$scope module ninereg $end
+$var wire 1 ! clk $end
+$var wire 32 p d [31:0] $end
+$var wire 1 q wrenable $end
+$var reg 32 r q [31:0] $end
+$scope begin Allbits[0] $end
+$upscope $end
+$scope begin Allbits[1] $end
+$upscope $end
+$scope begin Allbits[2] $end
+$upscope $end
+$scope begin Allbits[3] $end
+$upscope $end
+$scope begin Allbits[4] $end
+$upscope $end
+$scope begin Allbits[5] $end
+$upscope $end
+$scope begin Allbits[6] $end
+$upscope $end
+$scope begin Allbits[7] $end
+$upscope $end
+$scope begin Allbits[8] $end
+$upscope $end
+$scope begin Allbits[9] $end
+$upscope $end
+$scope begin Allbits[10] $end
+$upscope $end
+$scope begin Allbits[11] $end
+$upscope $end
+$scope begin Allbits[12] $end
+$upscope $end
+$scope begin Allbits[13] $end
+$upscope $end
+$scope begin Allbits[14] $end
+$upscope $end
+$scope begin Allbits[15] $end
+$upscope $end
+$scope begin Allbits[16] $end
+$upscope $end
+$scope begin Allbits[17] $end
+$upscope $end
+$scope begin Allbits[18] $end
+$upscope $end
+$scope begin Allbits[19] $end
+$upscope $end
+$scope begin Allbits[20] $end
+$upscope $end
+$scope begin Allbits[21] $end
+$upscope $end
+$scope begin Allbits[22] $end
+$upscope $end
+$scope begin Allbits[23] $end
+$upscope $end
+$scope begin Allbits[24] $end
+$upscope $end
+$scope begin Allbits[25] $end
+$upscope $end
+$scope begin Allbits[26] $end
+$upscope $end
+$scope begin Allbits[27] $end
+$upscope $end
+$scope begin Allbits[28] $end
+$upscope $end
+$scope begin Allbits[29] $end
+$upscope $end
+$scope begin Allbits[30] $end
+$upscope $end
+$scope begin Allbits[31] $end
+$upscope $end
+$upscope $end
+$scope module tenreg $end
+$var wire 1 ! clk $end
+$var wire 32 s d [31:0] $end
+$var wire 1 t wrenable $end
+$var reg 32 u q [31:0] $end
+$scope begin Allbits[0] $end
+$upscope $end
+$scope begin Allbits[1] $end
+$upscope $end
+$scope begin Allbits[2] $end
+$upscope $end
+$scope begin Allbits[3] $end
+$upscope $end
+$scope begin Allbits[4] $end
+$upscope $end
+$scope begin Allbits[5] $end
+$upscope $end
+$scope begin Allbits[6] $end
+$upscope $end
+$scope begin Allbits[7] $end
+$upscope $end
+$scope begin Allbits[8] $end
+$upscope $end
+$scope begin Allbits[9] $end
+$upscope $end
+$scope begin Allbits[10] $end
+$upscope $end
+$scope begin Allbits[11] $end
+$upscope $end
+$scope begin Allbits[12] $end
+$upscope $end
+$scope begin Allbits[13] $end
+$upscope $end
+$scope begin Allbits[14] $end
+$upscope $end
+$scope begin Allbits[15] $end
+$upscope $end
+$scope begin Allbits[16] $end
+$upscope $end
+$scope begin Allbits[17] $end
+$upscope $end
+$scope begin Allbits[18] $end
+$upscope $end
+$scope begin Allbits[19] $end
+$upscope $end
+$scope begin Allbits[20] $end
+$upscope $end
+$scope begin Allbits[21] $end
+$upscope $end
+$scope begin Allbits[22] $end
+$upscope $end
+$scope begin Allbits[23] $end
+$upscope $end
+$scope begin Allbits[24] $end
+$upscope $end
+$scope begin Allbits[25] $end
+$upscope $end
+$scope begin Allbits[26] $end
+$upscope $end
+$scope begin Allbits[27] $end
+$upscope $end
+$scope begin Allbits[28] $end
+$upscope $end
+$scope begin Allbits[29] $end
+$upscope $end
+$scope begin Allbits[30] $end
+$upscope $end
+$scope begin Allbits[31] $end
+$upscope $end
+$upscope $end
+$scope module elevenreg $end
+$var wire 1 ! clk $end
+$var wire 32 v d [31:0] $end
+$var wire 1 w wrenable $end
+$var reg 32 x q [31:0] $end
+$scope begin Allbits[0] $end
+$upscope $end
+$scope begin Allbits[1] $end
+$upscope $end
+$scope begin Allbits[2] $end
+$upscope $end
+$scope begin Allbits[3] $end
+$upscope $end
+$scope begin Allbits[4] $end
+$upscope $end
+$scope begin Allbits[5] $end
+$upscope $end
+$scope begin Allbits[6] $end
+$upscope $end
+$scope begin Allbits[7] $end
+$upscope $end
+$scope begin Allbits[8] $end
+$upscope $end
+$scope begin Allbits[9] $end
+$upscope $end
+$scope begin Allbits[10] $end
+$upscope $end
+$scope begin Allbits[11] $end
+$upscope $end
+$scope begin Allbits[12] $end
+$upscope $end
+$scope begin Allbits[13] $end
+$upscope $end
+$scope begin Allbits[14] $end
+$upscope $end
+$scope begin Allbits[15] $end
+$upscope $end
+$scope begin Allbits[16] $end
+$upscope $end
+$scope begin Allbits[17] $end
+$upscope $end
+$scope begin Allbits[18] $end
+$upscope $end
+$scope begin Allbits[19] $end
+$upscope $end
+$scope begin Allbits[20] $end
+$upscope $end
+$scope begin Allbits[21] $end
+$upscope $end
+$scope begin Allbits[22] $end
+$upscope $end
+$scope begin Allbits[23] $end
+$upscope $end
+$scope begin Allbits[24] $end
+$upscope $end
+$scope begin Allbits[25] $end
+$upscope $end
+$scope begin Allbits[26] $end
+$upscope $end
+$scope begin Allbits[27] $end
+$upscope $end
+$scope begin Allbits[28] $end
+$upscope $end
+$scope begin Allbits[29] $end
+$upscope $end
+$scope begin Allbits[30] $end
+$upscope $end
+$scope begin Allbits[31] $end
+$upscope $end
+$upscope $end
+$scope module twelvereg $end
+$var wire 1 ! clk $end
+$var wire 32 y d [31:0] $end
+$var wire 1 z wrenable $end
+$var reg 32 { q [31:0] $end
+$scope begin Allbits[0] $end
+$upscope $end
+$scope begin Allbits[1] $end
+$upscope $end
+$scope begin Allbits[2] $end
+$upscope $end
+$scope begin Allbits[3] $end
+$upscope $end
+$scope begin Allbits[4] $end
+$upscope $end
+$scope begin Allbits[5] $end
+$upscope $end
+$scope begin Allbits[6] $end
+$upscope $end
+$scope begin Allbits[7] $end
+$upscope $end
+$scope begin Allbits[8] $end
+$upscope $end
+$scope begin Allbits[9] $end
+$upscope $end
+$scope begin Allbits[10] $end
+$upscope $end
+$scope begin Allbits[11] $end
+$upscope $end
+$scope begin Allbits[12] $end
+$upscope $end
+$scope begin Allbits[13] $end
+$upscope $end
+$scope begin Allbits[14] $end
+$upscope $end
+$scope begin Allbits[15] $end
+$upscope $end
+$scope begin Allbits[16] $end
+$upscope $end
+$scope begin Allbits[17] $end
+$upscope $end
+$scope begin Allbits[18] $end
+$upscope $end
+$scope begin Allbits[19] $end
+$upscope $end
+$scope begin Allbits[20] $end
+$upscope $end
+$scope begin Allbits[21] $end
+$upscope $end
+$scope begin Allbits[22] $end
+$upscope $end
+$scope begin Allbits[23] $end
+$upscope $end
+$scope begin Allbits[24] $end
+$upscope $end
+$scope begin Allbits[25] $end
+$upscope $end
+$scope begin Allbits[26] $end
+$upscope $end
+$scope begin Allbits[27] $end
+$upscope $end
+$scope begin Allbits[28] $end
+$upscope $end
+$scope begin Allbits[29] $end
+$upscope $end
+$scope begin Allbits[30] $end
+$upscope $end
+$scope begin Allbits[31] $end
+$upscope $end
+$upscope $end
+$scope module thirteenreg $end
+$var wire 1 ! clk $end
+$var wire 32 | d [31:0] $end
+$var wire 1 } wrenable $end
+$var reg 32 ~ q [31:0] $end
+$scope begin Allbits[0] $end
+$upscope $end
+$scope begin Allbits[1] $end
+$upscope $end
+$scope begin Allbits[2] $end
+$upscope $end
+$scope begin Allbits[3] $end
+$upscope $end
+$scope begin Allbits[4] $end
+$upscope $end
+$scope begin Allbits[5] $end
+$upscope $end
+$scope begin Allbits[6] $end
+$upscope $end
+$scope begin Allbits[7] $end
+$upscope $end
+$scope begin Allbits[8] $end
+$upscope $end
+$scope begin Allbits[9] $end
+$upscope $end
+$scope begin Allbits[10] $end
+$upscope $end
+$scope begin Allbits[11] $end
+$upscope $end
+$scope begin Allbits[12] $end
+$upscope $end
+$scope begin Allbits[13] $end
+$upscope $end
+$scope begin Allbits[14] $end
+$upscope $end
+$scope begin Allbits[15] $end
+$upscope $end
+$scope begin Allbits[16] $end
+$upscope $end
+$scope begin Allbits[17] $end
+$upscope $end
+$scope begin Allbits[18] $end
+$upscope $end
+$scope begin Allbits[19] $end
+$upscope $end
+$scope begin Allbits[20] $end
+$upscope $end
+$scope begin Allbits[21] $end
+$upscope $end
+$scope begin Allbits[22] $end
+$upscope $end
+$scope begin Allbits[23] $end
+$upscope $end
+$scope begin Allbits[24] $end
+$upscope $end
+$scope begin Allbits[25] $end
+$upscope $end
+$scope begin Allbits[26] $end
+$upscope $end
+$scope begin Allbits[27] $end
+$upscope $end
+$scope begin Allbits[28] $end
+$upscope $end
+$scope begin Allbits[29] $end
+$upscope $end
+$scope begin Allbits[30] $end
+$upscope $end
+$scope begin Allbits[31] $end
+$upscope $end
+$upscope $end
+$scope module fourteenreg $end
+$var wire 1 ! clk $end
+$var wire 32 !" d [31:0] $end
+$var wire 1 "" wrenable $end
+$var reg 32 #" q [31:0] $end
+$scope begin Allbits[0] $end
+$upscope $end
+$scope begin Allbits[1] $end
+$upscope $end
+$scope begin Allbits[2] $end
+$upscope $end
+$scope begin Allbits[3] $end
+$upscope $end
+$scope begin Allbits[4] $end
+$upscope $end
+$scope begin Allbits[5] $end
+$upscope $end
+$scope begin Allbits[6] $end
+$upscope $end
+$scope begin Allbits[7] $end
+$upscope $end
+$scope begin Allbits[8] $end
+$upscope $end
+$scope begin Allbits[9] $end
+$upscope $end
+$scope begin Allbits[10] $end
+$upscope $end
+$scope begin Allbits[11] $end
+$upscope $end
+$scope begin Allbits[12] $end
+$upscope $end
+$scope begin Allbits[13] $end
+$upscope $end
+$scope begin Allbits[14] $end
+$upscope $end
+$scope begin Allbits[15] $end
+$upscope $end
+$scope begin Allbits[16] $end
+$upscope $end
+$scope begin Allbits[17] $end
+$upscope $end
+$scope begin Allbits[18] $end
+$upscope $end
+$scope begin Allbits[19] $end
+$upscope $end
+$scope begin Allbits[20] $end
+$upscope $end
+$scope begin Allbits[21] $end
+$upscope $end
+$scope begin Allbits[22] $end
+$upscope $end
+$scope begin Allbits[23] $end
+$upscope $end
+$scope begin Allbits[24] $end
+$upscope $end
+$scope begin Allbits[25] $end
+$upscope $end
+$scope begin Allbits[26] $end
+$upscope $end
+$scope begin Allbits[27] $end
+$upscope $end
+$scope begin Allbits[28] $end
+$upscope $end
+$scope begin Allbits[29] $end
+$upscope $end
+$scope begin Allbits[30] $end
+$upscope $end
+$scope begin Allbits[31] $end
+$upscope $end
+$upscope $end
+$scope module fifteenreg $end
+$var wire 1 ! clk $end
+$var wire 32 $" d [31:0] $end
+$var wire 1 %" wrenable $end
+$var reg 32 &" q [31:0] $end
+$scope begin Allbits[0] $end
+$upscope $end
+$scope begin Allbits[1] $end
+$upscope $end
+$scope begin Allbits[2] $end
+$upscope $end
+$scope begin Allbits[3] $end
+$upscope $end
+$scope begin Allbits[4] $end
+$upscope $end
+$scope begin Allbits[5] $end
+$upscope $end
+$scope begin Allbits[6] $end
+$upscope $end
+$scope begin Allbits[7] $end
+$upscope $end
+$scope begin Allbits[8] $end
+$upscope $end
+$scope begin Allbits[9] $end
+$upscope $end
+$scope begin Allbits[10] $end
+$upscope $end
+$scope begin Allbits[11] $end
+$upscope $end
+$scope begin Allbits[12] $end
+$upscope $end
+$scope begin Allbits[13] $end
+$upscope $end
+$scope begin Allbits[14] $end
+$upscope $end
+$scope begin Allbits[15] $end
+$upscope $end
+$scope begin Allbits[16] $end
+$upscope $end
+$scope begin Allbits[17] $end
+$upscope $end
+$scope begin Allbits[18] $end
+$upscope $end
+$scope begin Allbits[19] $end
+$upscope $end
+$scope begin Allbits[20] $end
+$upscope $end
+$scope begin Allbits[21] $end
+$upscope $end
+$scope begin Allbits[22] $end
+$upscope $end
+$scope begin Allbits[23] $end
+$upscope $end
+$scope begin Allbits[24] $end
+$upscope $end
+$scope begin Allbits[25] $end
+$upscope $end
+$scope begin Allbits[26] $end
+$upscope $end
+$scope begin Allbits[27] $end
+$upscope $end
+$scope begin Allbits[28] $end
+$upscope $end
+$scope begin Allbits[29] $end
+$upscope $end
+$scope begin Allbits[30] $end
+$upscope $end
+$scope begin Allbits[31] $end
+$upscope $end
+$upscope $end
+$scope module sixteenreg $end
+$var wire 1 ! clk $end
+$var wire 32 '" d [31:0] $end
+$var wire 1 (" wrenable $end
+$var reg 32 )" q [31:0] $end
+$scope begin Allbits[0] $end
+$upscope $end
+$scope begin Allbits[1] $end
+$upscope $end
+$scope begin Allbits[2] $end
+$upscope $end
+$scope begin Allbits[3] $end
+$upscope $end
+$scope begin Allbits[4] $end
+$upscope $end
+$scope begin Allbits[5] $end
+$upscope $end
+$scope begin Allbits[6] $end
+$upscope $end
+$scope begin Allbits[7] $end
+$upscope $end
+$scope begin Allbits[8] $end
+$upscope $end
+$scope begin Allbits[9] $end
+$upscope $end
+$scope begin Allbits[10] $end
+$upscope $end
+$scope begin Allbits[11] $end
+$upscope $end
+$scope begin Allbits[12] $end
+$upscope $end
+$scope begin Allbits[13] $end
+$upscope $end
+$scope begin Allbits[14] $end
+$upscope $end
+$scope begin Allbits[15] $end
+$upscope $end
+$scope begin Allbits[16] $end
+$upscope $end
+$scope begin Allbits[17] $end
+$upscope $end
+$scope begin Allbits[18] $end
+$upscope $end
+$scope begin Allbits[19] $end
+$upscope $end
+$scope begin Allbits[20] $end
+$upscope $end
+$scope begin Allbits[21] $end
+$upscope $end
+$scope begin Allbits[22] $end
+$upscope $end
+$scope begin Allbits[23] $end
+$upscope $end
+$scope begin Allbits[24] $end
+$upscope $end
+$scope begin Allbits[25] $end
+$upscope $end
+$scope begin Allbits[26] $end
+$upscope $end
+$scope begin Allbits[27] $end
+$upscope $end
+$scope begin Allbits[28] $end
+$upscope $end
+$scope begin Allbits[29] $end
+$upscope $end
+$scope begin Allbits[30] $end
+$upscope $end
+$scope begin Allbits[31] $end
+$upscope $end
+$upscope $end
+$scope module seventeenreg $end
+$var wire 1 ! clk $end
+$var wire 32 *" d [31:0] $end
+$var wire 1 +" wrenable $end
+$var reg 32 ," q [31:0] $end
+$scope begin Allbits[0] $end
+$upscope $end
+$scope begin Allbits[1] $end
+$upscope $end
+$scope begin Allbits[2] $end
+$upscope $end
+$scope begin Allbits[3] $end
+$upscope $end
+$scope begin Allbits[4] $end
+$upscope $end
+$scope begin Allbits[5] $end
+$upscope $end
+$scope begin Allbits[6] $end
+$upscope $end
+$scope begin Allbits[7] $end
+$upscope $end
+$scope begin Allbits[8] $end
+$upscope $end
+$scope begin Allbits[9] $end
+$upscope $end
+$scope begin Allbits[10] $end
+$upscope $end
+$scope begin Allbits[11] $end
+$upscope $end
+$scope begin Allbits[12] $end
+$upscope $end
+$scope begin Allbits[13] $end
+$upscope $end
+$scope begin Allbits[14] $end
+$upscope $end
+$scope begin Allbits[15] $end
+$upscope $end
+$scope begin Allbits[16] $end
+$upscope $end
+$scope begin Allbits[17] $end
+$upscope $end
+$scope begin Allbits[18] $end
+$upscope $end
+$scope begin Allbits[19] $end
+$upscope $end
+$scope begin Allbits[20] $end
+$upscope $end
+$scope begin Allbits[21] $end
+$upscope $end
+$scope begin Allbits[22] $end
+$upscope $end
+$scope begin Allbits[23] $end
+$upscope $end
+$scope begin Allbits[24] $end
+$upscope $end
+$scope begin Allbits[25] $end
+$upscope $end
+$scope begin Allbits[26] $end
+$upscope $end
+$scope begin Allbits[27] $end
+$upscope $end
+$scope begin Allbits[28] $end
+$upscope $end
+$scope begin Allbits[29] $end
+$upscope $end
+$scope begin Allbits[30] $end
+$upscope $end
+$scope begin Allbits[31] $end
+$upscope $end
+$upscope $end
+$scope module eighteenreg $end
+$var wire 1 ! clk $end
+$var wire 32 -" d [31:0] $end
+$var wire 1 ." wrenable $end
+$var reg 32 /" q [31:0] $end
+$scope begin Allbits[0] $end
+$upscope $end
+$scope begin Allbits[1] $end
+$upscope $end
+$scope begin Allbits[2] $end
+$upscope $end
+$scope begin Allbits[3] $end
+$upscope $end
+$scope begin Allbits[4] $end
+$upscope $end
+$scope begin Allbits[5] $end
+$upscope $end
+$scope begin Allbits[6] $end
+$upscope $end
+$scope begin Allbits[7] $end
+$upscope $end
+$scope begin Allbits[8] $end
+$upscope $end
+$scope begin Allbits[9] $end
+$upscope $end
+$scope begin Allbits[10] $end
+$upscope $end
+$scope begin Allbits[11] $end
+$upscope $end
+$scope begin Allbits[12] $end
+$upscope $end
+$scope begin Allbits[13] $end
+$upscope $end
+$scope begin Allbits[14] $end
+$upscope $end
+$scope begin Allbits[15] $end
+$upscope $end
+$scope begin Allbits[16] $end
+$upscope $end
+$scope begin Allbits[17] $end
+$upscope $end
+$scope begin Allbits[18] $end
+$upscope $end
+$scope begin Allbits[19] $end
+$upscope $end
+$scope begin Allbits[20] $end
+$upscope $end
+$scope begin Allbits[21] $end
+$upscope $end
+$scope begin Allbits[22] $end
+$upscope $end
+$scope begin Allbits[23] $end
+$upscope $end
+$scope begin Allbits[24] $end
+$upscope $end
+$scope begin Allbits[25] $end
+$upscope $end
+$scope begin Allbits[26] $end
+$upscope $end
+$scope begin Allbits[27] $end
+$upscope $end
+$scope begin Allbits[28] $end
+$upscope $end
+$scope begin Allbits[29] $end
+$upscope $end
+$scope begin Allbits[30] $end
+$upscope $end
+$scope begin Allbits[31] $end
+$upscope $end
+$upscope $end
+$scope module nineteenreg $end
+$var wire 1 ! clk $end
+$var wire 32 0" d [31:0] $end
+$var wire 1 1" wrenable $end
+$var reg 32 2" q [31:0] $end
+$scope begin Allbits[0] $end
+$upscope $end
+$scope begin Allbits[1] $end
+$upscope $end
+$scope begin Allbits[2] $end
+$upscope $end
+$scope begin Allbits[3] $end
+$upscope $end
+$scope begin Allbits[4] $end
+$upscope $end
+$scope begin Allbits[5] $end
+$upscope $end
+$scope begin Allbits[6] $end
+$upscope $end
+$scope begin Allbits[7] $end
+$upscope $end
+$scope begin Allbits[8] $end
+$upscope $end
+$scope begin Allbits[9] $end
+$upscope $end
+$scope begin Allbits[10] $end
+$upscope $end
+$scope begin Allbits[11] $end
+$upscope $end
+$scope begin Allbits[12] $end
+$upscope $end
+$scope begin Allbits[13] $end
+$upscope $end
+$scope begin Allbits[14] $end
+$upscope $end
+$scope begin Allbits[15] $end
+$upscope $end
+$scope begin Allbits[16] $end
+$upscope $end
+$scope begin Allbits[17] $end
+$upscope $end
+$scope begin Allbits[18] $end
+$upscope $end
+$scope begin Allbits[19] $end
+$upscope $end
+$scope begin Allbits[20] $end
+$upscope $end
+$scope begin Allbits[21] $end
+$upscope $end
+$scope begin Allbits[22] $end
+$upscope $end
+$scope begin Allbits[23] $end
+$upscope $end
+$scope begin Allbits[24] $end
+$upscope $end
+$scope begin Allbits[25] $end
+$upscope $end
+$scope begin Allbits[26] $end
+$upscope $end
+$scope begin Allbits[27] $end
+$upscope $end
+$scope begin Allbits[28] $end
+$upscope $end
+$scope begin Allbits[29] $end
+$upscope $end
+$scope begin Allbits[30] $end
+$upscope $end
+$scope begin Allbits[31] $end
+$upscope $end
+$upscope $end
+$scope module twentyreg $end
+$var wire 1 ! clk $end
+$var wire 32 3" d [31:0] $end
+$var wire 1 4" wrenable $end
+$var reg 32 5" q [31:0] $end
+$scope begin Allbits[0] $end
+$upscope $end
+$scope begin Allbits[1] $end
+$upscope $end
+$scope begin Allbits[2] $end
+$upscope $end
+$scope begin Allbits[3] $end
+$upscope $end
+$scope begin Allbits[4] $end
+$upscope $end
+$scope begin Allbits[5] $end
+$upscope $end
+$scope begin Allbits[6] $end
+$upscope $end
+$scope begin Allbits[7] $end
+$upscope $end
+$scope begin Allbits[8] $end
+$upscope $end
+$scope begin Allbits[9] $end
+$upscope $end
+$scope begin Allbits[10] $end
+$upscope $end
+$scope begin Allbits[11] $end
+$upscope $end
+$scope begin Allbits[12] $end
+$upscope $end
+$scope begin Allbits[13] $end
+$upscope $end
+$scope begin Allbits[14] $end
+$upscope $end
+$scope begin Allbits[15] $end
+$upscope $end
+$scope begin Allbits[16] $end
+$upscope $end
+$scope begin Allbits[17] $end
+$upscope $end
+$scope begin Allbits[18] $end
+$upscope $end
+$scope begin Allbits[19] $end
+$upscope $end
+$scope begin Allbits[20] $end
+$upscope $end
+$scope begin Allbits[21] $end
+$upscope $end
+$scope begin Allbits[22] $end
+$upscope $end
+$scope begin Allbits[23] $end
+$upscope $end
+$scope begin Allbits[24] $end
+$upscope $end
+$scope begin Allbits[25] $end
+$upscope $end
+$scope begin Allbits[26] $end
+$upscope $end
+$scope begin Allbits[27] $end
+$upscope $end
+$scope begin Allbits[28] $end
+$upscope $end
+$scope begin Allbits[29] $end
+$upscope $end
+$scope begin Allbits[30] $end
+$upscope $end
+$scope begin Allbits[31] $end
+$upscope $end
+$upscope $end
+$scope module twentyonereg $end
+$var wire 1 ! clk $end
+$var wire 32 6" d [31:0] $end
+$var wire 1 7" wrenable $end
+$var reg 32 8" q [31:0] $end
+$scope begin Allbits[0] $end
+$upscope $end
+$scope begin Allbits[1] $end
+$upscope $end
+$scope begin Allbits[2] $end
+$upscope $end
+$scope begin Allbits[3] $end
+$upscope $end
+$scope begin Allbits[4] $end
+$upscope $end
+$scope begin Allbits[5] $end
+$upscope $end
+$scope begin Allbits[6] $end
+$upscope $end
+$scope begin Allbits[7] $end
+$upscope $end
+$scope begin Allbits[8] $end
+$upscope $end
+$scope begin Allbits[9] $end
+$upscope $end
+$scope begin Allbits[10] $end
+$upscope $end
+$scope begin Allbits[11] $end
+$upscope $end
+$scope begin Allbits[12] $end
+$upscope $end
+$scope begin Allbits[13] $end
+$upscope $end
+$scope begin Allbits[14] $end
+$upscope $end
+$scope begin Allbits[15] $end
+$upscope $end
+$scope begin Allbits[16] $end
+$upscope $end
+$scope begin Allbits[17] $end
+$upscope $end
+$scope begin Allbits[18] $end
+$upscope $end
+$scope begin Allbits[19] $end
+$upscope $end
+$scope begin Allbits[20] $end
+$upscope $end
+$scope begin Allbits[21] $end
+$upscope $end
+$scope begin Allbits[22] $end
+$upscope $end
+$scope begin Allbits[23] $end
+$upscope $end
+$scope begin Allbits[24] $end
+$upscope $end
+$scope begin Allbits[25] $end
+$upscope $end
+$scope begin Allbits[26] $end
+$upscope $end
+$scope begin Allbits[27] $end
+$upscope $end
+$scope begin Allbits[28] $end
+$upscope $end
+$scope begin Allbits[29] $end
+$upscope $end
+$scope begin Allbits[30] $end
+$upscope $end
+$scope begin Allbits[31] $end
+$upscope $end
+$upscope $end
+$scope module twentytwoereg $end
+$var wire 1 ! clk $end
+$var wire 32 9" d [31:0] $end
+$var wire 1 :" wrenable $end
+$var reg 32 ;" q [31:0] $end
+$scope begin Allbits[0] $end
+$upscope $end
+$scope begin Allbits[1] $end
+$upscope $end
+$scope begin Allbits[2] $end
+$upscope $end
+$scope begin Allbits[3] $end
+$upscope $end
+$scope begin Allbits[4] $end
+$upscope $end
+$scope begin Allbits[5] $end
+$upscope $end
+$scope begin Allbits[6] $end
+$upscope $end
+$scope begin Allbits[7] $end
+$upscope $end
+$scope begin Allbits[8] $end
+$upscope $end
+$scope begin Allbits[9] $end
+$upscope $end
+$scope begin Allbits[10] $end
+$upscope $end
+$scope begin Allbits[11] $end
+$upscope $end
+$scope begin Allbits[12] $end
+$upscope $end
+$scope begin Allbits[13] $end
+$upscope $end
+$scope begin Allbits[14] $end
+$upscope $end
+$scope begin Allbits[15] $end
+$upscope $end
+$scope begin Allbits[16] $end
+$upscope $end
+$scope begin Allbits[17] $end
+$upscope $end
+$scope begin Allbits[18] $end
+$upscope $end
+$scope begin Allbits[19] $end
+$upscope $end
+$scope begin Allbits[20] $end
+$upscope $end
+$scope begin Allbits[21] $end
+$upscope $end
+$scope begin Allbits[22] $end
+$upscope $end
+$scope begin Allbits[23] $end
+$upscope $end
+$scope begin Allbits[24] $end
+$upscope $end
+$scope begin Allbits[25] $end
+$upscope $end
+$scope begin Allbits[26] $end
+$upscope $end
+$scope begin Allbits[27] $end
+$upscope $end
+$scope begin Allbits[28] $end
+$upscope $end
+$scope begin Allbits[29] $end
+$upscope $end
+$scope begin Allbits[30] $end
+$upscope $end
+$scope begin Allbits[31] $end
+$upscope $end
+$upscope $end
+$scope module twentythreereg $end
+$var wire 1 ! clk $end
+$var wire 32 <" d [31:0] $end
+$var wire 1 =" wrenable $end
+$var reg 32 >" q [31:0] $end
+$scope begin Allbits[0] $end
+$upscope $end
+$scope begin Allbits[1] $end
+$upscope $end
+$scope begin Allbits[2] $end
+$upscope $end
+$scope begin Allbits[3] $end
+$upscope $end
+$scope begin Allbits[4] $end
+$upscope $end
+$scope begin Allbits[5] $end
+$upscope $end
+$scope begin Allbits[6] $end
+$upscope $end
+$scope begin Allbits[7] $end
+$upscope $end
+$scope begin Allbits[8] $end
+$upscope $end
+$scope begin Allbits[9] $end
+$upscope $end
+$scope begin Allbits[10] $end
+$upscope $end
+$scope begin Allbits[11] $end
+$upscope $end
+$scope begin Allbits[12] $end
+$upscope $end
+$scope begin Allbits[13] $end
+$upscope $end
+$scope begin Allbits[14] $end
+$upscope $end
+$scope begin Allbits[15] $end
+$upscope $end
+$scope begin Allbits[16] $end
+$upscope $end
+$scope begin Allbits[17] $end
+$upscope $end
+$scope begin Allbits[18] $end
+$upscope $end
+$scope begin Allbits[19] $end
+$upscope $end
+$scope begin Allbits[20] $end
+$upscope $end
+$scope begin Allbits[21] $end
+$upscope $end
+$scope begin Allbits[22] $end
+$upscope $end
+$scope begin Allbits[23] $end
+$upscope $end
+$scope begin Allbits[24] $end
+$upscope $end
+$scope begin Allbits[25] $end
+$upscope $end
+$scope begin Allbits[26] $end
+$upscope $end
+$scope begin Allbits[27] $end
+$upscope $end
+$scope begin Allbits[28] $end
+$upscope $end
+$scope begin Allbits[29] $end
+$upscope $end
+$scope begin Allbits[30] $end
+$upscope $end
+$scope begin Allbits[31] $end
+$upscope $end
+$upscope $end
+$scope module twentyfourreg $end
+$var wire 1 ! clk $end
+$var wire 32 ?" d [31:0] $end
+$var wire 1 @" wrenable $end
+$var reg 32 A" q [31:0] $end
+$scope begin Allbits[0] $end
+$upscope $end
+$scope begin Allbits[1] $end
+$upscope $end
+$scope begin Allbits[2] $end
+$upscope $end
+$scope begin Allbits[3] $end
+$upscope $end
+$scope begin Allbits[4] $end
+$upscope $end
+$scope begin Allbits[5] $end
+$upscope $end
+$scope begin Allbits[6] $end
+$upscope $end
+$scope begin Allbits[7] $end
+$upscope $end
+$scope begin Allbits[8] $end
+$upscope $end
+$scope begin Allbits[9] $end
+$upscope $end
+$scope begin Allbits[10] $end
+$upscope $end
+$scope begin Allbits[11] $end
+$upscope $end
+$scope begin Allbits[12] $end
+$upscope $end
+$scope begin Allbits[13] $end
+$upscope $end
+$scope begin Allbits[14] $end
+$upscope $end
+$scope begin Allbits[15] $end
+$upscope $end
+$scope begin Allbits[16] $end
+$upscope $end
+$scope begin Allbits[17] $end
+$upscope $end
+$scope begin Allbits[18] $end
+$upscope $end
+$scope begin Allbits[19] $end
+$upscope $end
+$scope begin Allbits[20] $end
+$upscope $end
+$scope begin Allbits[21] $end
+$upscope $end
+$scope begin Allbits[22] $end
+$upscope $end
+$scope begin Allbits[23] $end
+$upscope $end
+$scope begin Allbits[24] $end
+$upscope $end
+$scope begin Allbits[25] $end
+$upscope $end
+$scope begin Allbits[26] $end
+$upscope $end
+$scope begin Allbits[27] $end
+$upscope $end
+$scope begin Allbits[28] $end
+$upscope $end
+$scope begin Allbits[29] $end
+$upscope $end
+$scope begin Allbits[30] $end
+$upscope $end
+$scope begin Allbits[31] $end
+$upscope $end
+$upscope $end
+$scope module twentyfivereg $end
+$var wire 1 ! clk $end
+$var wire 32 B" d [31:0] $end
+$var wire 1 C" wrenable $end
+$var reg 32 D" q [31:0] $end
+$scope begin Allbits[0] $end
+$upscope $end
+$scope begin Allbits[1] $end
+$upscope $end
+$scope begin Allbits[2] $end
+$upscope $end
+$scope begin Allbits[3] $end
+$upscope $end
+$scope begin Allbits[4] $end
+$upscope $end
+$scope begin Allbits[5] $end
+$upscope $end
+$scope begin Allbits[6] $end
+$upscope $end
+$scope begin Allbits[7] $end
+$upscope $end
+$scope begin Allbits[8] $end
+$upscope $end
+$scope begin Allbits[9] $end
+$upscope $end
+$scope begin Allbits[10] $end
+$upscope $end
+$scope begin Allbits[11] $end
+$upscope $end
+$scope begin Allbits[12] $end
+$upscope $end
+$scope begin Allbits[13] $end
+$upscope $end
+$scope begin Allbits[14] $end
+$upscope $end
+$scope begin Allbits[15] $end
+$upscope $end
+$scope begin Allbits[16] $end
+$upscope $end
+$scope begin Allbits[17] $end
+$upscope $end
+$scope begin Allbits[18] $end
+$upscope $end
+$scope begin Allbits[19] $end
+$upscope $end
+$scope begin Allbits[20] $end
+$upscope $end
+$scope begin Allbits[21] $end
+$upscope $end
+$scope begin Allbits[22] $end
+$upscope $end
+$scope begin Allbits[23] $end
+$upscope $end
+$scope begin Allbits[24] $end
+$upscope $end
+$scope begin Allbits[25] $end
+$upscope $end
+$scope begin Allbits[26] $end
+$upscope $end
+$scope begin Allbits[27] $end
+$upscope $end
+$scope begin Allbits[28] $end
+$upscope $end
+$scope begin Allbits[29] $end
+$upscope $end
+$scope begin Allbits[30] $end
+$upscope $end
+$scope begin Allbits[31] $end
+$upscope $end
+$upscope $end
+$scope module twentysixreg $end
+$var wire 1 ! clk $end
+$var wire 32 E" d [31:0] $end
+$var wire 1 F" wrenable $end
+$var reg 32 G" q [31:0] $end
+$scope begin Allbits[0] $end
+$upscope $end
+$scope begin Allbits[1] $end
+$upscope $end
+$scope begin Allbits[2] $end
+$upscope $end
+$scope begin Allbits[3] $end
+$upscope $end
+$scope begin Allbits[4] $end
+$upscope $end
+$scope begin Allbits[5] $end
+$upscope $end
+$scope begin Allbits[6] $end
+$upscope $end
+$scope begin Allbits[7] $end
+$upscope $end
+$scope begin Allbits[8] $end
+$upscope $end
+$scope begin Allbits[9] $end
+$upscope $end
+$scope begin Allbits[10] $end
+$upscope $end
+$scope begin Allbits[11] $end
+$upscope $end
+$scope begin Allbits[12] $end
+$upscope $end
+$scope begin Allbits[13] $end
+$upscope $end
+$scope begin Allbits[14] $end
+$upscope $end
+$scope begin Allbits[15] $end
+$upscope $end
+$scope begin Allbits[16] $end
+$upscope $end
+$scope begin Allbits[17] $end
+$upscope $end
+$scope begin Allbits[18] $end
+$upscope $end
+$scope begin Allbits[19] $end
+$upscope $end
+$scope begin Allbits[20] $end
+$upscope $end
+$scope begin Allbits[21] $end
+$upscope $end
+$scope begin Allbits[22] $end
+$upscope $end
+$scope begin Allbits[23] $end
+$upscope $end
+$scope begin Allbits[24] $end
+$upscope $end
+$scope begin Allbits[25] $end
+$upscope $end
+$scope begin Allbits[26] $end
+$upscope $end
+$scope begin Allbits[27] $end
+$upscope $end
+$scope begin Allbits[28] $end
+$upscope $end
+$scope begin Allbits[29] $end
+$upscope $end
+$scope begin Allbits[30] $end
+$upscope $end
+$scope begin Allbits[31] $end
+$upscope $end
+$upscope $end
+$scope module twentysevenreg $end
+$var wire 1 ! clk $end
+$var wire 32 H" d [31:0] $end
+$var wire 1 I" wrenable $end
+$var reg 32 J" q [31:0] $end
+$scope begin Allbits[0] $end
+$upscope $end
+$scope begin Allbits[1] $end
+$upscope $end
+$scope begin Allbits[2] $end
+$upscope $end
+$scope begin Allbits[3] $end
+$upscope $end
+$scope begin Allbits[4] $end
+$upscope $end
+$scope begin Allbits[5] $end
+$upscope $end
+$scope begin Allbits[6] $end
+$upscope $end
+$scope begin Allbits[7] $end
+$upscope $end
+$scope begin Allbits[8] $end
+$upscope $end
+$scope begin Allbits[9] $end
+$upscope $end
+$scope begin Allbits[10] $end
+$upscope $end
+$scope begin Allbits[11] $end
+$upscope $end
+$scope begin Allbits[12] $end
+$upscope $end
+$scope begin Allbits[13] $end
+$upscope $end
+$scope begin Allbits[14] $end
+$upscope $end
+$scope begin Allbits[15] $end
+$upscope $end
+$scope begin Allbits[16] $end
+$upscope $end
+$scope begin Allbits[17] $end
+$upscope $end
+$scope begin Allbits[18] $end
+$upscope $end
+$scope begin Allbits[19] $end
+$upscope $end
+$scope begin Allbits[20] $end
+$upscope $end
+$scope begin Allbits[21] $end
+$upscope $end
+$scope begin Allbits[22] $end
+$upscope $end
+$scope begin Allbits[23] $end
+$upscope $end
+$scope begin Allbits[24] $end
+$upscope $end
+$scope begin Allbits[25] $end
+$upscope $end
+$scope begin Allbits[26] $end
+$upscope $end
+$scope begin Allbits[27] $end
+$upscope $end
+$scope begin Allbits[28] $end
+$upscope $end
+$scope begin Allbits[29] $end
+$upscope $end
+$scope begin Allbits[30] $end
+$upscope $end
+$scope begin Allbits[31] $end
+$upscope $end
+$upscope $end
+$scope module twentyeightreg $end
+$var wire 1 ! clk $end
+$var wire 32 K" d [31:0] $end
+$var wire 1 L" wrenable $end
+$var reg 32 M" q [31:0] $end
+$scope begin Allbits[0] $end
+$upscope $end
+$scope begin Allbits[1] $end
+$upscope $end
+$scope begin Allbits[2] $end
+$upscope $end
+$scope begin Allbits[3] $end
+$upscope $end
+$scope begin Allbits[4] $end
+$upscope $end
+$scope begin Allbits[5] $end
+$upscope $end
+$scope begin Allbits[6] $end
+$upscope $end
+$scope begin Allbits[7] $end
+$upscope $end
+$scope begin Allbits[8] $end
+$upscope $end
+$scope begin Allbits[9] $end
+$upscope $end
+$scope begin Allbits[10] $end
+$upscope $end
+$scope begin Allbits[11] $end
+$upscope $end
+$scope begin Allbits[12] $end
+$upscope $end
+$scope begin Allbits[13] $end
+$upscope $end
+$scope begin Allbits[14] $end
+$upscope $end
+$scope begin Allbits[15] $end
+$upscope $end
+$scope begin Allbits[16] $end
+$upscope $end
+$scope begin Allbits[17] $end
+$upscope $end
+$scope begin Allbits[18] $end
+$upscope $end
+$scope begin Allbits[19] $end
+$upscope $end
+$scope begin Allbits[20] $end
+$upscope $end
+$scope begin Allbits[21] $end
+$upscope $end
+$scope begin Allbits[22] $end
+$upscope $end
+$scope begin Allbits[23] $end
+$upscope $end
+$scope begin Allbits[24] $end
+$upscope $end
+$scope begin Allbits[25] $end
+$upscope $end
+$scope begin Allbits[26] $end
+$upscope $end
+$scope begin Allbits[27] $end
+$upscope $end
+$scope begin Allbits[28] $end
+$upscope $end
+$scope begin Allbits[29] $end
+$upscope $end
+$scope begin Allbits[30] $end
+$upscope $end
+$scope begin Allbits[31] $end
+$upscope $end
+$upscope $end
+$scope module twentyninereg $end
+$var wire 1 ! clk $end
+$var wire 32 N" d [31:0] $end
+$var wire 1 O" wrenable $end
+$var reg 32 P" q [31:0] $end
+$scope begin Allbits[0] $end
+$upscope $end
+$scope begin Allbits[1] $end
+$upscope $end
+$scope begin Allbits[2] $end
+$upscope $end
+$scope begin Allbits[3] $end
+$upscope $end
+$scope begin Allbits[4] $end
+$upscope $end
+$scope begin Allbits[5] $end
+$upscope $end
+$scope begin Allbits[6] $end
+$upscope $end
+$scope begin Allbits[7] $end
+$upscope $end
+$scope begin Allbits[8] $end
+$upscope $end
+$scope begin Allbits[9] $end
+$upscope $end
+$scope begin Allbits[10] $end
+$upscope $end
+$scope begin Allbits[11] $end
+$upscope $end
+$scope begin Allbits[12] $end
+$upscope $end
+$scope begin Allbits[13] $end
+$upscope $end
+$scope begin Allbits[14] $end
+$upscope $end
+$scope begin Allbits[15] $end
+$upscope $end
+$scope begin Allbits[16] $end
+$upscope $end
+$scope begin Allbits[17] $end
+$upscope $end
+$scope begin Allbits[18] $end
+$upscope $end
+$scope begin Allbits[19] $end
+$upscope $end
+$scope begin Allbits[20] $end
+$upscope $end
+$scope begin Allbits[21] $end
+$upscope $end
+$scope begin Allbits[22] $end
+$upscope $end
+$scope begin Allbits[23] $end
+$upscope $end
+$scope begin Allbits[24] $end
+$upscope $end
+$scope begin Allbits[25] $end
+$upscope $end
+$scope begin Allbits[26] $end
+$upscope $end
+$scope begin Allbits[27] $end
+$upscope $end
+$scope begin Allbits[28] $end
+$upscope $end
+$scope begin Allbits[29] $end
+$upscope $end
+$scope begin Allbits[30] $end
+$upscope $end
+$scope begin Allbits[31] $end
+$upscope $end
+$upscope $end
+$scope module thirtyreg $end
+$var wire 1 ! clk $end
+$var wire 32 Q" d [31:0] $end
+$var wire 1 R" wrenable $end
+$var reg 32 S" q [31:0] $end
+$scope begin Allbits[0] $end
+$upscope $end
+$scope begin Allbits[1] $end
+$upscope $end
+$scope begin Allbits[2] $end
+$upscope $end
+$scope begin Allbits[3] $end
+$upscope $end
+$scope begin Allbits[4] $end
+$upscope $end
+$scope begin Allbits[5] $end
+$upscope $end
+$scope begin Allbits[6] $end
+$upscope $end
+$scope begin Allbits[7] $end
+$upscope $end
+$scope begin Allbits[8] $end
+$upscope $end
+$scope begin Allbits[9] $end
+$upscope $end
+$scope begin Allbits[10] $end
+$upscope $end
+$scope begin Allbits[11] $end
+$upscope $end
+$scope begin Allbits[12] $end
+$upscope $end
+$scope begin Allbits[13] $end
+$upscope $end
+$scope begin Allbits[14] $end
+$upscope $end
+$scope begin Allbits[15] $end
+$upscope $end
+$scope begin Allbits[16] $end
+$upscope $end
+$scope begin Allbits[17] $end
+$upscope $end
+$scope begin Allbits[18] $end
+$upscope $end
+$scope begin Allbits[19] $end
+$upscope $end
+$scope begin Allbits[20] $end
+$upscope $end
+$scope begin Allbits[21] $end
+$upscope $end
+$scope begin Allbits[22] $end
+$upscope $end
+$scope begin Allbits[23] $end
+$upscope $end
+$scope begin Allbits[24] $end
+$upscope $end
+$scope begin Allbits[25] $end
+$upscope $end
+$scope begin Allbits[26] $end
+$upscope $end
+$scope begin Allbits[27] $end
+$upscope $end
+$scope begin Allbits[28] $end
+$upscope $end
+$scope begin Allbits[29] $end
+$upscope $end
+$scope begin Allbits[30] $end
+$upscope $end
+$scope begin Allbits[31] $end
+$upscope $end
+$upscope $end
+$scope module thirtyonereg $end
+$var wire 1 ! clk $end
+$var wire 32 T" d [31:0] $end
+$var wire 1 U" wrenable $end
+$var reg 32 V" q [31:0] $end
+$scope begin Allbits[0] $end
+$upscope $end
+$scope begin Allbits[1] $end
+$upscope $end
+$scope begin Allbits[2] $end
+$upscope $end
+$scope begin Allbits[3] $end
+$upscope $end
+$scope begin Allbits[4] $end
+$upscope $end
+$scope begin Allbits[5] $end
+$upscope $end
+$scope begin Allbits[6] $end
+$upscope $end
+$scope begin Allbits[7] $end
+$upscope $end
+$scope begin Allbits[8] $end
+$upscope $end
+$scope begin Allbits[9] $end
+$upscope $end
+$scope begin Allbits[10] $end
+$upscope $end
+$scope begin Allbits[11] $end
+$upscope $end
+$scope begin Allbits[12] $end
+$upscope $end
+$scope begin Allbits[13] $end
+$upscope $end
+$scope begin Allbits[14] $end
+$upscope $end
+$scope begin Allbits[15] $end
+$upscope $end
+$scope begin Allbits[16] $end
+$upscope $end
+$scope begin Allbits[17] $end
+$upscope $end
+$scope begin Allbits[18] $end
+$upscope $end
+$scope begin Allbits[19] $end
+$upscope $end
+$scope begin Allbits[20] $end
+$upscope $end
+$scope begin Allbits[21] $end
+$upscope $end
+$scope begin Allbits[22] $end
+$upscope $end
+$scope begin Allbits[23] $end
+$upscope $end
+$scope begin Allbits[24] $end
+$upscope $end
+$scope begin Allbits[25] $end
+$upscope $end
+$scope begin Allbits[26] $end
+$upscope $end
+$scope begin Allbits[27] $end
+$upscope $end
+$scope begin Allbits[28] $end
+$upscope $end
+$scope begin Allbits[29] $end
+$upscope $end
+$scope begin Allbits[30] $end
+$upscope $end
+$scope begin Allbits[31] $end
+$upscope $end
+$upscope $end
+$scope module mux1 $end
+$var wire 5 W" address [4:0] $end
+$var wire 32 X" input0 [31:0] $end
+$var wire 32 Y" input1 [31:0] $end
+$var wire 32 Z" input10 [31:0] $end
+$var wire 32 [" input11 [31:0] $end
+$var wire 32 \" input12 [31:0] $end
+$var wire 32 ]" input13 [31:0] $end
+$var wire 32 ^" input14 [31:0] $end
+$var wire 32 _" input15 [31:0] $end
+$var wire 32 `" input16 [31:0] $end
+$var wire 32 a" input17 [31:0] $end
+$var wire 32 b" input18 [31:0] $end
+$var wire 32 c" input19 [31:0] $end
+$var wire 32 d" input2 [31:0] $end
+$var wire 32 e" input20 [31:0] $end
+$var wire 32 f" input21 [31:0] $end
+$var wire 32 g" input22 [31:0] $end
+$var wire 32 h" input23 [31:0] $end
+$var wire 32 i" input24 [31:0] $end
+$var wire 32 j" input25 [31:0] $end
+$var wire 32 k" input26 [31:0] $end
+$var wire 32 l" input27 [31:0] $end
+$var wire 32 m" input28 [31:0] $end
+$var wire 32 n" input29 [31:0] $end
+$var wire 32 o" input3 [31:0] $end
+$var wire 32 p" input30 [31:0] $end
+$var wire 32 q" input31 [31:0] $end
+$var wire 32 r" input4 [31:0] $end
+$var wire 32 s" input5 [31:0] $end
+$var wire 32 t" input6 [31:0] $end
+$var wire 32 u" input7 [31:0] $end
+$var wire 32 v" input8 [31:0] $end
+$var wire 32 w" input9 [31:0] $end
+$var wire 32 x" out [31:0] $end
+$upscope $end
+$scope module mux2 $end
+$var wire 5 y" address [4:0] $end
+$var wire 32 z" input0 [31:0] $end
+$var wire 32 {" input1 [31:0] $end
+$var wire 32 |" input10 [31:0] $end
+$var wire 32 }" input11 [31:0] $end
+$var wire 32 ~" input12 [31:0] $end
+$var wire 32 !# input13 [31:0] $end
+$var wire 32 "# input14 [31:0] $end
+$var wire 32 ## input15 [31:0] $end
+$var wire 32 $# input16 [31:0] $end
+$var wire 32 %# input17 [31:0] $end
+$var wire 32 &# input18 [31:0] $end
+$var wire 32 '# input19 [31:0] $end
+$var wire 32 (# input2 [31:0] $end
+$var wire 32 )# input20 [31:0] $end
+$var wire 32 *# input21 [31:0] $end
+$var wire 32 +# input22 [31:0] $end
+$var wire 32 ,# input23 [31:0] $end
+$var wire 32 -# input24 [31:0] $end
+$var wire 32 .# input25 [31:0] $end
+$var wire 32 /# input26 [31:0] $end
+$var wire 32 0# input27 [31:0] $end
+$var wire 32 1# input28 [31:0] $end
+$var wire 32 2# input29 [31:0] $end
+$var wire 32 3# input3 [31:0] $end
+$var wire 32 4# input30 [31:0] $end
+$var wire 32 5# input31 [31:0] $end
+$var wire 32 6# input4 [31:0] $end
+$var wire 32 7# input5 [31:0] $end
+$var wire 32 8# input6 [31:0] $end
+$var wire 32 9# input7 [31:0] $end
+$var wire 32 :# input8 [31:0] $end
+$var wire 32 ;# input9 [31:0] $end
+$var wire 32 <# out [31:0] $end
+$upscope $end
+$upscope $end
+$scope module tester $end
+$var wire 32 =# ReadData1 [31:0] $end
+$var wire 32 ># ReadData2 [31:0] $end
+$var wire 1 ?# begintest $end
+$var reg 1 @# Clk $end
+$var reg 5 A# ReadRegister1 [4:0] $end
+$var reg 5 B# ReadRegister2 [4:0] $end
+$var reg 1 C# RegWrite $end
+$var reg 32 D# WriteData [31:0] $end
+$var reg 5 E# WriteRegister [4:0] $end
+$var reg 1 F# dutpassed $end
+$var reg 1 G# endtest $end
+$upscope $end
+$upscope $end
+$scope module mux32to1by1 $end
+$var wire 5 H# address [4:0] $end
+$var wire 32 I# inputs [31:0] $end
+$var wire 1 J# out $end
+$upscope $end
+$scope module register $end
+$var wire 1 K# clk $end
+$var wire 1 L# d $end
+$var wire 1 M# wrenable $end
+$var reg 1 N# q $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+xN#
+zM#
+zL#
+zK#
+xJ#
+bz I#
+bz H#
+xG#
+xF#
+b0 E#
+b0 D#
+0C#
+b0 B#
+b0 A#
+0@#
+0?#
+bx >#
+bx =#
+bx <#
+bx ;#
+bx :#
+bx 9#
+bx 8#
+bx 7#
+bx 6#
+bx 5#
+bx 4#
+bx 3#
+bx 2#
+bx 1#
+bx 0#
+bx /#
+bx .#
+bx -#
+bx ,#
+bx +#
+bx *#
+bx )#
+bx (#
+bx '#
+bx &#
+bx %#
+bx $#
+bx ##
+bx "#
+bx !#
+bx ~"
+bx }"
+bx |"
+bx {"
+bx z"
+b0 y"
+bx x"
+bx w"
+bx v"
+bx u"
+bx t"
+bx s"
+bx r"
+bx q"
+bx p"
+bx o"
+bx n"
+bx m"
+bx l"
+bx k"
+bx j"
+bx i"
+bx h"
+bx g"
+bx f"
+bx e"
+bx d"
+bx c"
+bx b"
+bx a"
+bx `"
+bx _"
+bx ^"
+bx ]"
+bx \"
+bx ["
+bx Z"
+bx Y"
+bx X"
+b0 W"
+bx V"
+0U"
+b0 T"
+bx S"
+0R"
+b0 Q"
+bx P"
+0O"
+b0 N"
+bx M"
+0L"
+b0 K"
+bx J"
+0I"
+b0 H"
+bx G"
+0F"
+b0 E"
+bx D"
+0C"
+b0 B"
+bx A"
+0@"
+b0 ?"
+bx >"
+0="
+b0 <"
+bx ;"
+0:"
+b0 9"
+bx 8"
+07"
+b0 6"
+bx 5"
+04"
+b0 3"
+bx 2"
+01"
+b0 0"
+bx /"
+0."
+b0 -"
+bx ,"
+0+"
+b0 *"
+bx )"
+0("
+b0 '"
+bx &"
+0%"
+b0 $"
+bx #"
+0""
+b0 !"
+bx ~
+0}
+b0 |
+bx {
+0z
+b0 y
+bx x
+0w
+b0 v
+bx u
+0t
+b0 s
+bx r
+0q
+b0 p
+bx o
+0n
+b0 m
+bx l
+0k
+b0 j
+bx i
+0h
+b0 g
+bx f
+0e
+b0 d
+bx c
+0b
+b0 a
+bx `
+0_
+b0 ^
+bx ]
+0\
+b0 [
+bx Z
+0Y
+b0 X
+bx W
+0V
+b0 U
+b0 T
+b0 S
+bx R
+bx Q
+bx P
+bx O
+bx N
+bx M
+bx L
+bx K
+bx J
+bx I
+bx H
+bx G
+bx F
+bx E
+bx D
+bx C
+bx B
+bx A
+bx @
+bx ?
+bx >
+bx =
+bx <
+bx ;
+bx :
+bx 9
+bx 8
+bx 7
+bx 6
+bx 5
+bx 4
+bx 3
+b0 2
+b0 1
+b0 0
+b0 /
+b0 .
+bx -
+bx ,
+0+
+x*
+x)
+b0 (
+b0 '
+0&
+b0 %
+b0 $
+bx #
+bx "
+0!
+$end
+#10000
+1F#
+1)
+0G#
+0*
+1+
+1?#
+#20000
+1\
+b10 B#
+b10 %
+b10 /
+b10 y"
+b10 A#
+b10 $
+b10 .
+b10 W"
+1C#
+b100 2
+b100 T
+1&
+b101010 D#
+b101010 '
+b101010 0
+b101010 U
+b101010 X
+b101010 [
+b101010 ^
+b101010 a
+b101010 d
+b101010 g
+b101010 j
+b101010 m
+b101010 p
+b101010 s
+b101010 v
+b101010 y
+b101010 |
+b101010 !"
+b101010 $"
+b101010 '"
+b101010 *"
+b101010 -"
+b101010 0"
+b101010 3"
+b101010 6"
+b101010 9"
+b101010 <"
+b101010 ?"
+b101010 B"
+b101010 E"
+b101010 H"
+b101010 K"
+b101010 N"
+b101010 Q"
+b101010 T"
+b10 E#
+b10 (
+b10 1
+b10 S
+#25000
+b101010 ]
+b101010 "
+b101010 ,
+b101010 x"
+b101010 =#
+b101010 #
+b101010 -
+b101010 <#
+b101010 >#
+b101010 ?
+b101010 d"
+b101010 (#
+1@#
+1!
+#30000
+b1111 D#
+b1111 '
+b1111 0
+b1111 U
+b1111 X
+b1111 [
+b1111 ^
+b1111 a
+b1111 d
+b1111 g
+b1111 j
+b1111 m
+b1111 p
+b1111 s
+b1111 v
+b1111 y
+b1111 |
+b1111 !"
+b1111 $"
+b1111 '"
+b1111 *"
+b1111 -"
+b1111 0"
+b1111 3"
+b1111 6"
+b1111 9"
+b1111 <"
+b1111 ?"
+b1111 B"
+b1111 E"
+b1111 H"
+b1111 K"
+b1111 N"
+b1111 Q"
+b1111 T"
+0@#
+0!
+#35000
+b1111 ]
+b1111 "
+b1111 ,
+b1111 x"
+b1111 =#
+b1111 #
+b1111 -
+b1111 <#
+b1111 >#
+b1111 ?
+b1111 d"
+b1111 (#
+1@#
+1!
+#40000
+0\
+b11 B#
+bx #
+bx -
+bx <#
+bx >#
+b11 %
+b11 /
+b11 y"
+b11 A#
+bx "
+bx ,
+bx x"
+bx =#
+b11 $
+b11 .
+b11 W"
+0C#
+0&
+b11010 D#
+b11010 '
+b11010 0
+b11010 U
+b11010 X
+b11010 [
+b11010 ^
+b11010 a
+b11010 d
+b11010 g
+b11010 j
+b11010 m
+b11010 p
+b11010 s
+b11010 v
+b11010 y
+b11010 |
+b11010 !"
+b11010 $"
+b11010 '"
+b11010 *"
+b11010 -"
+b11010 0"
+b11010 3"
+b11010 6"
+b11010 9"
+b11010 <"
+b11010 ?"
+b11010 B"
+b11010 E"
+b11010 H"
+b11010 K"
+b11010 N"
+b11010 Q"
+b11010 T"
+b11 E#
+b0 2
+b0 T
+b11 (
+b11 1
+b11 S
+0@#
+0!
+#45000
+1@#
+1!
+#50000
+1b
+b101 B#
+b101 %
+b101 /
+b101 y"
+b100 A#
+b100 $
+b100 .
+b100 W"
+1C#
+b10000 2
+b10000 T
+1&
+b10111 D#
+b10111 '
+b10111 0
+b10111 U
+b10111 X
+b10111 [
+b10111 ^
+b10111 a
+b10111 d
+b10111 g
+b10111 j
+b10111 m
+b10111 p
+b10111 s
+b10111 v
+b10111 y
+b10111 |
+b10111 !"
+b10111 $"
+b10111 '"
+b10111 *"
+b10111 -"
+b10111 0"
+b10111 3"
+b10111 6"
+b10111 9"
+b10111 <"
+b10111 ?"
+b10111 B"
+b10111 E"
+b10111 H"
+b10111 K"
+b10111 N"
+b10111 Q"
+b10111 T"
+b100 E#
+b100 (
+b100 1
+b100 S
+0@#
+0!
+#55000
+b10111 c
+b10111 "
+b10111 ,
+b10111 x"
+b10111 =#
+b10111 M
+b10111 r"
+b10111 6#
+1@#
+1!
+#60000
+0b
+1V
+b0 B#
+b0 %
+b0 /
+b0 y"
+b0 A#
+bx "
+bx ,
+bx x"
+bx =#
+b0 $
+b0 .
+b0 W"
+b10011 D#
+b10011 '
+b10011 0
+b10011 U
+b10011 X
+b10011 [
+b10011 ^
+b10011 a
+b10011 d
+b10011 g
+b10011 j
+b10011 m
+b10011 p
+b10011 s
+b10011 v
+b10011 y
+b10011 |
+b10011 !"
+b10011 $"
+b10011 '"
+b10011 *"
+b10011 -"
+b10011 0"
+b10011 3"
+b10011 6"
+b10011 9"
+b10011 <"
+b10011 ?"
+b10011 B"
+b10011 E"
+b10011 H"
+b10011 K"
+b10011 N"
+b10011 Q"
+b10011 T"
+b0 E#
+b1 2
+b1 T
+b0 (
+b0 1
+b0 S
+0@#
+0!
+#65000
+b0 W
+b0 "
+b0 ,
+b0 x"
+b0 =#
+b0 #
+b0 -
+b0 <#
+b0 >#
+b0 3
+b0 X"
+b0 z"
+1@#
+1!
+#70000
+1\
+0V
+b10 B#
+b1111 #
+b1111 -
+b1111 <#
+b1111 >#
+b10 %
+b10 /
+b10 y"
+b10 A#
+b1111 "
+b1111 ,
+b1111 x"
+b1111 =#
+b10 $
+b10 .
+b10 W"
+b10001 D#
+b10001 '
+b10001 0
+b10001 U
+b10001 X
+b10001 [
+b10001 ^
+b10001 a
+b10001 d
+b10001 g
+b10001 j
+b10001 m
+b10001 p
+b10001 s
+b10001 v
+b10001 y
+b10001 |
+b10001 !"
+b10001 $"
+b10001 '"
+b10001 *"
+b10001 -"
+b10001 0"
+b10001 3"
+b10001 6"
+b10001 9"
+b10001 <"
+b10001 ?"
+b10001 B"
+b10001 E"
+b10001 H"
+b10001 K"
+b10001 N"
+b10001 Q"
+b10001 T"
+b10 E#
+b100 2
+b100 T
+b10 (
+b10 1
+b10 S
+0@#
+0!
+#75000
+b10001 "
+b10001 ,
+b10001 x"
+b10001 =#
+b10001 #
+b10001 -
+b10001 <#
+b10001 >#
+b10001 ?
+b10001 d"
+b10001 (#
+b10001 ]
+1@#
+1!
+#80000
+b11111 D#
+b11111 '
+b11111 0
+b11111 U
+b11111 X
+b11111 [
+b11111 ^
+b11111 a
+b11111 d
+b11111 g
+b11111 j
+b11111 m
+b11111 p
+b11111 s
+b11111 v
+b11111 y
+b11111 |
+b11111 !"
+b11111 $"
+b11111 '"
+b11111 *"
+b11111 -"
+b11111 0"
+b11111 3"
+b11111 6"
+b11111 9"
+b11111 <"
+b11111 ?"
+b11111 B"
+b11111 E"
+b11111 H"
+b11111 K"
+b11111 N"
+b11111 Q"
+b11111 T"
+0@#
+0!
+#85000
+b11111 "
+b11111 ,
+b11111 x"
+b11111 =#
+b11111 #
+b11111 -
+b11111 <#
+b11111 >#
+b11111 ?
+b11111 d"
+b11111 (#
+b11111 ]
+1@#
+1!
+#90000
+0@#
+0!
+#95000
+1G#
+1*
+#1010000
