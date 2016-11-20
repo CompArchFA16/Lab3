@@ -176,15 +176,26 @@ module testCPU ();
     //   $31 = PC + 4;
     //   PC = (PC & 0xf0000000) | (target << 2);
 
-    // jumpTarget = 26'd214;
-    // instruction = { `CMD_jal, jumpTarget };
-    // executeProgram();
+    writeToMem(32'hAA, 32'hCC);
 
-    // if (pc !== {4'b0, 26'd214, 2'b0}) begin
-    //   dutPassed = 0;
-    // end
+    writeInstructions (9, {
+      noop,
+      { `CMD_jal, 26'h8 },
+      noop,
+      { `CMD_lw, `R_ZERO, `R_RA, 16'hAA },
+      noop, noop, noop, noop,
+      { `CMD_sw, `R_ZERO, `R_RA, 16'hAB }
+    });
 
-    // TODO: Determine how to test the return address $31.
+    executeProgram(4);
+
+    testToMemAddress = 32'hAB;
+    clkOnce();
+    if (dataMemOut !== 32'hC) begin
+      dutPassed = 0;
+      $display("*** FAIL: JAL.");
+      $display("Actual data memory output: %h", dataMemOut);
+    end
 
     // BNE =====================================================================
     // Branches to PC + (imm << 2) when address in register $s != address in register $t.

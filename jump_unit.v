@@ -24,13 +24,13 @@ module jump_unit (
 
   // Handle JAL and JR.
   assign pc_out = instruction_ID[31:26] === `CMD_jal ?
-    pc_original + 8 :
+    instruction_ID[25:0] << 2 :
     instruction_ID[31:26] === `CMD_jr ?
       pc_from_regfile :
       pc_checkpoint_j;
 
   assign regfile_data_in_post_jal = instruction_ID[31:26] === `CMD_jal ?
-    pc_original + 4 :
+    pc_original : // TODO: This may not be the correct value. May be a hazard.
     regfile_data_in;
 
   assign regfile_addr_post_jal = instruction_ID[31:26] === `CMD_jal ?

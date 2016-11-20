@@ -45,27 +45,6 @@ module control_unit (
         aluSrc_ID     <= 1;
         regDst_ID     <= 0;
       end
-      `CMD_jr: begin
-        // TODO: David
-        // NOTE: Again, I don't think these apply.
-        regWrite_ID   <= 0;
-        memToReg_ID   <= 0;
-        memWrite_ID   <= 0;
-        branch_ID     <= 0;
-        aluControl_ID <= 0;
-        aluSrc_ID     <= 0;
-        regDst_ID     <= 0;
-      end
-      `CMD_jal: begin
-        // TODO: David
-        regWrite_ID   <= 1;
-        memToReg_ID   <= 0;
-        memWrite_ID   <= 0;
-        branch_ID     <= 0;
-        aluControl_ID <= 0;
-        aluSrc_ID     <= 0;
-        regDst_ID     <= 0;
-      end
       `CMD_bne: begin
       // IF: From memory at address PC, write to IR. Update PC.
       // ID: From rs in Regfile, load to register A, from rt in RegFile, write to reg B
