@@ -24,5 +24,6 @@
 `define O_SUB 6'h22
 `define O_SLT 6'h2a
 `define O_JR 6'h08
+`define O_ADDI 6'h8
 
 `endif

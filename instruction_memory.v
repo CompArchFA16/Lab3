@@ -11,10 +11,10 @@ module instructionMemory
     reg [31:0] memory [2**10-1:0];
 
 	initial begin
-		$readmemh("asmtest/addsub.dat", memory);
+		$readmemh("asmtest/shy/lab3test.dat", memory);
 	end
 
-    assign dOut = memory[address];
+    assign dOut = memory[address/4];
 
 endmodule
 `endif
