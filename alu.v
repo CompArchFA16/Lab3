@@ -11,13 +11,13 @@ module alu
 	output reg signed carryout,
 	output zero,
 	output overflow,
-	input [n-1:0]    a,
-	input [n-1:0]    b,
+	input signed [n-1:0]    a,
+	input signed [n-1:0]    b,
 	input [2:0]      command
 );
 
 // FLAGS
-assign overflow = ({carryout,result[31]} == 2'b01);
+assign overflow = ((carryout ^ result[31]) == 1'b1);
 assign zero = ~|result;
 
 always @* begin
@@ -35,19 +35,19 @@ always @* begin
 			result <= (a ^ b);
 		end    
 		`C_NAND: begin
-			result <= ~(a&b);
+			result <= ~(a & b);
 		end
 		`C_AND:  begin
-			result <= (a&b);
+			result <= (a & b);
 		end    
 		`C_NOR:  begin
-			result <= ~(a|b);
+			result <= ~(a | b);
 		end    
 		`C_OR:   begin
-			result <= (a|b);
+			result <= (a | b);
 		end
 		default: begin
-			// can't really define a reasonable behavior :/
+			// can't really define a reasonable default behavior :/
 			result <= 0;
 		end
 	endcase

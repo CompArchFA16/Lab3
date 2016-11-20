@@ -1,4 +1,4 @@
-`include "DataMemory.v"
+`include "data_memory.v"
 module testDataMemory();
 	reg clk;
 	reg writeEnable;
@@ -43,6 +43,7 @@ module testDataMemory();
 			$display("TestFail: %b", dOut);
 		end
 
+		$finish();
 	end
 
 endmodule
