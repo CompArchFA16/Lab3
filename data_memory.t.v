@@ -43,6 +43,7 @@ module testDataMemory();
 			$display("TestFail: %b", dOut);
 		end
 
+		$display("All Test Passed! ");
 		$finish();
 	end
 

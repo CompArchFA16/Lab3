@@ -5,7 +5,7 @@
 `define TEST(aValue,bValue) operandA= aValue; operandB  = bValue; #10000
 `define CHECK(exp) $display("%d & %d & %d & %d & %b &  %b  &  %b & %s", operandA, operandB, command, result, carryout, zero, overflow, ((result == exp)? "PASS" : "FAIL"))
 `define CHECKFLAGS(res,co,zr,of) flags = {result == res, carryout == co, zr == zero, overflow == of}; \
-$display("%b & %b & %d & %d & %b &  %b  &  %b & %s", operandA, operandB, command, result, carryout, zero, overflow, ((result == res)? ((flags == 4'b1111)? "PASS": "FAILED FLAGS") : "FAIL"))
+$display("%d & %d & %d & %d & %b &  %b  &  %b & %s", operandA, operandB, command, result, carryout, zero, overflow, ((result == res)? ((flags == 4'b1111)? "PASS": "FAILED FLAGS") : "FAIL"))
 `define TESTCHECK(a,b,res) `TEST(a,b); `CHECK(res)
 `define TESTFLAGS(a,b,res, co, zr, of) `TEST(a,b); `CHECKFLAGS(res, co, zr, of)
 
@@ -114,7 +114,7 @@ initial begin
 
 	$display(" A  B CMD | RES C_OUT ZERO OVERFLOW | PASS");
 
-	for(command = 3; command < 8; command = command + 1) begin
+	for(command = 0; command < 8; command = command + 1) begin
 
 		case (command)
 			`C_XOR: begin

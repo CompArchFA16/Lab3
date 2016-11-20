@@ -7,8 +7,8 @@
 module alu
 #(parameter n = 32)
 (
-	output reg signed [n-1:0]   result,
-	output reg signed carryout,
+	output reg [n-1:0]   result,
+	output reg carryout,
 	output zero,
 	output overflow,
 	input signed [n-1:0]    a,
@@ -17,7 +17,7 @@ module alu
 );
 
 // FLAGS
-assign overflow = ((carryout ^ result[31]) == 1'b1);
+assign overflow = (carryout ^ result[31]);
 assign zero = ~|result;
 
 always @* begin
