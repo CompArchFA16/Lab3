@@ -4,6 +4,7 @@
 `define BNE      6'd05
 `define LW       6'd35
 `define SW       6'd43
+`define XOR_c    6'd14
 
 // J type ops
 `define J        6'd2
@@ -13,7 +14,6 @@
 `define R_type   6'd0
 // R type functs
 `define JR_c       6'd8
-`define XOR_c      6'd14
 `define ADD_c      6'd32
 `define SUB_c      6'd34
 `define SLT_c      6'd42

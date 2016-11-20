@@ -1,0 +1,370 @@
+$date
+	Sun Nov 20 21:42:09 2016
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module testlut $end
+$var wire 1 ! ALU_input $end
+$var wire 3 " ALUcommand [2:0] $end
+$var wire 1 # Branch $end
+$var wire 1 $ Jump $end
+$var wire 1 % Jump_Target_Mux $end
+$var wire 2 & Reg_Data_Src_Mux [1:0] $end
+$var wire 2 ' WrAddr_Reg_Mux [1:0] $end
+$var wire 1 ( WrEn_DM $end
+$var wire 1 ) WrEn_Reg $end
+$var reg 6 * controlUnitCommand [5:0] $end
+$var reg 1 + dutpassed $end
+$var reg 6 , funct [5:0] $end
+$scope module dut $end
+$var wire 1 - ALU_input1 $end
+$var wire 1 . ALU_input2 $end
+$var wire 3 / ALUcommand1 [2:0] $end
+$var wire 3 0 ALUcommand2 [2:0] $end
+$var wire 1 1 Branch1 $end
+$var wire 1 2 Branch2 $end
+$var wire 1 3 JumpR1 $end
+$var wire 1 4 JumpR2 $end
+$var wire 1 5 Jump_Target_Mux1 $end
+$var wire 1 6 Jump_Target_Mux2 $end
+$var wire 2 7 Reg_Data_Src_Mux1 [1:0] $end
+$var wire 2 8 Reg_Data_Src_Mux2 [1:0] $end
+$var wire 2 9 WrAddr_Reg_Mux1 [1:0] $end
+$var wire 2 : WrAddr_Reg_Mux2 [1:0] $end
+$var wire 1 ; WrEn_DM1 $end
+$var wire 1 < WrEn_DM2 $end
+$var wire 1 = WrEn_Reg1 $end
+$var wire 1 > WrEn_Reg2 $end
+$var wire 6 ? controlUnitCommand [5:0] $end
+$var wire 6 @ funct [5:0] $end
+$var reg 1 A ALU_input $end
+$var reg 3 B ALUcommand [2:0] $end
+$var reg 1 C Branch $end
+$var reg 1 D JumpR $end
+$var reg 1 E Jump_Target_Mux $end
+$var reg 2 F Reg_Data_Src_Mux [1:0] $end
+$var reg 2 G WrAddr_Reg_Mux [1:0] $end
+$var reg 1 H WrEn_DM $end
+$var reg 1 I WrEn_Reg $end
+$scope module lut_ctrl $end
+$var wire 6 J controlUnitCommand [5:0] $end
+$var wire 6 K funct [5:0] $end
+$var reg 1 L ALU_input $end
+$var reg 3 M ALUcommand [2:0] $end
+$var reg 1 N Branch $end
+$var reg 1 O JumpR $end
+$var reg 1 P Jump_Target_Mux $end
+$var reg 2 Q Reg_Data_Src_Mux [1:0] $end
+$var reg 2 R WrAddr_Reg_Mux [1:0] $end
+$var reg 1 S WrEn_DM $end
+$var reg 1 T WrEn_Reg $end
+$upscope $end
+$scope module R_ctrl $end
+$var wire 6 U funct [5:0] $end
+$var reg 1 V ALU_input $end
+$var reg 3 W ALUcommand [2:0] $end
+$var reg 1 X Branch $end
+$var reg 1 Y JumpR $end
+$var reg 1 Z Jump_Target_Mux $end
+$var reg 2 [ Reg_Data_Src_Mux [1:0] $end
+$var reg 2 \ WrAddr_Reg_Mux [1:0] $end
+$var reg 1 ] WrEn_DM $end
+$var reg 1 ^ WrEn_Reg $end
+$upscope $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+x^
+x]
+bx \
+bx [
+xZ
+xY
+xX
+bx W
+xV
+bx U
+xT
+xS
+bx R
+bx Q
+xP
+xO
+xN
+bx M
+xL
+bx K
+bx J
+xI
+xH
+bx G
+bx F
+xE
+xD
+xC
+bx B
+xA
+bx @
+bx ?
+x>
+x=
+x<
+x;
+bx :
+bx 9
+bx 8
+bx 7
+x6
+x5
+x4
+x3
+x2
+x1
+bx 0
+bx /
+x.
+x-
+bx ,
+1+
+bx *
+x)
+x(
+bx '
+bx &
+x%
+x$
+x#
+bx "
+x!
+$end
+#2000
+b1110 ,
+b1110 @
+b1110 K
+b1110 U
+#3000
+1C
+1#
+0E
+0%
+0D
+0$
+b0 F
+b0 &
+b1 B
+b1 "
+1A
+1!
+b0 G
+b0 '
+0H
+0(
+0I
+0)
+1N
+11
+0P
+05
+0O
+03
+b0 Q
+b0 7
+b1 M
+b1 /
+1L
+1-
+b0 R
+b0 9
+0S
+0;
+0T
+0=
+b101 *
+b101 ?
+b101 J
+#6000
+0C
+0#
+b0 B
+b0 "
+0A
+0!
+1I
+1)
+0N
+01
+b0 M
+b0 /
+0L
+0-
+1T
+1=
+b100011 *
+b100011 ?
+b100011 J
+#8000
+1H
+1(
+0I
+0)
+1S
+1;
+0T
+0=
+b101011 *
+b101011 ?
+b101011 J
+#10000
+1E
+1%
+0H
+0(
+1P
+15
+0S
+0;
+b10 *
+b10 ?
+b10 J
+#12000
+b10 F
+b10 &
+b10 G
+b10 '
+1I
+1)
+b10 Q
+b10 7
+b10 R
+b10 9
+1T
+1=
+b11 *
+b11 ?
+b11 J
+#14000
+0E
+0%
+b1 F
+b1 &
+b10 B
+b10 "
+1A
+1!
+b1 G
+b1 '
+0P
+05
+b1 Q
+b1 7
+b10 M
+b10 /
+1L
+1-
+b1 R
+b1 9
+b1110 *
+b1110 ?
+b1110 J
+#16000
+0C
+0#
+0E
+0%
+0D
+0$
+b1 F
+b1 &
+b0 B
+b0 "
+1A
+1!
+b1 G
+b1 '
+0H
+0(
+1I
+1)
+0X
+02
+0Z
+06
+0Y
+04
+b1 [
+b1 8
+b0 W
+b0 0
+1V
+1.
+b1 \
+b1 :
+0]
+0<
+1^
+1>
+b100000 ,
+b100000 @
+b100000 K
+b100000 U
+b0 *
+b0 ?
+b0 J
+#18000
+b1 B
+b1 "
+b1 W
+b1 0
+b100010 ,
+b100010 @
+b100010 K
+b100010 U
+#20000
+b11 B
+b11 "
+b11 W
+b11 0
+b101010 ,
+b101010 @
+b101010 K
+b101010 U
+#22000
+1E
+1%
+1D
+1$
+b0 F
+b0 &
+b0 B
+b0 "
+0A
+0!
+b0 G
+b0 '
+0I
+0)
+1Z
+16
+1Y
+14
+b0 [
+b0 8
+b0 W
+b0 0
+0V
+0.
+b0 \
+b0 :
+0^
+0>
+b1000 ,
+b1000 @
+b1000 K
+b1000 U
+#24000

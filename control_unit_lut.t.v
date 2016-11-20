@@ -110,13 +110,7 @@ module testlut();
             $display("Test Case 5 Passed");
         end
 
-
-        // R type testing
-        controlUnitCommand = 6'd00; //r type
-
-
-        // R type funct testing
-        funct = 6'd14; #2                //xor
+        controlUnitCommand = 6'd14; #2                //xor
         if((ALU_input != 1'b1)||(Branch != 1'b0)
             ||(Jump != 1'b0)||(Jump_Target_Mux!=1'b0)||(Reg_Data_Src_Mux!=2'b01)
             ||(WrAddr_Reg_Mux!=2'b01)||(WrEn_DM!=1'b0)||(WrEn_Reg!=1'b1)
@@ -128,6 +122,10 @@ module testlut();
             $display("Test Case 6 Passed");
         end
 
+        // R type testing
+        controlUnitCommand = 6'd00; //r type
+
+        // R type funct testing
         funct = 6'd32; #2                //add
         if((ALU_input != 1'b1)||(Branch != 1'b0)
             ||(Jump != 1'b0)||(Jump_Target_Mux!=1'b0)||(Reg_Data_Src_Mux!=2'b01)
