@@ -113,7 +113,7 @@ module testlut();
         controlUnitCommand = 6'd14; #2                //xor
         if((ALU_input != 1'b1)||(Branch != 1'b0)
             ||(Jump != 1'b0)||(Jump_Target_Mux!=1'b0)||(Reg_Data_Src_Mux!=2'b01)
-            ||(WrAddr_Reg_Mux!=2'b01)||(WrEn_DM!=1'b0)||(WrEn_Reg!=1'b1)
+            ||(WrAddr_Reg_Mux!=2'b00)||(WrEn_DM!=1'b0)||(WrEn_Reg!=1'b1)
             ||(ALUcommand != 3'b010)) begin
             dutpassed = 0;  // Set to 'false' on failure
             $display("Test Case 6 Failed: XOR implementation failed");

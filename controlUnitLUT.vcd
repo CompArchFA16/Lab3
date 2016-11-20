@@ -1,5 +1,5 @@
 $date
-	Sun Nov 20 21:42:09 2016
+	Sun Nov 20 21:51:03 2016
 $end
 $version
 	Icarus Verilog
@@ -257,8 +257,8 @@ b10 B
 b10 "
 1A
 1!
-b1 G
-b1 '
+b0 G
+b0 '
 0P
 05
 b1 Q
@@ -267,8 +267,8 @@ b10 M
 b10 /
 1L
 1-
-b1 R
-b1 9
+b0 R
+b0 9
 b1110 *
 b1110 ?
 b1110 J
