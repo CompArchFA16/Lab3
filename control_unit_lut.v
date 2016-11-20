@@ -4,6 +4,7 @@
 `define BNE      6'd05
 `define LW       6'd35
 `define SW       6'd43
+`define XOR_c    6'd14
 
 // J type ops
 `define J        6'd2
@@ -13,7 +14,6 @@
 `define R_type   6'd0
 // R type functs
 `define JR_c       6'd8
-`define XOR_c      6'd14
 `define ADD_c      6'd32
 `define SUB_c      6'd34
 `define SLT_c      6'd42
@@ -121,7 +121,7 @@ module controlUnitLUT // Converts the commands to a more convenient format
             `J:        begin WrEn_Reg = 0; WrEn_DM = 0; WrAddr_Reg_Mux = 0;    ALU_input = 0; ALUcommand = `ADD;    Reg_Data_Src_Mux = 0;      JumpR = 0; Jump_Target_Mux = 1; Branch = 0; end
             `JAL:      begin WrEn_Reg = 1; WrEn_DM = 0; WrAddr_Reg_Mux = 2'd2; ALU_input = 0; ALUcommand = `ADD;    Reg_Data_Src_Mux = 2'd2;   JumpR = 0; Jump_Target_Mux = 1; Branch = 0; end
             `XOR_c:    begin WrEn_Reg = 1; WrEn_DM = 0; WrAddr_Reg_Mux = 0;    ALU_input = 0; ALUcommand = `XOR;    Reg_Data_Src_Mux = 1;      JumpR = 0; Jump_Target_Mux = 0; Branch = 0; end
-        endcase
+      endcase
     end
 endmodule
 
