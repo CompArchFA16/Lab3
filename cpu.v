@@ -15,6 +15,7 @@
 // Controls.
 `include "opcodes.v"
 `include "control_unit.v"
+`include "jump_unit.v"
 
 // Large components.
 `define _aluAsLibrary
@@ -23,7 +24,7 @@
 `include "regfile/regfile.v"
 
 module CPU (
-  output [31:0] instructionAddress,
+  output [31:0] instruction_addr,
   output [31:0] dataMemAddress,
   output [31:0] dataOut,
   output        toMemWriteEnable,
@@ -41,9 +42,8 @@ module CPU (
   // Data.
   wire [31:0] pcBranch_MEM;
   wire [31:0] prePC;
-  wire [31:0] pc_IF;
   wire [31:0] pcPlus4_IF;
-  wire [31:0] instruction_IF;
+  wire [31:0] pre_PC_post_jump;
 
   mux_2 #(32) mux_pc_src (
     .out(prePC),
@@ -53,30 +53,26 @@ module CPU (
   );
 
   dff #(32) pc_dff (
-    .out(pc_IF),
+    .out(instruction_addr),
     .clk(clk),
-    .in(prePC),
+    .in(pre_PC_post_jump),
     .reset(resetPC)
   );
 
-  assign instructionAddress = pc_IF;
-  assign instruction_IF = instruction;
-
   adder adder_4 (
     .out(pcPlus4_IF),
-    .left(pc_IF),
+    .left(instruction_addr),
     .right(32'h4)
   );
 
   // ID - Instruction Decode ===================================================
 
+  wire regWrite_WB;
+
   wire [31:0] instruction_ID;
   wire [31:0] pcPlus4_ID;
-
   wire [4:0]  writeReg_WB;
   wire [31:0] result_WB;
-
-  wire regWrite_WB;
 
   gate_IF_ID the_gate_IF_ID (
     .instruction_ID(instruction_ID),
@@ -84,7 +80,7 @@ module CPU (
 
     .clk(clk),
 
-    .instruction_IF(instruction_IF),
+    .instruction_IF(instruction),
     .pcPlus4_IF(pcPlus4_IF)
   );
 
@@ -112,15 +108,33 @@ module CPU (
   wire [31:0] readData1Out;
   wire [31:0] readData2Out;
 
+  wire [31:0] reg_write_data;
+  wire [4:0]  reg_write_register;
+  wire        reg_write_enable;
+
   regfile the_regfile (
     .ReadData1(readData1Out),
     .ReadData2(readData2Out),
     .Clk(clk),
-    .WriteData(result_WB),
+    .WriteData(reg_write_data),
     .ReadRegister1(instruction_ID[25:21]),
     .ReadRegister2(instruction_ID[20:16]),
-    .WriteRegister(writeReg_WB),
-    .RegWrite(regWrite_WB)
+    .WriteRegister(reg_write_register),
+    .RegWrite(reg_write_enable)
+  );
+
+  jump_unit the_jump_unit (
+    .pc_out(pre_PC_post_jump),
+    .regfile_data_in_post_jal(reg_write_data),
+    .regfile_addr_post_jal(reg_write_register),
+    .regfile_we_post_jal(reg_write_enable),
+    .pc_original(prePC),
+    .pc_from_regfile(readData1Out),
+    .instruction_IF(instruction),
+    .instruction_ID(instruction_ID),
+    .regfile_data_in(result_WB),
+    .regfile_addr(writeReg_WB),
+    .regfile_we(regWrite_WB)
   );
 
   wire [31:0] signExtendOut;

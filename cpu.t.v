@@ -14,7 +14,7 @@ module testCPU ();
   reg isTesting = 1;
   reg dutPassed = 1;
 
-  wire [31:0] instructionAddress;
+  wire [31:0] instruction_addr;
   wire [31:0] instructionMemOut;
   wire [31:0] dataMemOut;
 
@@ -23,7 +23,7 @@ module testCPU ();
   wire        cpuToMemWriteEnable;
 
   CPU dut (
-    .instructionAddress(instructionAddress),
+    .instruction_addr(instruction_addr),
     .dataMemAddress(cpuToMemAddress),
     .dataOut(cpuToMemData),
     .toMemWriteEnable(cpuToMemWriteEnable),
@@ -66,7 +66,7 @@ module testCPU ();
     .readData1(instructionMemOut),
     .readData2(dataMemOut),
     .clk(clk),
-    .address1(instructionAddress),
+    .address1(instruction_addr),
     .address2(toggleToMemAddress),
     .dataIn(toggleToMemData),
     .writeEnable(toggleToMemWriteEnable)
@@ -117,26 +117,58 @@ module testCPU ();
     // RTL:
     //   PC = (PC & 0xf0000000) | (target << 2);
 
-    // jumpTarget = 26'd203;
-    // instruction = { `CMD_j, jumpTarget };
-    // executeProgram();
+    writeToMem(32'hAA, 32'h3);
+    writeToMem(32'hAB, 32'h4); // If you get this value, you didn't jump.
 
-    // if (pc !== {4'b0, 26'd203, 2'b0}) begin
-    //   dutPassed = 0;
-    // end
+    writeInstructions (12, {
+      { `CMD_lw, `R_ZERO, `R_S0, 16'hAA },
+      noop, noop, noop, noop,
+      { `CMD_j, 26'hB },
+      { `CMD_lw, `R_ZERO, `R_S0, 16'hAB },
+      noop, noop, noop, noop,
+      { `CMD_sw, `R_ZERO, `R_S0, 16'hAC }
+    });
+
+    executeProgram(7);
+
+    testToMemAddress = 32'hAC;
+    clkOnce();
+    if (dataMemOut !== 32'h3) begin
+      dutPassed = 0;
+      $display("*** FAIL: Jump.");
+      $display("Actual data memory output: %h", dataMemOut);
+    end
 
     // JR ======================================================================
     // Jump to the address contained in register $s.
     // RTL:
     //   PC = $s;
 
-    // instruction = { `CMD_jr, rS, 21'b0 };
-    // executeProgram();
+    writeToMem(32'hAA, 32'h34); // Load this address.
+    writeToMem(32'hAB, 32'h7); // This means you didn't jump.
+    writeToMem(32'hAC, 32'h2); // This is the value that we want.
 
-    // TODO: Match to the actual register value.
-    // if (pc !== {4'b0, 28'b0}) begin
-    //   dutPassed = 0;
-    // end
+    writeInstructions (18, {
+      { `CMD_lw, `R_ZERO, `R_S0, 16'hAA },
+      noop, noop, noop, noop,
+      { `CMD_lw, `R_ZERO, `R_S1, 16'hAC },
+      noop, noop, noop, noop,
+      { `CMD_jr, `R_S0, 21'h0 },
+      noop,
+      { `CMD_lw, `R_ZERO, `R_S1, 16'hAB }, // This will be skipped.
+      noop, noop, noop, noop,
+      { `CMD_sw, `R_ZERO, `R_S1, 16'hAD }
+    });
+
+    executeProgram(17);
+
+    testToMemAddress = 32'hAD;
+    clkOnce();
+    if (dataMemOut !== 32'h2) begin
+      dutPassed = 0;
+      $display("*** FAIL: JR.");
+      $display("Actual data memory output: %h", dataMemOut);
+    end
 
     // JAL =====================================================================
     // Jumps to the calculated address and stores the return address in $31.
@@ -144,15 +176,26 @@ module testCPU ();
     //   $31 = PC + 4;
     //   PC = (PC & 0xf0000000) | (target << 2);
 
-    // jumpTarget = 26'd214;
-    // instruction = { `CMD_jal, jumpTarget };
-    // executeProgram();
+    writeToMem(32'hAA, 32'hCC);
 
-    // if (pc !== {4'b0, 26'd214, 2'b0}) begin
-    //   dutPassed = 0;
-    // end
+    writeInstructions (9, {
+      noop,
+      { `CMD_jal, 26'h8 },
+      noop,
+      { `CMD_lw, `R_ZERO, `R_RA, 16'hAA },
+      noop, noop, noop, noop,
+      { `CMD_sw, `R_ZERO, `R_RA, 16'hAB }
+    });
 
-    // TODO: Determine how to test the return address $31.
+    executeProgram(4);
+
+    testToMemAddress = 32'hAB;
+    clkOnce();
+    if (dataMemOut !== 32'hC) begin
+      dutPassed = 0;
+      $display("*** FAIL: JAL.");
+      $display("Actual data memory output: %h", dataMemOut);
+    end
 
     // BNE =====================================================================
     // Branches to PC + (imm << 2) when address in register $s != address in register $t.
@@ -353,7 +396,7 @@ module testCPU ();
 
   task writeInstructions;
     input [31:0] count;
-    input [(32**2)-1:0] data;
+    input [(32**3)-1:0] data;
     integer i;
     begin
       for (i = 0; i < count + 4; i = i + 1) begin

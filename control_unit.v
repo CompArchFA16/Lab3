@@ -45,43 +45,6 @@ module control_unit (
         aluSrc_ID     <= 1;
         regDst_ID     <= 0;
       end
-      `CMD_j: begin
-        // TODO: David
-        // NOTE: Not even sure if these apply to J.
-        // IF: From memory at address PC, write to IR. Update PC.
-        // ID: PC = PC[31:28], IR[25:0], b00
-        // EX:
-        // MEM:
-        // WB:
-        regWrite_ID   <= 0;
-        memToReg_ID   <= 0;
-        memWrite_ID   <= 0;
-        branch_ID     <= 1;
-        aluControl_ID <= 0;
-        aluSrc_ID     <= 0;
-        regDst_ID     <= 0;
-      end
-      `CMD_jr: begin
-        // TODO: David
-        // NOTE: Again, I don't think these apply.
-        regWrite_ID   <= 0;
-        memToReg_ID   <= 0;
-        memWrite_ID   <= 0;
-        branch_ID     <= 0;
-        aluControl_ID <= 0;
-        aluSrc_ID     <= 0;
-        regDst_ID     <= 0;
-      end
-      `CMD_jal: begin
-        // TODO: David
-        regWrite_ID   <= 1;
-        memToReg_ID   <= 0;
-        memWrite_ID   <= 0;
-        branch_ID     <= 0;
-        aluControl_ID <= 0;
-        aluSrc_ID     <= 0;
-        regDst_ID     <= 0;
-      end
       `CMD_bne: begin
       // IF: From memory at address PC, write to IR. Update PC.
       // ID: From rs in Regfile, load to register A, from rt in RegFile, write to reg B
@@ -142,6 +105,15 @@ module control_unit (
         aluControl_ID <= `ALU_CMD_SLT;
         aluSrc_ID     <= 0;
         regDst_ID     <= 1;
+      end
+      default: begin
+        regWrite_ID   <= 0;
+        memToReg_ID   <= 0;
+        memWrite_ID   <= 0;
+        branch_ID     <= 0;
+        aluControl_ID <= `ALU_CMD_ADD;
+        aluSrc_ID     <= 0;
+        regDst_ID     <= 0;
       end
     endcase
   end
