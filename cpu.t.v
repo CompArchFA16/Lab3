@@ -117,14 +117,6 @@ module testCPU ();
     // RTL:
     //   PC = (PC & 0xf0000000) | (target << 2);
 
-    // jumpTarget = 26'd203;
-    // instruction = { `CMD_j, jumpTarget };
-    // executeProgram();
-
-    // if (pc !== {4'b0, 26'd203, 2'b0}) begin
-    //   dutPassed = 0;
-    // end
-
     writeToMem(32'hAA, 32'h3);
     writeToMem(32'hAB, 32'h4); // If you get this value, you didn't jump.
 
@@ -152,13 +144,31 @@ module testCPU ();
     // RTL:
     //   PC = $s;
 
-    // instruction = { `CMD_jr, rS, 21'b0 };
-    // executeProgram();
+    writeToMem(32'hAA, 32'h34); // Load this address.
+    writeToMem(32'hAB, 32'h7); // This means you didn't jump.
+    writeToMem(32'hAC, 32'h2); // This is the value that we want.
 
-    // TODO: Match to the actual register value.
-    // if (pc !== {4'b0, 28'b0}) begin
-    //   dutPassed = 0;
-    // end
+    writeInstructions (18, {
+      { `CMD_lw, `R_ZERO, `R_S0, 16'hAA },
+      noop, noop, noop, noop,
+      { `CMD_lw, `R_ZERO, `R_S1, 16'hAC },
+      noop, noop, noop, noop,
+      { `CMD_jr, `R_S0, 21'h0 },
+      noop,
+      { `CMD_lw, `R_ZERO, `R_S1, 16'hAB }, // This will be skipped.
+      noop, noop, noop, noop,
+      { `CMD_sw, `R_ZERO, `R_S1, 16'hAD }
+    });
+
+    executeProgram(17);
+
+    testToMemAddress = 32'hAD;
+    clkOnce();
+    if (dataMemOut !== 32'h2) begin
+      dutPassed = 0;
+      $display("*** FAIL: JR.");
+      $display("Actual data memory output: %h", dataMemOut);
+    end
 
     // JAL =====================================================================
     // Jumps to the calculated address and stores the return address in $31.
