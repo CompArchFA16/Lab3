@@ -274,6 +274,9 @@ The final instruction is the BNE, which checks if $t0 is not equal to $t2. Due t
 ![BNE](https://github.com/tj-kim/Lab3/blob/master/images/bne.png "BNE")
 
 # Performance and Area Analysis
+The biggest uses of space on the circuit are the ALU's used for jumping and branching, and the shifters used to shift addresses left two bits. The amount of input bits also really increases the size of any component on the circuit. We did not have information for the two memories, so we thought it best not to recklessly speculate. The space could be used more efficiently if we used adders instead of full ALU's, and there is probably a more efficient shifter. 
+
+![Area](https://github.com/tj-kim/Lab3/blob/master/images/table_of_area.PNG "Area")
 
 # Work Plan Reflection
 For the work plan, we were were generally successful in following the work plan. We were able to create a working, complete design of a single-cycle CPU that could perform most of the instructions required by the deadline. Jump and link took a little longer, but we were able to finish it by a day within our deadline, which we consider relatively successful. We did not meet with a ninja for a mid-point check-in, but we felt that we learned enough in class during discussions to not need a check-in. We successfully made unit tests and created the entire cpu by our deadline of Nov 14. After that, we spent most of our time debugging the cpu and making sure the system worked. 
