@@ -77,7 +77,6 @@ module testCPU ();
 
     $dumpfile("cpu.vcd");
     $dumpvars(3);
-    $dumpoff;
 
     // Offset our test to be on the negedge. This way, our changes are picked up
     // by the next posedge of the clk.
@@ -205,19 +204,28 @@ module testCPU ();
     //   else
     //     PC = PC + 4;
 
-    // rS = `R_S0;
-    // rT = `R_S1;
-    // imm = 16'b10;
-    // writeToMem({ `CMD_bne, rS, rT, imm });
-    // executeProgram();
+    writeToMem(32'hAA, 32'h1);
+    writeToMem(32'hAB, 32'h2);
 
-    //pc = 0 --> 4
-    //pc = 0 --> 14
-    // if (pc !== 32'd14) begin
-    //   dutPassed = 0;
-    //   // $display("pc: %d", pc);
-    //   // $display("imm: %d", imm);
-    // end
+    writeInstructions (15, {
+      { `CMD_lw, `R_ZERO, `R_S0, 16'hAA },
+      noop, noop, noop, noop,
+      { `CMD_bne, `R_ZERO, `R_S0, 16'h8 },
+      noop, noop, noop,
+      { `CMD_lw, `R_ZERO, `R_S0, 16'hAB },
+      noop, noop, noop, noop,
+      { `CMD_sw, `R_ZERO, `R_S0, 16'hAC }
+    });
+
+    executeProgram(10);
+
+    testToMemAddress = 32'hAC;
+    clkOnce();
+    if (dataMemOut !== 32'h1) begin
+      dutPassed = 0;
+      $display("*** FAIL: BNE.");
+      $display("Actual data memory output: %h", dataMemOut);
+    end
 
     // XORI ====================================================================
     // RTL:
