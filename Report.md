@@ -2,6 +2,8 @@
 
 # Block Diagram
 
+![Circuit](https://github.com/tj-kim/Lab3/blob/master/images/circuit.jpg "Circuit")
+
 Above is our block diagram for the single cycle CPU that does the following instructions listed below in the “RTL of Instruction” Set section. The control signals that separate the different instructions are also explained in the section below. All the instructions are from the MIPS ISA.
 
 It is important to understand that a full clock cycle happens so that the negative edge of the clock occurs, and then the positive edge within one cycle. Our CPU operates on such a clock cycle because the PC register is written to on the negative edge, and our Register File and Data Memory are written to on the positive edge. 
