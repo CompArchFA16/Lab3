@@ -278,5 +278,7 @@ The biggest uses of space on the circuit are the ALU's used for jumping and bran
 
 ![Area](https://github.com/tj-kim/Lab3/blob/master/images/table_of_area.PNG "Area")
 
+The total area, excluding the instruction and data memory modules, is 29633 units.
+
 # Work Plan Reflection
 For the work plan, we were were generally successful in following the work plan. We were able to create a working, complete design of a single-cycle CPU that could perform most of the instructions required by the deadline. Jump and link took a little longer, but we were able to finish it by a day within our deadline, which we consider relatively successful. We did not meet with a ninja for a mid-point check-in, but we felt that we learned enough in class during discussions to not need a check-in. We successfully made unit tests and created the entire cpu by our deadline of Nov 14. After that, we spent most of our time debugging the cpu and making sure the system worked. 
