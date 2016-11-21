@@ -16,4 +16,4 @@ exclude:
 	@grep -v "VCD info: dumpfile"
 
 clean:
-	@rm *.o *.vcd
+	@rm *.o *.vcd && find . -name '*.DS_Store' -delete
