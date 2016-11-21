@@ -1,4 +1,7 @@
-# Written Description
+# Overview
+For this lab, our team developed a single cycle CPU in the standard MIPS format. We ultimately tested our system using a sequence of assembly instructions that have been converted to a hexadecimal format. We successfully implemented and validated the following instructions:
+
+	LW, SW, J, JR, JAL, BNE, XORI, ADD, SUB, SLT
 
 # Block Diagram
 
