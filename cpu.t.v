@@ -223,7 +223,27 @@ module testCPU ();
     clkOnce();
     if (dataMemOut !== 32'h1) begin
       dutPassed = 0;
-      $display("*** FAIL: BNE.");
+      $display("*** FAIL: BNE #1.");
+      $display("Actual data memory output: %h", dataMemOut);
+    end
+
+    writeInstructions (15, {
+      { `CMD_lw, `R_ZERO, `R_S0, 16'hAA },
+      noop, noop, noop, noop,
+      { `CMD_bne, `R_S0, `R_S0, 16'h8 },
+      noop, noop, noop,
+      { `CMD_lw, `R_ZERO, `R_S0, 16'hAB },
+      noop, noop, noop, noop,
+      { `CMD_sw, `R_ZERO, `R_S0, 16'hAC }
+    });
+
+    executeProgram(15);
+
+    testToMemAddress = 32'hAC;
+    clkOnce();
+    if (dataMemOut !== 32'h2) begin
+      dutPassed = 0;
+      $display("*** FAIL: BNE #2.");
       $display("Actual data memory output: %h", dataMemOut);
     end
 
