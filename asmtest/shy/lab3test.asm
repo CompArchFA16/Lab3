@@ -1,4 +1,5 @@
 start:
+	xori $sp $zero 0x00ff # initialize stack pointer
     j main
 
 addsubslt:
@@ -20,7 +21,9 @@ load:
 main:
     xori $t0, $zero, 2  # Put 2 into register $t0
     xori $t1, $zero, 5  # Put 5 into register $t1
-
+    bne $t0, $t1, skip
+    addi $t1, $t1, 5
+skip:
     jal addsubslt
 
     addi $sp, $sp, -8  # Allocate space
@@ -31,8 +34,9 @@ main:
     j end
 
 end:
+     j end
 
-# Instructions used: ADD, SUB, SLT, XORI, J, JAL, JR, LW, SW
+# Instructions used: ADD, SUB, SLT, XORI, J, JAL, JR, BNE, LW, SW
 # No .data requirement
 # At the end, the registers should have the following value
 #   t0  2
