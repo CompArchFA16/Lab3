@@ -29,5 +29,7 @@
 38020002
 38010002
 00411020
-14450004
+14450003
 00A11822
+
+// Note from Nov 21: I changed the BNE step. Remember that we index at 0, so the add step is actually instruction 3. So the bne step should be 14450003, not 14450004

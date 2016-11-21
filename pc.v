@@ -20,6 +20,17 @@ output reg [31:0]   nextaddr = 32'b00000000000000000000000000000000
 	        //end
 	        //else begin
 	        addr <= nextaddr;
+	        //nextaddr <= pcinput+1;
+	        //end
+	end
+    end
+	always @(negedge clk) begin
+	if (enable) begin
+	        //if (nextaddr == 32'b00000000000000000000000000001010) begin
+                //nextaddr = 32'b00000000000000000000000000000000;
+                //addr = 32'b00000000000000000000000000001010;
+	        //end
+	        //else begin
 	        nextaddr <= pcinput+1;
 	        //end
 	end
