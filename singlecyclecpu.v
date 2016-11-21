@@ -70,7 +70,9 @@ ALU alu(ALUresult, carryout, overflow, zero, ReadData1, ALUsrcB, ALUop);
 
 wire PCsrc;
 wire branch; //set this with control unit
-and andgate(PCsrc, branch, zero);
+wire notzero;
+not notgate(notzero, zero);
+and andgate(PCsrc, branch, notzero);
 wire [31:0] pcbtwnmux;
 wire [31:0] jumpAddrforpc;
 wire JumpSelect; // set this with control unit
@@ -78,7 +80,7 @@ wire selectRegorJump; // set this with control unit
 wire startPC; 
 wire [31:0] PCinput;
 
-mux32to1by1small muxpcbranchinput(nextPC, (nextPC + seImm), PCsrc, pcbtwnmux);
+mux32to1by1small muxpcbranchinput(nextPC, seImm, PCsrc, pcbtwnmux);
 mux32to1by1small muxjumpaddr({6'b000000, JumpAddr}, ReadData1, selectRegorJump, jumpAddrforpc);
 mux32to1by1small muxpcjumpinput(pcbtwnmux, jumpAddrforpc, JumpSelect, PCin);
 //mux32to1by1small muxpcstart(PCinput, 32'b00000000000000000000000000000000, startPC, PCin);
