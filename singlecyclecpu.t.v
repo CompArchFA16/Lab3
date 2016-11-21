@@ -10,7 +10,7 @@ reg clk;
 singlecycleCPU CPU(clk);
 
 initial begin
- $dumpfile("cpu-nov18.vcd");
+ $dumpfile("cpu.vcd");
  $dumpvars();
 
 

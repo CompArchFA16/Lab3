@@ -52,8 +52,15 @@ localparam OR =  3'd7;
 //TO DO: have it set PC to 0 with putting selstart high once at beginning. 
 //assign selstart = 32'b00000000000000000000000000000000;
 //assign PCenable = 1;
+reg [3:0] counter = 0000;
 
 always @(posedge clk) begin
+    if (counter >= 10) begin
+        counter <= 0;
+    end
+	else begin
+		counter <= counter + 1;
+	end
     case (Op)
 	done: begin // read from data memory and write to register file
 	    $finish;
@@ -77,7 +84,12 @@ always @(posedge clk) begin
             ALUOp <= ADD; // R[rs] +seimm
             MemWrite <= 0; // not writing to data mem
             ALUSrc <= 1; // want se imm
+			if (counter == 9) begin
             RegWrite <= 1; // we're writing to register
+			end
+			else begin
+				RegWrite <= 0;
+			end
             JALselect <= 0; // not 31
             selectRegorJump <= 0; // doesn't matter, not jumping
         end
@@ -137,7 +149,12 @@ always @(posedge clk) begin
             ALUOp <= XOR; // matters
             MemWrite <= 0; // doesnt matter
             ALUSrc <= 1; // immediate
-            RegWrite <= 1; // writing to reg rt
+            if (counter == 9) begin
+            RegWrite <= 1; // we're writing to register
+			end
+			else begin
+				RegWrite <= 0;
+			end
             JALselect <= 0; // not 31
             selectRegorJump <= 0; // doesn't matter, not jumping
         end
@@ -151,7 +168,12 @@ always @(posedge clk) begin
                     ALUOp <= ADD; // doesnt matter
                     MemWrite <= 0; // doesnt matter
                     ALUSrc <= 0; // doesnt matter
-                    RegWrite <= 1; // writing to reg rt
+                    if (counter == 9) begin
+				    RegWrite <= 1; // we're writing to register
+					end
+					else begin
+						RegWrite <= 0;
+					end
                     JALselect <= 0; // not 31
                     selectRegorJump <= 1; // select the R[rs] to write to pc
                 end
@@ -163,7 +185,12 @@ always @(posedge clk) begin
                     ALUOp <= ADD; // doesnt matter
                     MemWrite <= 0; // doesnt matter
                     ALUSrc <= 0; // read data 2
-                    RegWrite <= 1; // writing to reg rd
+                    if (counter == 9) begin
+				    RegWrite <= 1; // we're writing to register
+					end
+					else begin
+						RegWrite <= 0;
+					end
                     JALselect <= 0; // not 31
                     selectRegorJump <= 0; // select the R[rs] to write to pc
                 end
@@ -175,7 +202,12 @@ always @(posedge clk) begin
                     ALUOp <= SUB; // doesnt matter
                     MemWrite <= 0; // doesnt matter
                     ALUSrc <= 0; // read data 2
-                    RegWrite <= 1; // writing to reg rd
+                    if (counter == 9) begin
+				    RegWrite <= 1; // we're writing to register
+					end
+					else begin
+						RegWrite <= 0;
+					end
                     JALselect <= 0; // not 31
                     selectRegorJump <= 0; // select the R[rs] to write to pc
                 end
@@ -187,7 +219,12 @@ always @(posedge clk) begin
                     ALUOp <= SLT; // doesnt matter
                     MemWrite <= 0; // doesnt matter
                     ALUSrc <= 0; // read data 2
-                    RegWrite <= 1; // writing to reg rd
+                    if (counter == 9) begin
+				    RegWrite <= 1; // we're writing to register
+					end
+					else begin
+						RegWrite <= 0;
+					end
                     JALselect <= 0; // not 31
                     selectRegorJump <= 0; // select the R[rs] to write to pc
                 end
