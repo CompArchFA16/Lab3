@@ -56,7 +56,7 @@ module control_unit (
         memToReg_ID   <= 0;
         memWrite_ID   <= 0;
         branch_ID     <= 1; //And ZeroM wire must be set to 1 (A-B should not output 0 - meaning they are not equal).
-        aluControl_ID <= 0;
+        aluControl_ID <= `ALU_CMD_SUB;
         aluSrc_ID     <= 0;
         regDst_ID     <= 0;
       end

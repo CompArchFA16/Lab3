@@ -289,7 +289,7 @@ module CPU (
     .pcBranch_EX(pcBranch_EX)
   );
 
-  `AND (pcSource, branch_MEM, zero_MEM);
+  `AND (pcSource, branch_MEM, ~zero_MEM);
 
   // WB - Register Write Back ==================================================
 
