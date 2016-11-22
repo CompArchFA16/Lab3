@@ -77,15 +77,12 @@ module testCPU ();
 
     $dumpfile("cpu.vcd");
     $dumpvars(3);
-    $dumpoff;
 
     // Offset our test to be on the negedge. This way, our changes are picked up
     // by the next posedge of the clk.
     #1;
 
     // ASSEMBLY TEST ===========================================================
-
-    $dumpon;
 
     executeProgram(99);
 
@@ -96,8 +93,6 @@ module testCPU ();
       $display("*** FAIL: Jay, Paul, and TJ's assembly.");
       $display("Actual data memory output: %h", dataMemOut);
     end
-
-    $dumpoff;
 
     // LW & SW =================================================================
     // LW: Loads into a register a value from memory.
