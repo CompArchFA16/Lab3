@@ -128,3 +128,4 @@ add $zero, $zero, $zero
 
 # Finished all tests
 end:
+sw $t2, 0x1234($zero)

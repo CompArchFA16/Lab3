@@ -9,7 +9,7 @@ module RAM (
 );
 
   // For testing purposes, we don't need all that memory.
-  reg [31:0] memory [1023:0];
+  reg [31:0] memory [8192:0];
 
   assign readData1 = memory[address1];
   assign readData2 = memory[address2];
@@ -19,5 +19,5 @@ module RAM (
     end
   end
 
-  // initial $readmemh("file.dat", memory);
+  initial $readmemh("asmtest/jay_paul_tj/basic.dat", memory);
 endmodule
