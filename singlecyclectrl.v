@@ -51,7 +51,7 @@ localparam OR =  3'd7;
 reg [3:0] counter = 0000;
 
 always @(posedge clk) begin
-    if (counter >= 10) begin //be able to control on which clock cycles certain control signals go high (for example, RegWrite)
+    if (counter >= 9) begin //be able to control on which clock cycles certain control signals go high (for example, RegWrite)
         counter <= 0;
     end
 	else begin
@@ -80,7 +80,7 @@ always @(posedge clk) begin
             ALUOp <= ADD; // R[rs] +seimm
             MemWrite <= 0; // not writing to data mem
             ALUSrc <= 1; // want se imm
-			if (counter == 9) begin
+			if (counter == 7) begin
             RegWrite <= 1; // we're writing to register now
 			end
 			else begin
@@ -95,7 +95,7 @@ always @(posedge clk) begin
             Jump <= 0;
             MemtoReg <= 0; // doesnt matter
             ALUOp <= ADD; // R[rs] +seimm
-			if (counter == 9) begin
+			if (counter == 7) begin
             MemWrite <= 1;// we're writing to memory now
 			end
 			else begin
@@ -126,7 +126,7 @@ always @(posedge clk) begin
             ALUOp <= ADD; // doesnt matter
             MemWrite <= 0; // doesnt matter
             ALUSrc <= 0; // doesnt matter
-			if (counter == 4) begin
+			if (counter == 7) begin
             RegWrite <= 1; // we're writing to register
 			end
 			else begin
@@ -155,7 +155,7 @@ always @(posedge clk) begin
             ALUOp <= XOR; // matters
             MemWrite <= 0; // doesnt matter
             ALUSrc <= 1; // immediate
-            if (counter == 9) begin
+            if (counter == 7) begin
             RegWrite <= 1; // we're writing to register
 			end
 			else begin
@@ -174,7 +174,7 @@ always @(posedge clk) begin
                     ALUOp <= ADD; // doesnt matter
                     MemWrite <= 0; // doesnt matter
                     ALUSrc <= 0; // doesnt matter
-                    if (counter == 9) begin
+                    if (counter == 7) begin
 				    RegWrite <= 1; // we're writing to register
 					end
 					else begin
@@ -191,7 +191,7 @@ always @(posedge clk) begin
                     ALUOp <= ADD; // doesnt matter
                     MemWrite <= 0; // doesnt matter
                     ALUSrc <= 0; // read data 2
-                    if (counter == 9) begin
+                    if (counter == 7) begin
 				    RegWrite <= 1; // we're writing to register
 					end
 					else begin
@@ -208,7 +208,7 @@ always @(posedge clk) begin
                     ALUOp <= SUB; // doesnt matter
                     MemWrite <= 0; // doesnt matter
                     ALUSrc <= 0; // read data 2
-                    if (counter == 9) begin
+                    if (counter == 7) begin
 				    RegWrite <= 1; // we're writing to register
 					end
 					else begin
@@ -225,7 +225,7 @@ always @(posedge clk) begin
                     ALUOp <= SLT; // doesnt matter
                     MemWrite <= 0; // doesnt matter
                     ALUSrc <= 0; // read data 2
-                    if (counter == 9) begin
+                    if (counter == 7) begin
 				    RegWrite <= 1; // we're writing to register
 					end
 					else begin
