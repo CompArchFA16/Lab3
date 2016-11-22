@@ -1,4 +1,5 @@
 //plan: add this to the end of basic testing. Store the result of the branching into memory, then load it back to another register. then do a lot of jumps (with instructions in between to ignore if not jal?) and then slt, store that. 
+//note: with slt, there are 7 addresses in before testing (0-6). 
 
 //store, load
 101011 00010 00010 0000000000000001 //sw, M[Reg2+se(1)] = Reg2 or Mem at address 3 = Reg2
@@ -7,12 +8,48 @@ lw $t4, -100
 100011 00010 00111 0000000000000001 //lw, R[rt] = M[R[rs]+SignExtImm] Reg holds the contents from Mem Address 3
 
 //jumping 
-000010 00000000000000000000000001 //jump to in 2 instructions (fix address later!!)
+000010 00000000000000000000001011 //jump to in 2 instructions (address 11, jal)
 
-//bogus instruction here?
-000011 00000000000000000000000101 //jump and link: R[31]=PC+8;PC=JumpAddr
+001110 00000 01000 0000000000001000 //XORi RS: Reg0, Rd: Reg8 , Imm: 8
 
-//bogus??
-000000 00010 000000000000000001000 //jump to Reg31, which holds the instr. from before jump and link? this is "the most common use"
+000011 00000000000000000000001101 //jump and link: R[31]=PC+8;PC=JumpAddr, aka store where we are in Reg31 but go to address 13 (2nd xori)
+
+001110 00000 01001 0000000000001001 //XORi RS: Reg0, Rd: Reg9 , Imm: 9
+
+001110 00000 01011 0000000000010000 //XORi RS: Reg0, Rd: Reg11 , Imm: 16
+
+000000 01101 000000000000000001000 //jump to Reg11, which holds 16, to go to 16th instruction (the SLT)
+
+001110 00000 01010 0000000000001010 //XORi RS: Reg0, Rd: Reg10 , Imm: 10
 
 000000 00001 00101 00110 00000 101010 //Is Reg1 < Reg5? Save into Reg 6
+
+This portion: 
+AC420001
+8C470001
+800000B
+C00000D
+38090009
+380B0010
+1A00008
+380A000A
+25302A
+
+Then, in full, including basic testing: 
+
+38050006
+38020002
+38010002
+00411020
+14450003
+00A11822
+0022202A
+AC420001 //first in jump testing
+8C470001
+0800000B
+0C00000D
+38090009
+380B0010
+01A00008
+380A000A
+025302A
