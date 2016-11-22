@@ -1,0 +1,5 @@
+*.o
+*.vcd
+*.DS_Store
+
+mars.jar
