@@ -52,7 +52,6 @@ initial begin
     input2 = 5'b11111;
     selector = 1;
     #10000
-    $display("Output: %b %b %b %b", out, selector, input1, input2);
     if (out == 5'b11111) begin
         dutpassed = 1;
     end
@@ -64,7 +63,6 @@ initial begin
     input2 = 5'b11111;
     selector = 0;
     #100
-    $display("Output: %b %b %b %b", out, selector, input1, input2);
     if (out == 5'b01001) begin
         dutpassed = 1;
     end
