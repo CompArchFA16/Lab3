@@ -99,7 +99,13 @@ always @(posedge clk) begin
             Jump <= 0;
             MemtoReg <= 0; // doesnt matter
             ALUOp <= ADD; // R[rs] +seimm
-            MemWrite <= 1; // writing to data mem
+            //MemWrite <= 1; // writing to data mem
+			if (counter == 9) begin
+            MemWrite <= 1;// we're writing to register
+			end
+			else begin
+				MemWrite <= 0;
+			end
             ALUSrc <= 1; // want se imm
             RegWrite <= 0; // dont write
             JALselect <= 0; // not 31
