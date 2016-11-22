@@ -87,7 +87,7 @@ module testCPU ();
 
     $dumpon;
 
-    executeProgram(5);
+    executeProgram(99);
 
     testToMemAddress = 32'h1234;
     clkOnce();
