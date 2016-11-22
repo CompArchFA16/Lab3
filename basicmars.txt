@@ -22,6 +22,8 @@
 
 000000 00101 00001 00011 00000 100010 //SUB RS: Reg5, RT: Reg1 ,RD: Reg3 (Rd = rs-rt)
 
+000000 00001 00010 00100 000 0010 1010 //SLT If $s is less than $t, $d is set to one. It gets zero otherwise. 
+
 
 //with correct addresses, the above binary but in hex
 
@@ -31,5 +33,6 @@
 00411020
 14450003
 00A11822
+0022202A
 
 // Note from Nov 21: I changed the BNE step. Remember that we index at 0, so the add step is actually instruction 3. So the bne step should be 14450003, not 14450004
