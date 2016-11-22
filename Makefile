@@ -13,7 +13,7 @@ build-ram:
 	@iverilog -Wall -o ram.o ram.t.v
 
 exclude:
-	@grep -v "VCD info: dumpfile"
+	@grep -v "VCD info: dumpfile" | grep -v "WARNING: ./ram.v:22"
 
 clean:
 	@rm *.o *.vcd && find . -name '*.DS_Store' -delete
