@@ -303,7 +303,7 @@ module testCPU ();
       noop, noop, noop, noop,
       { `CMD_lw, `R_ZERO, `R_S1, 16'hF2 },
       noop, noop, noop, noop,
-      { `CMD_add, `R_S0, `R_S1, `R_S2, 11'b0 },
+      {  6'b0, `R_S0, `R_S1, `R_S2, 5'b0, `CMD_add },
       noop, noop, noop, noop,
       { `CMD_sw, `R_ZERO, `R_S2, 16'hF3 }
     });
@@ -333,7 +333,7 @@ module testCPU ();
       noop, noop, noop, noop,
       { `CMD_lw, `R_ZERO, `R_S1, 16'hF2 },
       noop, noop, noop, noop,
-      { `CMD_sub, `R_S0, `R_S1, `R_S2, 11'b0 },
+      { 6'b0, `R_S0, `R_S1, `R_S2, 5'b0, `CMD_sub },
       noop, noop, noop, noop,
       { `CMD_sw, `R_ZERO, `R_S2, 16'hF3 }
     });
@@ -367,7 +367,7 @@ module testCPU ();
       noop, noop, noop, noop,
       { `CMD_lw, `R_ZERO, `R_S3, 16'hC2 },
       noop, noop, noop, noop,
-      { `CMD_slt, `R_S2, `R_S3, `R_S4, 11'b0 },
+      { 6'b0, `R_S2, `R_S3, `R_S4, 5'b0, `CMD_slt },
       noop, noop, noop, noop,
       { `CMD_sw, `R_ZERO, `R_S4, 16'hC3 }
     });
@@ -414,7 +414,7 @@ module testCPU ();
 
   // HELPER METHODS ============================================================
 
-  reg [31:0] noop = { `CMD_add, `R_ZERO, `R_ZERO, 16'b0 };
+  reg [31:0] noop = { 6'b0, `R_ZERO, `R_ZERO, `R_ZERO, 5'b0, `CMD_add };
 
   task clkOnce;          begin #2;  end endtask
   task executeProgram;
