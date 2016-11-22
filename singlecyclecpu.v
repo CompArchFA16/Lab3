@@ -81,7 +81,7 @@ wire startPC;
 wire [31:0] PCinput;
 
 mux32to1by1small muxpcbranchinput(nextPC, seImm-1, PCsrc, pcbtwnmux); // The minus one because of the index of branching, since pc automatically adds 1
-mux32to1by1small muxjumpaddr({6'b000000, JumpAddr}, ReadData1, selectRegorJump, jumpAddrforpc);
+mux32to1by1small muxjumpaddr({6'b000000, JumpAddr}, ReadData1-1, selectRegorJump, jumpAddrforpc); // -1 for JR because PC automatically adds 1
 mux32to1by1small muxpcjumpinput(pcbtwnmux, jumpAddrforpc, JumpSelect, PCin);
 //mux32to1by1small muxpcstart(PCinput, 32'b00000000000000000000000000000000, startPC, PCin);
 
