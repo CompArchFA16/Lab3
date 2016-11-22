@@ -10,7 +10,7 @@ lw $t4, -100
 100011 00010 00111 0000000000010000 //lw, R[rt] = M[R[rs]+SignExtImm] Reg 7 holds the contents from Mem Address 22 (what we just wrote to)
 
 //jumping 
-000010 00000000000000000000001010 //jump to in 2 instructions (address 10, jal)
+000010 00000000000000000000001011 //jump to in 2 instructions (address 11, jal)
 // this works
 
 001110 00000 01000 0000000000001000 //XORi RS: Reg0, Rd: Reg8 , Imm: 8
@@ -31,7 +31,7 @@ lw $t4, -100
 This portion: 
 AC420010
 8C470010
-0800000A //J
+0800000B //J
 38080008
 0C00000D //JAL
 38090009 
@@ -69,7 +69,7 @@ Update with modifications: this works:
 0022202a
 ac420010
 8c470010
-0800000a
+0800000b
 38080008
 0c00000d
 38090009
