@@ -87,7 +87,7 @@ module testCPU ();
 
     $dumpon;
 
-    executeProgram(60);
+    executeProgram(5);
 
     testToMemAddress = 32'h1234;
     clkOnce();
@@ -134,13 +134,13 @@ module testCPU ();
     //   PC = (PC & 0xf0000000) | (target << 2);
 
     writeToMem(32'hAA, 32'h3);
-    writeToMem(32'hAB, 32'h4); // If you get this value, you didn't jump.
+    writeToMem(32'hAF, 32'h4); // If you get this value, you didn't jump.
 
     writeInstructions (12, {
       { `CMD_lw, `R_ZERO, `R_S0, 16'hAA },
       noop, noop, noop, noop,
       { `CMD_j, 26'hB },
-      { `CMD_lw, `R_ZERO, `R_S0, 16'hAB },
+      { `CMD_lw, `R_ZERO, `R_S0, 16'hAF },
       noop, noop, noop, noop,
       { `CMD_sw, `R_ZERO, `R_S0, 16'hAC }
     });
@@ -161,24 +161,24 @@ module testCPU ();
     //   PC = $s;
 
     writeToMem(32'hAA, 32'h34); // Load this address.
-    writeToMem(32'hAB, 32'h7); // This means you didn't jump.
-    writeToMem(32'hAC, 32'h2); // This is the value that we want.
+    writeToMem(32'hAF, 32'h7); // This means you didn't jump.
+    writeToMem(32'hB4, 32'h2); // This is the value that we want.
 
     writeInstructions (18, {
       { `CMD_lw, `R_ZERO, `R_S0, 16'hAA },
       noop, noop, noop, noop,
-      { `CMD_lw, `R_ZERO, `R_S1, 16'hAC },
+      { `CMD_lw, `R_ZERO, `R_S1, 16'hB4 },
       noop, noop, noop, noop,
       { `CMD_jr, `R_S0, 21'h0 },
       noop,
-      { `CMD_lw, `R_ZERO, `R_S1, 16'hAB }, // This will be skipped.
+      { `CMD_lw, `R_ZERO, `R_S1, 16'hAF }, // This will be skipped.
       noop, noop, noop, noop,
-      { `CMD_sw, `R_ZERO, `R_S1, 16'hAD }
+      { `CMD_sw, `R_ZERO, `R_S1, 16'hB9 }
     });
 
     executeProgram(17);
 
-    testToMemAddress = 32'hAD;
+    testToMemAddress = 32'hB9;
     clkOnce();
     if (dataMemOut !== 32'h2) begin
       dutPassed = 0;
@@ -222,21 +222,21 @@ module testCPU ();
     //     PC = PC + 4;
 
     writeToMem(32'hAA, 32'h1);
-    writeToMem(32'hAB, 32'h2);
+    writeToMem(32'hAF, 32'h2);
 
     writeInstructions (15, {
       { `CMD_lw, `R_ZERO, `R_S0, 16'hAA },
       noop, noop, noop, noop,
       { `CMD_bne, `R_ZERO, `R_S0, 16'h8 },
       noop, noop, noop,
-      { `CMD_lw, `R_ZERO, `R_S0, 16'hAB },
+      { `CMD_lw, `R_ZERO, `R_S0, 16'hAF },
       noop, noop, noop, noop,
-      { `CMD_sw, `R_ZERO, `R_S0, 16'hAC }
+      { `CMD_sw, `R_ZERO, `R_S0, 16'hBF }
     });
 
     executeProgram(10);
 
-    testToMemAddress = 32'hAC;
+    testToMemAddress = 32'hBF;
     clkOnce();
     if (dataMemOut !== 32'h1) begin
       dutPassed = 0;
@@ -249,14 +249,14 @@ module testCPU ();
       noop, noop, noop, noop,
       { `CMD_bne, `R_S0, `R_S0, 16'h8 },
       noop, noop, noop,
-      { `CMD_lw, `R_ZERO, `R_S0, 16'hAB },
+      { `CMD_lw, `R_ZERO, `R_S0, 16'hAF },
       noop, noop, noop, noop,
-      { `CMD_sw, `R_ZERO, `R_S0, 16'hAC }
+      { `CMD_sw, `R_ZERO, `R_S0, 16'hBF }
     });
 
     executeProgram(15);
 
-    testToMemAddress = 32'hAC;
+    testToMemAddress = 32'hBF;
     clkOnce();
     if (dataMemOut !== 32'h2) begin
       dutPassed = 0;
@@ -296,21 +296,21 @@ module testCPU ();
 
     // Load our test data.
     writeToMem(32'hF1, 32'h3);
-    writeToMem(32'hF2, 32'h4);
+    writeToMem(32'hF8, 32'h4);
 
     writeInstructions (16, {
       { `CMD_lw, `R_ZERO, `R_S0, 16'hF1 },
       noop, noop, noop, noop,
-      { `CMD_lw, `R_ZERO, `R_S1, 16'hF2 },
+      { `CMD_lw, `R_ZERO, `R_S1, 16'hF8 },
       noop, noop, noop, noop,
       {  6'b0, `R_S0, `R_S1, `R_S2, 5'b0, `CMD_add },
       noop, noop, noop, noop,
-      { `CMD_sw, `R_ZERO, `R_S2, 16'hF3 }
+      { `CMD_sw, `R_ZERO, `R_S2, 16'hC3 }
     });
 
     executeProgram(16);
 
-    testToMemAddress = 32'hF3;
+    testToMemAddress = 32'hC3;
     clkOnce();
     if (dataMemOut !== 32'h7) begin
       dutPassed = 0;
@@ -325,22 +325,22 @@ module testCPU ();
     //   $d = $s - $t;
 
     // Load our test data.
-    writeToMem(32'hF1, 32'h4);
+    writeToMem(32'hD1, 32'h4);
     writeToMem(32'hF2, 32'h9);
 
     writeInstructions (16, {
-      { `CMD_lw, `R_ZERO, `R_S0, 16'hF1 },
+      { `CMD_lw, `R_ZERO, `R_S0, 16'hD1 },
       noop, noop, noop, noop,
       { `CMD_lw, `R_ZERO, `R_S1, 16'hF2 },
       noop, noop, noop, noop,
       { 6'b0, `R_S0, `R_S1, `R_S2, 5'b0, `CMD_sub },
       noop, noop, noop, noop,
-      { `CMD_sw, `R_ZERO, `R_S2, 16'hF3 }
+      { `CMD_sw, `R_ZERO, `R_S2, 16'hE3 }
     });
 
     executeProgram(16);
 
-    testToMemAddress = 32'hF3;
+    testToMemAddress = 32'hE3;
     clkOnce();
     if (dataMemOut !== 32'hfffffffb) begin // -5.
       dutPassed = 0;
@@ -359,22 +359,22 @@ module testCPU ();
     //      $d = 0;
 
     // Load our test data.
-    writeToMem(32'hC1, 32'h2);
+    writeToMem(32'hA1, 32'h2);
     writeToMem(32'hC2, 32'h3);
 
     writeInstructions (16, {
-      { `CMD_lw, `R_ZERO, `R_S2, 16'hC1 },
+      { `CMD_lw, `R_ZERO, `R_S2, 16'hA1 },
       noop, noop, noop, noop,
       { `CMD_lw, `R_ZERO, `R_S3, 16'hC2 },
       noop, noop, noop, noop,
       { 6'b0, `R_S2, `R_S3, `R_S4, 5'b0, `CMD_slt },
       noop, noop, noop, noop,
-      { `CMD_sw, `R_ZERO, `R_S4, 16'hC3 }
+      { `CMD_sw, `R_ZERO, `R_S4, 16'hD3 }
     });
 
     executeProgram(16);
 
-    testToMemAddress = 32'hC3;
+    testToMemAddress = 32'hD3;
     clkOnce();
     if (dataMemOut !== 32'b1) begin
       dutPassed = 0;
@@ -382,12 +382,12 @@ module testCPU ();
       $display("Actual data memory output: %h", dataMemOut);
     end
 
-    writeToMem(32'hC1, 32'h4);
+    writeToMem(32'hA1, 32'h4);
     writeToMem(32'hC2, 32'h3);
 
     executeProgram(16);
 
-    testToMemAddress = 32'hC3;
+    testToMemAddress = 32'hD3;
     clkOnce();
     if (dataMemOut !== 32'b0) begin
       dutPassed = 0;
@@ -395,12 +395,12 @@ module testCPU ();
       $display("Actual data memory output: %h", dataMemOut);
     end
 
-    writeToMem(32'hC1, 32'hfffffffe);
+    writeToMem(32'hA1, 32'hfffffffe);
     writeToMem(32'hC2, 32'hffffffff);
 
     executeProgram(16);
 
-    testToMemAddress = 32'hC3;
+    testToMemAddress = 32'hD3;
     clkOnce();
     if (dataMemOut !== 32'b1) begin
       dutPassed = 0;
