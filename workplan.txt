@@ -1,0 +1,28 @@
+Under each date below are the deliverables we should complete by that deadline.
+
+November 4th
+- Work Plan due
+
+November 11th
+- Midpoint check-in
+- Design of pipelined CPU created using RTLs of the instruction set
+    (LW, SW, J, JR, JAL, BNE, XORI, ADD, SUB, SLT)
+- Take a picture of the block diagram for the report
+- Verilog implementation of each CPU component
+
+November 14th
+- Verilog unit tests and explanations for each submodule
+- Assembly test plan due, README should include:
+    * Expected test results
+    * Any memory layout requirements (data memory)
+    * Any instructions used outside the basic required subset
+
+November 18th
+- Lab due
+- Create script(s) that execute all tests at once
+- Write up the report that includes:
+    * Written description and block diagram
+    * RTL of instructions
+    * Description of test plan and results
+    * Some performance/area analysis
+    * Work plan reflection
