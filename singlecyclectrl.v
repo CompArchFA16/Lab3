@@ -1,7 +1,7 @@
 //control unit
 //Tom Lisa Anisha so hawt
 `timescale 1 ns / 1 ps
-
+/*This is the control logic for the single cycle CPU. Overall, the control logic unit selects outputs that allow the CPU to have so many instructions possible. These outputs change based on the instruction, so we have set up a case structure based on the instruction. */
 
 module singlecyclectrl
 (
@@ -14,7 +14,6 @@ output reg ALUSrc,
 output reg MemWrite,
 output reg [2:0] ALUOp,
 output reg MemtoReg,
-//output reg MemRead,
 output reg Branch,
 output reg Jump,
 output reg RegDst,
@@ -49,20 +48,17 @@ localparam NAND = 3'd5;
 localparam NOR = 3'd6;
 localparam OR =  3'd7;
 
-//TO DO: have it set PC to 0 with putting selstart high once at beginning. 
-//assign selstart = 32'b00000000000000000000000000000000;
-//assign PCenable = 1;
 reg [3:0] counter = 0000;
 
 always @(posedge clk) begin
-    if (counter >= 10) begin
+    if (counter >= 10) begin //be able to control on which clock cycles certain control signals go high (for example, RegWrite)
         counter <= 0;
     end
 	else begin
 		counter <= counter + 1;
 	end
     case (Op)
-	done: begin // read from data memory and write to register file
+	done: begin //finish operating, stop reading instructions
 	    $finish;
 	    PCenable <= 0; // stop pc
             RegDst <= 0; // doesnt matter
@@ -85,7 +81,7 @@ always @(posedge clk) begin
             MemWrite <= 0; // not writing to data mem
             ALUSrc <= 1; // want se imm
 			if (counter == 9) begin
-            RegWrite <= 1; // we're writing to register
+            RegWrite <= 1; // we're writing to register now
 			end
 			else begin
 				RegWrite <= 0;
@@ -99,9 +95,8 @@ always @(posedge clk) begin
             Jump <= 0;
             MemtoReg <= 0; // doesnt matter
             ALUOp <= ADD; // R[rs] +seimm
-            //MemWrite <= 1; // writing to data mem
 			if (counter == 9) begin
-            MemWrite <= 1;// we're writing to register
+            MemWrite <= 1;// we're writing to memory now
 			end
 			else begin
 				MemWrite <= 0;
@@ -123,7 +118,7 @@ always @(posedge clk) begin
             JALselect <= 0; // not 31
             selectRegorJump <= 0; // jump address
         end
-        jumpLink: begin // todo: have a pc+8 to write data, perhaps with mux on write data
+        jumpLink: begin 
             RegDst <= 0; // doesnt matter
             Branch <= 0;
             Jump <= 1;
@@ -131,7 +126,6 @@ always @(posedge clk) begin
             ALUOp <= ADD; // doesnt matter
             MemWrite <= 0; // doesnt matter
             ALUSrc <= 0; // doesnt matter
-            //RegWrite <= 0; // doesnt matter
 			if (counter == 4) begin
             RegWrite <= 1; // we're writing to register
 			end
