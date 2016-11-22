@@ -1,6 +1,8 @@
 `include "pc.v"
 `include "mux.v"
 
+/*This tests that PC is implemented correctly, with the barest loop (includes two muxes) DUT will say 1 if passed */
+
 module quickpctest();
 reg clk;
 wire [31:0] addr;

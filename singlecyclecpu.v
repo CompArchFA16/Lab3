@@ -6,7 +6,6 @@
 `include "instrFetch.v"
 `include "tomreg/regfile.v"
 `include "singlecyclectrl.v"
-//`include "instrdecode.v"
 `include "mux.v"
 `include "alu.v"
 `include "slowclk.v"
@@ -23,7 +22,7 @@ wire PCenable; //should be controlled by control unit
 wire [31:0] PCin;
 wire [31:0] PCaddr;
 wire [31:0] nextPC;
-wire slower; 
+wire slower;
 
 slowclk slow(clk, slower);
 pc peecee(slower, PCenable, PCin, PCaddr, nextPC);
@@ -77,13 +76,12 @@ wire [31:0] pcbtwnmux;
 wire [31:0] jumpAddrforpc;
 wire JumpSelect; // set this with control unit
 wire selectRegorJump; // set this with control unit
-wire startPC; 
+wire startPC;
 wire [31:0] PCinput;
 
 mux32to1by1small muxpcbranchinput(nextPC, seImm-1, PCsrc, pcbtwnmux); // The minus one because of the index of branching, since pc automatically adds 1
 mux32to1by1small muxjumpaddr({6'b000000, JumpAddr}-1, ReadData1-1, selectRegorJump, jumpAddrforpc); // -1 for JR because PC automatically adds 1
 mux32to1by1small muxpcjumpinput(pcbtwnmux, jumpAddrforpc, JumpSelect, PCin);
-//mux32to1by1small muxpcstart(PCinput, 32'b00000000000000000000000000000000, startPC, PCin);
 
 wire MemWrite; //set this with control unit
 wire [31:0] Dataout;
