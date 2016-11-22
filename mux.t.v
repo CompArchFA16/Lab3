@@ -46,24 +46,24 @@ reg dutpassed = 0;
 
 mux2to15bits muxie5 (input1, input2, selector, out);
 initial begin
-    input1 = 01001;
-    input2 = 11111;
+ $dumpfile("mux.vcd");
+ $dumpvars();
+    input1 = 5'b01001;
+    input2 = 5'b11111;
     selector = 1;
-    #100
-    $display("Output: %b %b %b %b", out, selector, input1, input2);
-    if (out == 11111) begin
+    #10000
+    if (out == 5'b11111) begin
         dutpassed = 1;
     end
     else begin
         dutpassed =0;
     end
 
-    input1 = 01001;
-    input2 = 11111;
+    input1 = 5'b01001;
+    input2 = 5'b11111;
     selector = 0;
     #100
-    $display("Output: %b %b %b %b", out, selector, input1, input2);
-    if (out == 01001) begin
+    if (out == 5'b01001) begin
         dutpassed = 1;
     end
     else begin
