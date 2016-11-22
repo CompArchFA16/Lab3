@@ -1,0 +1,18 @@
+//plan: add this to the end of basic testing. Store the result of the branching into memory, then load it back to another register. then do a lot of jumps (with instructions in between to ignore if not jal?) and then slt, store that. 
+
+//store, load
+101011 00010 00010 0000000000000001 //sw, M[Reg2+se(1)] = Reg2 or Mem at address 3 = Reg2
+
+lw $t4, -100
+100011 00010 00111 0000000000000001 //lw, R[rt] = M[R[rs]+SignExtImm] Reg holds the contents from Mem Address 3
+
+//jumping 
+000010 00000000000000000000000001 //jump to in 2 instructions (fix address later!!)
+
+//bogus instruction here?
+000011 00000000000000000000000101 //jump and link: R[31]=PC+8;PC=JumpAddr
+
+//bogus??
+000000 00010 000000000000000001000 //jump to Reg31, which holds the instr. from before jump and link? this is "the most common use"
+
+000000 00001 00101 00110 00000 101010 //Is Reg1 < Reg5? Save into Reg 6
