@@ -16,7 +16,7 @@
 
 000000 00010 00001 00010 00000 100000  //ADD RS: Reg2, RT:Reg1, RD:Reg2
 
-000101 00010 00101 0000000000000100 //BNE RS: Reg2 RT: Reg5 Imm: 4 (bc 4th instr is the add?)
+000101 00010 00101 0000000000000011 //BNE RS: Reg2 RT: Reg5 Imm: 4 (bc 4th instr is the add?)
 
 //decided i didn't need this addi step because we're sub two reg's instead.
 
