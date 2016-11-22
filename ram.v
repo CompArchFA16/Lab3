@@ -9,19 +9,15 @@ module RAM (
 );
 
   // For testing purposes, we don't need all that memory.
-  reg [7:0] memory [32767:0];
+  reg [31:0] memory [32767:0];
 
-  assign readData1 = { memory[address1], memory[address1+1], memory[address1+2], memory[address1+3] };
-  assign readData2 = { memory[address2], memory[address2+1], memory[address2+2], memory[address2+3] };
+  assign readData1 = memory[address1 / 4];
+  assign readData2 = memory[address2 / 4];
   always @(posedge clk) begin
     if(writeEnable) begin
-      memory[address2]   <= dataIn[31:24];
-      memory[address2+1] <= dataIn[23:16];
-      memory[address2+2] <= dataIn[15:8];
-      memory[address2+3] <= dataIn[7:0];
+      memory[address2 / 4] <= dataIn;
     end
   end
 
   initial $readmemh("asmtest/jay_paul_tj/basic.dat", memory);
-  initial $display("%h", memory[8]);
 endmodule
