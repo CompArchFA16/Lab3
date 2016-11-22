@@ -81,7 +81,7 @@ wire startPC;
 wire [31:0] PCinput;
 
 mux32to1by1small muxpcbranchinput(nextPC, seImm-1, PCsrc, pcbtwnmux); // The minus one because of the index of branching, since pc automatically adds 1
-mux32to1by1small muxjumpaddr({6'b000000, JumpAddr}, ReadData1-1, selectRegorJump, jumpAddrforpc); // -1 for JR because PC automatically adds 1
+mux32to1by1small muxjumpaddr({6'b000000, JumpAddr}-1, ReadData1-1, selectRegorJump, jumpAddrforpc); // -1 for JR because PC automatically adds 1
 mux32to1by1small muxpcjumpinput(pcbtwnmux, jumpAddrforpc, JumpSelect, PCin);
 //mux32to1by1small muxpcstart(PCinput, 32'b00000000000000000000000000000000, startPC, PCin);
 
@@ -90,7 +90,9 @@ wire [31:0] Dataout;
 Data_memory DMEM(clk, MemWrite, ALUresult, ReadData2, Dataout);
 
 wire MemtoReg; //set with control unit
-mux32to1by1small muxwb(ALUresult, Dataout, MemtoReg, WriteData);
+wire [31:0] WriteDataintermediate;
+mux32to1by1small muxwb(ALUresult, Dataout, MemtoReg, WriteDataintermediate);
+mux32to1by1small muxjaltoreg31(WriteDataintermediate, PCaddr+2, JALselect, WriteData); //+2 because we want to set reg31 to pc+8
 
 endmodule
 

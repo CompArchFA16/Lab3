@@ -131,7 +131,13 @@ always @(posedge clk) begin
             ALUOp <= ADD; // doesnt matter
             MemWrite <= 0; // doesnt matter
             ALUSrc <= 0; // doesnt matter
-            RegWrite <= 0; // doesnt matter
+            //RegWrite <= 0; // doesnt matter
+			if (counter == 4) begin
+            RegWrite <= 1; // we're writing to register
+			end
+			else begin
+				RegWrite <= 0;
+			end
             JALselect <= 1; // write to reg 31
             selectRegorJump <= 0; // doesn't matter, not jumping
         end
