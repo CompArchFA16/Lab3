@@ -194,7 +194,7 @@ output reg		Clk
     $display("Test Case 5 Failed");
   end
 
-
+ $display("Please open cpu.vcd for a visual of the CPU DUT pass"); 
   // All done!  Wait a moment and signal test completion.
   #5
   endtest = 1;

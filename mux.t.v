@@ -46,8 +46,8 @@ reg dutpassed = 0;
 
 mux2to15bits muxie5 (input1, input2, selector, out);
 initial begin
- $dumpfile("mux.vcd");
- $dumpvars();
+ // $dumpfile("mux.vcd");
+ // $dumpvars();
     input1 = 5'b01001;
     input2 = 5'b11111;
     selector = 1;

@@ -16,23 +16,23 @@ module memory_test();
         dutpassed = 0;
         clk=0; enable=0; addr=32'h00000049; dataIn=32'h00000000;
         #10 clk=1; #10 clk = 0;
-        $display("Data Out: %b Addr: %b", dataOut, addr);
+        // $display("Data Out: %b Addr: %b", dataOut, addr);
         clk=0; enable=0; addr=32'h0000000A; dataIn=32'h00000000;
         #10 clk=1; #10 clk = 0;
-        $display("Data Out: %b Addr: %b", dataOut, addr);
+        // $display("Data Out: %b Addr: %b", dataOut, addr);
         clk=0; enable=0; addr=32'h0000000A; dataIn=32'h00000000;
         #10 clk=1; #10 clk = 0;
-        $display("Data Out: %b Addr: %b", dataOut, addr);
+        // $display("Data Out: %b Addr: %b", dataOut, addr);
         clk=0; enable=1; addr=32'h0000000A; dataIn=32'hFFFFFFFF;
         #10 clk=1; #10 clk = 0;
-        $display("Data Out: %b Addr: %b", dataOut, addr);
+        // $display("Data Out: %b Addr: %b", dataOut, addr);
         clk=0; enable=0; addr=32'h0000000A; dataIn=32'hFFFFFFFF;
         #10 clk=1; #10 clk = 0;
-        $display("Data Out: %b Addr: %b", dataOut, addr);
+        // $display("Data Out: %b Addr: %b", dataOut, addr);
 
         if (dataOut == 32'hFFFFFFFF) begin
             dutpassed = 1;
         end
-        $display("DUTpassed? %b", dutpassed);
+        $display("Memory DUTpassed? %b", dutpassed);
     end
 endmodule
