@@ -1,9 +1,9 @@
 //------------------------------------------------------------------------------
-// Test harness validates hw4testbench by connecting it to various functional 
+// Test harness validates hw4testbench by connecting it to various functional
 // or broken register files, and verifying that it correctly identifies each
 //------------------------------------------------------------------------------
 
-`include "regfile.v"
+`include "tomreg/regfile.v"
 
 module hw4testbenchharness();
 
@@ -37,15 +37,15 @@ module hw4testbenchharness();
   hw4testbench tester
   (
     .begintest(begintest),
-    .endtest(endtest), 
+    .endtest(endtest),
     .dutpassed(dutpassed),
     .ReadData1(ReadData1),
     .ReadData2(ReadData2),
-    .WriteData(WriteData), 
-    .ReadRegister1(ReadRegister1), 
+    .WriteData(WriteData),
+    .ReadRegister1(ReadRegister1),
     .ReadRegister2(ReadRegister2),
     .WriteRegister(WriteRegister),
-    .RegWrite(RegWrite), 
+    .RegWrite(RegWrite),
     .Clk(Clk)
   );
 
@@ -110,7 +110,7 @@ output reg		Clk
     dutpassed = 1;
     #10
 
-  // Test Case 1: 
+  // Test Case 1:
   //   Write '42' to register 2, verify with Read Ports 1 and 2
   //   (Passes because example register file is hardwired to return 42)
   WriteRegister = 5'd2;
@@ -126,7 +126,7 @@ output reg		Clk
     $display("Test Case 1 Failed");
   end
 
-  // Test Case 2: 
+  // Test Case 2:
   //   Write '15' to register 2, verify with Read Ports 1 and 2
   //   (Fails with example register file, but should pass with yours)
   WriteRegister = 5'd2;
@@ -141,7 +141,7 @@ output reg		Clk
     $display("Test Case 2 Failed");
   end
 
-  // Test Case 3: 
+  // Test Case 3:
   //   RegWrite is zero. Nothing should be written
   //   Outputs should remain at their previous values, 15
   WriteRegister = 5'd2;
@@ -156,7 +156,7 @@ output reg		Clk
     $display("Test Case 3 Failed");
   end
 
-  // Test Case 4: 
+  // Test Case 4:
   // In this test, we try to write values to register 0
   // This should essentially be ignored and nothing should be written
   // Both output values should be 0 if we're reading register 0
@@ -177,7 +177,7 @@ output reg		Clk
   #5
   endtest = 1;
 
-  // Test Case 5: 
+  // Test Case 5:
   // In this test, Port 2 is broken and always reads register 17
   // Because we are not writing to register 17 (and never have),
   // the value of ReadData2 should be unset. The value of ReadData1
