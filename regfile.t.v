@@ -59,7 +59,7 @@ module hw4testbenchharness();
 
   // Display test results ('dutpassed' signal) once 'endtest' goes high
   always @(posedge endtest) begin
-    $display("DUT passed?: %b", dutpassed);
+    $display("Register file DUT passed?: %b", dutpassed);
   end
 
 endmodule
