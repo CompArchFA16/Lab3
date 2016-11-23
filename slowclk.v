@@ -3,7 +3,7 @@
 module slowclk
 (
 input clk,
-output reg slowclk = 0
+output reg slowclk = 1
 );
 
 
@@ -11,7 +11,7 @@ reg [3:0] counter = 0000;
 
 always @(posedge clk) begin
 	counter <= counter +1;
-	if (counter == 3'b100) begin
+	if (counter == 3'b001) begin
 		counter <=0;
 		slowclk <= !slowclk;
 	end
