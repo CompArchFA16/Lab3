@@ -7,5 +7,6 @@ iverilog -Wall -o mux mux.t.v
 ./mux
 iverilog -Wall -o instrT instrTest.t.v
 ./instrT
+# insert Tom's regfile.t.v here
 iverilog -o scpu singlecyclecpu.t.v
 ./scpu
