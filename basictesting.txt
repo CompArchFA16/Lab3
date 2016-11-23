@@ -1,11 +1,4 @@
-//in hex, with wrong addresses because MARS
-380d0006
-380a0002
-214a0002
-154dfffe
-20010003
-01a15822
-
+//This file has a small set of instructions that would test adding and branching. The final result of this and the jump/store/load testing can be found in FullMem.dat
 
 //in binary
 001110 00000 00101 0000000000000110 //XORi RS: Reg0, Rd: Reg5 , Imm: 6
@@ -16,14 +9,11 @@
 
 000000 00010 00001 00010 00000 100000  //ADD RS: Reg2, RT:Reg1, RD:Reg2
 
-000101 00010 00101 0000000000000011 //BNE RS: Reg2 RT: Reg5 Imm: 4 (bc 4th instr is the add?)
-
-//decided i didn't need this addi step because we're sub two reg's instead.
+000101 00010 00101 0000000000000011 //BNE RS: Reg2 RT: Reg5 Imm: 3 
 
 000000 00101 00001 00011 00000 100010 //SUB RS: Reg5, RT: Reg1 ,RD: Reg3 (Rd = rs-rt)
 
 000000 00001 00010 00100 000 0010 1010 //SLT If $s is less than $t, $d is set to one. It gets zero otherwise. 
-
 
 //with correct addresses, the above binary but in hex
 
@@ -34,5 +24,3 @@
 14450003
 00A11822
 0022202A
-
-// Note from Nov 21: I changed the BNE step. Remember that we index at 0, so the add step is actually instruction 3. So the bne step should be 14450003, not 14450004
