@@ -11,8 +11,8 @@ module memory_test();
     Data_memory tester (clk, enable, addr, dataIn, dataOut);
 
     initial begin
-        $dumpfile("refer.vcd");
-        $dumpvars();
+        // $dumpfile("refer.vcd");
+        // $dumpvars();
         dutpassed = 0;
         clk=0; enable=0; addr=32'h00000049; dataIn=32'h00000000;
         #10 clk=1; #10 clk = 0;

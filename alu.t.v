@@ -198,6 +198,8 @@ module testFullAdder();
     a=32'h10110101;b=32'h00000010;command=3'b111; #8000
     $display("%h %h %b     | %h %b        %b    %b        | %h", a, b, command, result, carryout, zero, overflow, a|b);
 
+    $display("ALU DUT passed, please see github.com/lisahachmann/Lab1 for details"); 
+
     end
 
 endmodule
