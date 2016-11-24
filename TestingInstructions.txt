@@ -1,0 +1,117 @@
+This file explains how we created the testing instructions. For each instruction, we filled in the binary MIPS format using the appropriate I-type, J-type, or R-type instruction. We then converted the 32-bit binary string to hex, which is what our CPU reads. The final set of hex instructions is at the end of the file, which was then copied into the fullMem.dat file (as the instruction memory).
+
+Address 0: XORI
+RS: Reg0, Rd: Reg5, Imm: 6
+001110 00000 00101 0000000000000110
+h38050006
+
+Address 1: XORI
+RS: Reg0, RD: Reg2, Imm: 2
+001110 00000 00010 0000000000000010
+h38020002
+
+Address 2: XORI
+RS: Reg0, Rd: Reg1, Imm: 2
+001110 00000 00001 0000000000000010
+h38010002
+
+Address 3: ADD
+RS: Reg2, RT: Reg1, RD:Reg2
+000000 00010 00001 00010 00000 100000
+h00411020
+
+Address 4: BNE
+RS: Reg2 RT: Reg5 Imm: 3 
+000101 00010 00101 0000000000000011
+h14450003
+
+Address 5: SUB
+RS: Reg5, RT: Reg1, RD: Reg3
+000000 00101 00001 00011 00000 100010
+h00A11822
+
+Address 6: SLT
+RS: Reg1, RT: Reg2, RD: Reg4
+000000 00001 00010 00100 000 0010 1010
+h0022202A
+
+Address 7: SW
+RS: Reg2, RT: Reg2, Imm: 16
+101011 00010 00010 0000000000010000
+hac420010
+
+Address 8: LW
+RS: Reg2, RT: Reg7, Imm: 16
+100011 00010 00111 0000000000010000
+h8c470010
+
+Address 9: J
+JumpAddress: 11
+000010 00000000000000000000001011
+h0800000b
+
+Address 10: XORI // this should be jumped over, never executed
+RS: Reg0, Rd: Reg8, Imm: 8
+001110 00000 01000 0000000000001000
+h38080008
+
+Address 11: JAL
+JumpAddress: 13
+000011 00000000000000000000001101
+h0c00000d
+
+Address 12: XORI // this should be jumped over, never executed
+RS: Reg0, Rd: Reg9, Imm: 9
+001110 00000 01001 0000000000001001
+h38090009
+
+Address 13: XORI
+RS: Reg0, Rd: Reg11, Imm: 16
+001110 00000 01011 0000000000010000
+h380b0010
+
+Address 14: JR
+RS: Reg11
+000000 01011 000000000000000001000
+h01600008
+
+Address 15: XORI // this should be jumped over, never executed
+RS: Reg0, Rd: Reg10, Imm: 10
+001110 00000 01010 0000000000001010
+h380a000a
+
+Address 16: SLT
+RS: Reg1, RT: Reg5, RD: Reg6
+000000 00001 00101 00110 00000 101010
+h0025302a
+
+Address 17: Stop
+We have programmed our CPU to stop executing the program when it receives a string of all 1s. This line indicates that our program is done.
+11111111111111111111111111111111
+hffffffff
+
+All instructions in hex:
+38050006
+38020002
+38010002
+00411020
+14450003
+00a11822
+0022202a
+ac420010
+8c470010
+0800000b
+38080008
+0c00000d
+38090009
+380b0010
+01600008
+380a000a
+0025302a
+ffffffff
+
+
+
+
+
+

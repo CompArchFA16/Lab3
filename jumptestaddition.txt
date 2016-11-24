@@ -1,0 +1,45 @@
+//plan: add this to the end of basic testing. Store the result of the branching into memory, then load it back to another register. then do a lot of jumps and then slt. 
+
+//store
+101011 00010 00010 0000000000010000 //sw, M[Reg2+se(1)] = Reg2 or Mem at address 3 = Reg2
+// Changed to: (Reg2=6)+se(16) = M[22] (because the first set of addresses are instructions. M[22] = reg2 = 6
+
+//load word
+100011 00010 00111 0000000000010000 //lw, R[rt] = M[R[rs]+SignExtImm] Reg 7 holds the contents from Mem Address 22 (what we just wrote to)
+
+//jumping 
+000010 00000000000000000000001011 //jump to in 2 instructions (address 11, jal)
+
+001110 00000 01000 0000000000001000 //XORi RS: Reg0, Rd: Reg8 , Imm: 8
+
+000011 00000000000000000000001101 //jump and link: R[31]=PC+8;PC=JumpAddr, aka store where we are in Reg31 but go to address 13 (2nd xori)
+
+001110 00000 01001 0000000000001001 //XORi RS: Reg0, Rd: Reg9 , Imm: 9, so reg9=9
+
+001110 00000 01011 0000000000010000 //XORi RS: Reg0, Rd: Reg11 , Imm: 16, reg11=16
+
+000000 01011 000000000000000001000 //jump to Reg11, which holds 16, to go to 16th instruction (the SLT)
+
+001110 00000 01010 0000000000001010 //XORi RS: Reg0, Rd: Reg10 , Imm: 10
+
+000000 00001 00101 00110 00000 101010 //Is Reg1 < Reg5? Save into Reg 6
+
+In full and in hex, including basic testing and "done" finished line:
+38050006
+38020002
+38010002
+00411020
+14450003
+00a11822
+0022202a
+ac420010 //first in jump testing
+8c470010
+0800000b
+38080008
+0c00000d
+38090009
+380b0010
+01600008
+380a000a
+0025302a
+ffffffff
