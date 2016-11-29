@@ -14,21 +14,21 @@
 
 module controller
 (
-output reg reg_write,
-output reg mem_to_reg,
-output reg mem_write,
-output reg branch,
-output reg [2:0] alu_control,
-output reg alu_src,
-output reg reg_dst,
-output reg pc_write,
-output reg pc_jump,
-output reg pc_reg,
-output reg link,
-output
-input      clk,
-input[5:0] op,
-input[5:0] funct
+  output reg reg_write,
+  output reg mem_to_reg,
+  output reg mem_write,
+  output reg branch,
+  output reg [2:0] alu_control,
+  output reg alu_src,
+  output reg reg_dst,
+  output reg pc_write,
+  output reg pc_jump,
+  output reg pc_reg,
+  output reg link,
+  output
+  input      clk,
+  input[5:0] op,
+  input[5:0] funct
 );
   reg [1:0] counter = 0;
   reg       state = `Q_PROC
