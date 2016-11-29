@@ -21,6 +21,11 @@ output reg branch,
 output reg [2:0] alu_control,
 output reg alu_src,
 output reg reg_dst,
+output reg pc_write,
+output reg pc_jump,
+output reg pc_reg,
+output reg link,
+output
 input      clk,
 input[5:0] op,
 input[5:0] funct
@@ -35,16 +40,16 @@ input[5:0] funct
       begin
         // SET CONTROL SIGNALS
         case (op)
-          `OP_LW:   begin reg_write = 1; mem_to_reg = 1; mem_write = 0; branch = 0; alu_control = 3'b000; alu_src = 0; reg_dst = 0; pc_write = 1; begin_stall = 1; end
-          `OP_SW:   begin reg_write = 0; mem_to_reg = 0; mem_write = 1; branch = 0; alu_control = 3'b000; alu_src = 0; reg_dst = 0; pc_write = 1; begin_stall = 0; end
-          `OP_J:    begin reg_write = 0; mem_to_reg = 0; mem_write = 0; branch = 0; alu_control = 3'b000; alu_src = 0; reg_dst = 0; pc_write = 1; begin_stall = 0; end
-          `OP_JR:   begin reg_write = 0; mem_to_reg = 0; mem_write = 0; branch = 0; alu_control = 3'b000; alu_src = 0; reg_dst = 0; pc_write = 1; begin_stall = 0; end
-          `OP_JAL:  begin reg_write = 1; mem_to_reg = 0; mem_write = 0; branch = 0; alu_control = 3'b000; alu_src = 0; reg_dst = 0; pc_write = 1; begin_stall = 1; end
-          `OP_BNE:  begin reg_write = 0; mem_to_reg = 0; mem_write = 0; branch = 1; alu_control = 3'b000; alu_src = 1; reg_dst = 0; pc_write = 1; begin_stall = 1; end
-          `OP_XORI: begin reg_write = 1; mem_to_reg = 0; mem_write = 0; branch = 0; alu_control = 3'b010; alu_src = 1; reg_dst = 0; pc_write = 1; begin_stall = 1; end
-          `OP_ADD:  begin reg_write = 1; mem_to_reg = 0; mem_write = 0; branch = 0; alu_control = 3'b000; alu_src = 0; reg_dst = 1; pc_write = 1; begin_stall = 1; end
-          `OP_SUB:  begin reg_write = 1; mem_to_reg = 0; mem_write = 0; branch = 0; alu_control = 3'b001; alu_src = 0; reg_dst = 1; pc_write = 1; begin_stall = 1; end
-          `OP_SLT:  begin reg_write = 1; mem_to_reg = 0; mem_write = 0; branch = 0; alu_control = 3'b011; alu_src = 0; reg_dst = 1; pc_write = 1; begin_stall = 1; end
+          `OP_LW:   begin reg_write = 1; mem_to_reg = 1; mem_write = 0; branch = 0; alu_control = 3'b000; alu_src = 0; reg_dst = 0; pc_write = 1; pc_jump = 0; pc_reg = 0; link = 0; begin_stall = 1; end
+          `OP_SW:   begin reg_write = 0; mem_to_reg = 0; mem_write = 1; branch = 0; alu_control = 3'b000; alu_src = 0; reg_dst = 0; pc_write = 1; pc_jump = 0; pc_reg = 0; link = 0; begin_stall = 0; end
+          `OP_J:    begin reg_write = 0; mem_to_reg = 0; mem_write = 0; branch = 0; alu_control = 3'b000; alu_src = 0; reg_dst = 0; pc_write = 1; pc_jump = 1; pc_reg = 0; link = 0; begin_stall = 0; end
+          `OP_JR:   begin reg_write = 0; mem_to_reg = 0; mem_write = 0; branch = 0; alu_control = 3'b000; alu_src = 0; reg_dst = 0; pc_write = 1; pc_jump = 0; pc_reg = 1; link = 0; begin_stall = 0; end
+          `OP_JAL:  begin reg_write = 1; mem_to_reg = 0; mem_write = 0; branch = 0; alu_control = 3'b000; alu_src = 0; reg_dst = 0; pc_write = 1; pc_jump = 1; pc_reg = 0; link = 1; begin_stall = 1; end
+          `OP_BNE:  begin reg_write = 0; mem_to_reg = 0; mem_write = 0; branch = 1; alu_control = 3'b001; alu_src = 1; reg_dst = 0; pc_write = 1; pc_jump = 0; pc_reg = 0; link = 0; begin_stall = 1; end
+          `OP_XORI: begin reg_write = 1; mem_to_reg = 0; mem_write = 0; branch = 0; alu_control = 3'b010; alu_src = 1; reg_dst = 0; pc_write = 1; pc_jump = 0; pc_reg = 0; link = 0; begin_stall = 1; end
+          `OP_ADD:  begin reg_write = 1; mem_to_reg = 0; mem_write = 0; branch = 0; alu_control = 3'b000; alu_src = 0; reg_dst = 1; pc_write = 1; pc_jump = 0; pc_reg = 0; link = 0; begin_stall = 1; end
+          `OP_SUB:  begin reg_write = 1; mem_to_reg = 0; mem_write = 0; branch = 0; alu_control = 3'b001; alu_src = 0; reg_dst = 1; pc_write = 1; pc_jump = 0; pc_reg = 0; link = 0; begin_stall = 1; end
+          `OP_SLT:  begin reg_write = 1; mem_to_reg = 0; mem_write = 0; branch = 0; alu_control = 3'b011; alu_src = 0; reg_dst = 1; pc_write = 1; pc_jump = 0; pc_reg = 0; link = 0; begin_stall = 1; end
         endcase
         // CHECK FOR STALLING
         if (begin_stall)
@@ -56,7 +61,7 @@ input[5:0] funct
     else
       begin
         // STALL FOR 3 CLOCK CYCLES
-        reg_write = 0; mem_to_reg = 0; mem_write = 0; branch = 0; alu_control = 3'b000; alu_src = 0; reg_dst = 0; pc_write = 0; begin_stall = 0;
+        reg_write = 0; mem_to_reg = 0; mem_write = 0; branch = 0; alu_control = 3'b000; alu_src = 0; reg_dst = 0; pc_write = 0; pc_jump = 0; pc_reg = 0; begin_stall = 0;
         counter = counter + 1;
         if (counter == 3)
           begin
