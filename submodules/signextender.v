@@ -1,10 +1,10 @@
 // 32 bit Sign Extender
 
 module signextender (
+  output reg [31:0] signextendOut,
   input clk,
-  input [15:0] imm,
-  output reg [31:0] signextendOut
-  );
+  input [15:0] imm
+);
 
   always @ ( clk ) begin
       if (imm[15] === 1'b0) begin // If the first bit is zero, add 16 zeros

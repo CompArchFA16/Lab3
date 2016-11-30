@@ -25,13 +25,12 @@ module controller
   output reg pc_jump,
   output reg pc_reg,
   output reg link,
-  output
   input      clk,
   input[5:0] op,
   input[5:0] funct
 );
   reg [1:0] counter = 0;
-  reg       state = `Q_PROC
+  reg       state = `Q_PROC;
   reg       begin_stall = 0;
 
   always @(posedge clk) begin
@@ -69,6 +68,5 @@ module controller
             counter = 0;
           end
       end
-    end
   end
 endmodule
