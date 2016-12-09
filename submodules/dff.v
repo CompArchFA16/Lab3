@@ -21,5 +21,10 @@ module mux_32_bit
   input [31:0] b,
   input addr
 );
-  if (addr) out = b; else out = a;
+   initial begin
+      if (addr) 
+	out = b; 
+      else 
+	out = a;
+   end
 endmodule

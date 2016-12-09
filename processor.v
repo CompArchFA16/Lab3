@@ -51,7 +51,7 @@ mux_32_bit plus_four_or_imm(.out(pc_input), .a(pc_4_imm_j), .b(reg_read1E), .add
 
 dFF pc(clk, pc_addr, pc_write, pc_input);
 
-datamemory instruction_memory(.clk(clk), .dataOut(instructionD), .address(pc_addr[6:0]), .writeEnable() , .dataIn());
+instructionMemory instruction_memory(.clk(clk), .regWE(), .Addr(pc_addr[6:0]), .DataIn(), .DataOut(instructionD);
 
 ALU alu_pc_plus_four(
   .res    (pc_plus_fourI),
@@ -263,13 +263,7 @@ wire reg_writeW, mem_to_regW;
 
 and should_branch(take_branch, is_zeroM, branchM);
 
-datamemory data_memory(
-  .clk(clk),
-  .dataOut(mem_readM),
-  .address(resultM[6:0]),
-  .writeEnable(mem_writeM),
-  .dataIn(reg_read2M)
-);
+dataMemory data_memory(.clk(clk), .regWE(mem_writeM), .Addr(resultM[6:0]), .DataIn(reg_read2M), .DataOut(mem_readM));
 
 transphaseregister M(
   .a_out(resultW),

@@ -12,7 +12,7 @@ module testSignextend ();
 	// Indicates whether register file passed tests
 	reg dutpassed;
 
-	signextender signext(clk, imm, signextendOut);
+	signextender signext(.clk(clk), .imm(imm), .signextendOut(signextendOut));
 
 	initial clk = 0;
 	always #10 clk =! clk;
