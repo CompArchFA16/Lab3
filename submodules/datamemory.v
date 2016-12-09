@@ -21,7 +21,7 @@ module instructionMemory
     end
   end
 
-  initial $readmemh("tests/test_program.dat", mem);
+  initial $readmemh("tests/test_program_2.dat", mem);
 
   assign DataOut = mem[Addr];
 endmodule // instruction_memory

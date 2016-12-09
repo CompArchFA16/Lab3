@@ -14,7 +14,7 @@ output reg  q
     end
 endmodule
 
-module mux_32_bit
+module mux_32_bit_dff
 (
   output reg [31:0] out,
   input [31:0] a,

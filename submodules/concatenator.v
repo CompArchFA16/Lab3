@@ -5,7 +5,7 @@ module concatenator (
   input [3:0] a,
   input [25:0] b
 );
-
-  out <= { a, b, 2'b00 }
-
+   initial begin
+      out <= { a, b, 2'b00 };    
+   end
 endmodule

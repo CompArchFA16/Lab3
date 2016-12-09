@@ -8,6 +8,7 @@
 `include "submodules/shifter.v"
 `include "submodules/signextender.v"
 `include "submodules/transphaseregister.v"
+`include "submodules/concatenator.v"
 
 module cpu
 (
@@ -45,13 +46,18 @@ wire [31:0] readData2R;
 wire [31:0] pc_addr, pc_input, pc_plus_fourI, instructionI, jump;
 wire [31:0] pc_plus_fourD, instructionD;
 
-mux_32_bit plus_four_or_imm(.out(pc_4_imm), .a(pc_plus_fourI), .b(jump_addrM), .addr(take_branch));
-mux_32_bit plus_four_or_imm(.out(pc_4_imm_j), .a(pc_4_imm), .b(jump), .addr(pc_jump));
-mux_32_bit plus_four_or_imm(.out(pc_input), .a(pc_4_imm_j), .b(reg_read1E), .addr(pc_regE));
+mux_32_bit_dff plus_four_or_imm(.out(pc_4_imm), .a(pc_plus_fourI), .b(jump_addrM), .addr(take_branch));
+mux_32_bit_dff plus_four_or_imm_1(.out(pc_4_imm_j), .a(pc_4_imm), .b(jump), .addr(pc_jump));
+mux_32_bit_dff plus_four_or_imm_2(.out(pc_input), .a(pc_4_imm_j), .b(reg_read1E), .addr(pc_regE));
 
 dFF pc(clk, pc_addr, pc_write, pc_input);
 
-instructionMemory instruction_memory(.clk(clk), .regWE(), .Addr(pc_addr[6:0]), .DataIn(), .DataOut(instructionD);
+instructionMemory instruction_memory(.clk(clk),
+				     .regWE(),
+				     .Addr(pc_addr[6:0]),
+				     .DataIn(),
+				     .DataOut(instructionD)
+				     );
 
 ALU alu_pc_plus_four(
   .res    (pc_plus_fourI),
@@ -78,6 +84,7 @@ transphaseregister I(
   .alu_src_out(),
   .reg_dst_out(),
   .pc_reg_out(),
+  .clk(clk),
   .a(instructionI),
   .b(pc_plus_fourI),
   .c(),
@@ -87,7 +94,7 @@ transphaseregister I(
   .reg_write(),
   .mem_to_reg(),
   .mem_write(),
-  .branch(),
+  .branch_t(),
   .alu_control(),
   .alu_src(),
   .reg_dst(),
@@ -107,8 +114,8 @@ wire reg_writeE, mem_to_regE, mem_writeE, branchE, alu_srcE, reg_dstE, pc_regE, 
 // Control signals not passing through registers
 wire link, pc_jump, pc_write;
 
-mux_32_bit write_back_or_pc_plus_eight(.out(write_data), .a(write_back), .b(pc_plus_eight), .addr(link));
-mux_32_bit write_back_or_jal31(.out(write_addr), .a(reg_addrW), .b(32'd31), .addr(link));
+mux_32_bit_dff write_back_or_pc_plus_eight(.out(write_data), .a(write_back), .b(pc_plus_eight), .addr(link));
+mux_32_bit_dff write_back_or_jal31(.out(write_addr), .a(reg_addrW), .b(32'd31), .addr(link));
 
 ALU alu_pc_plus_eight(
   .res    (pc_plus_eight),
@@ -175,6 +182,7 @@ transphaseregister D(
   .alu_src_out(alu_srcE),
   .reg_dst_out(reg_dstE),
   .pc_reg_out(pc_regE),
+  .clk(clk),
   .a(reg_read1D),
   .b(reg_read2D),
   .c(instructionD[20:16]),
@@ -184,7 +192,7 @@ transphaseregister D(
   .reg_write(reg_writeD),
   .mem_to_reg(mem_to_regD),
   .mem_write(mem_writeD),
-  .branch(branchD),
+  .branch_t(branchD),
   .alu_control(alu_controlD),
   .alu_src(alu_srcD),
   .reg_dst(reg_dstD),
@@ -200,8 +208,8 @@ wire jump_addrM, is_zeroM;
 
 shift_by_two shifter(.out(shifted), .in(signex_immE));
 
-mux_32_bit imm_or_read2(.out(reg_read2_or_imm), .a(reg_read2E), .b(signex_immE), .addr(alu_srcE));
-mux_32_bit write_back_or_jal31(.out(reg_addrE), .a(rtE), .b(rdE), .addr(reg_dstE));
+mux_32_bit_dff imm_or_read2(.out(reg_read2_or_imm), .a(reg_read2E), .b(signex_immE), .addr(alu_srcE));
+mux_32_bit_dff write_back_or_jal31_1(.out(reg_addrE), .a(rtE), .b(rdE), .addr(reg_dstE));
 
 ALU imm_plus_pc_plus_four(
   .res    (jump_addrE),
@@ -238,6 +246,7 @@ transphaseregister E(
   .alu_src_out(),
   .reg_dst_out(),
   .pc_reg_out(),
+  .clk(clk),
   .a(is_zeroE),
   .b(resultE),
   .c(reg_read2E),
@@ -247,7 +256,7 @@ transphaseregister E(
   .reg_write(reg_writeE),
   .mem_to_reg(mem_to_regE),
   .mem_write(mem_writeE),
-  .branch(branchE),
+  .branch_t(branchE),
   .alu_control(),
   .alu_src(),
   .reg_dst(),
@@ -280,6 +289,7 @@ transphaseregister M(
   .alu_src_out(),
   .reg_dst_out(),
   .pc_reg_out(),
+  .clk(clk),
   .a(resultM),
   .b(mem_readM),
   .c(reg_addrM),
@@ -289,7 +299,7 @@ transphaseregister M(
   .reg_write(reg_writeM),
   .mem_to_reg(mem_to_regM),
   .mem_write(),
-  .branch(),
+  .branch_t(),
   .alu_control(),
   .alu_src(),
   .reg_dst(),
@@ -299,6 +309,6 @@ transphaseregister M(
 
 wire [31:0] write_back;
 
-mux_32_bit write_back_data(.out(write_back), .a(resultW), .b(mem_readW), .addr(mem_to_regW));
+mux_32_bit_dff write_back_data(.out(write_back), .a(resultW), .b(mem_readW), .addr(mem_to_regW));
 
 endmodule
