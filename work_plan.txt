@@ -1,0 +1,35 @@
+Processor type: Pipeline
+
+Deliverables:
+Verilog and test benches for processor design
+Assembly tests with README
+Scripts (Makefile)
+Report
+
+Instructions: LW, SW, J, JR, JAL, BNE, XORI, ADD, SUB, SLT
+
+Verilog modules - by Sat Nov 12
+  reg file - already have this
+  FSM - 3 hours
+  instruction memory - 2 hours
+  ALU - already have this
+  DFF - 30 minutes
+  Total: 5 hours
+  
+Verilog test benches - by Sat Nov 12 (midpoint check-in)
+  testing all instructions (15 min each)
+  Total: 2.5 hours
+
+Assembly tests - by Mon Nov 14
+  testing all instructions (20 min each)
+  README - 20 min
+  Total: 3 hours and 20 min
+
+Report - by Fri Nov 18
+  Total: 2 hours and 59 minutes
+
+Bash script: 10 minutes
+
+General Confusion: 7 hours
+
+Total: 14 hours 29 minutes + 7 hours General Confusion
